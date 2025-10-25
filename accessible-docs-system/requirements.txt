@@ -1,0 +1,53 @@
+# Accessible Docs System - Dipendenze
+
+# Core document processing
+python-docx==1.1.0
+docx2python==2.8.0
+
+# PDF handling (per futuro)
+PyPDF2==3.0.1
+pdfplumber==0.10.3
+pymupdf==1.23.8
+
+# OCR e riconoscimento matematico
+pytesseract==0.3.10
+# mathpix-python  # Opzionale, richiede API key
+
+# Database e storage
+sqlite3  # Built-in Python
+
+# Image processing
+Pillow==10.1.0
+opencv-python==4.8.1.78
+
+# Scientific computing
+numpy==1.26.2
+sympy==1.12  # Per manipolazione simbolica matematica
+
+# LaTeX/MathML conversion
+latex2mathml==3.76.0
+# pylatexenc==2.10
+
+# GUI
+# tkinter è built-in, ma per sviluppi futuri:
+# PyQt6==6.6.0  # Alternativa più avanzata a tkinter
+
+# Utilities
+python-dateutil==2.8.2
+tqdm==4.66.1  # Progress bars
+
+# Testing
+pytest==7.4.3
+pytest-cov==4.1.0
+
+# Optional: Vector search per similarity matching
+# chromadb==0.4.18
+# faiss-cpu==1.7.4
+
+# Optional: ML per pattern recognition
+# torch==2.1.1
+# transformers==4.35.2
+
+# Development
+black==23.12.0  # Code formatting
+flake8==6.1.0  # Linting
