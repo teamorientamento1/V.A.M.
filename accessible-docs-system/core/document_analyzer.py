@@ -8,6 +8,7 @@ from docx import Document
 from docx.oxml import parse_xml
 from docx.oxml.ns import qn
 import hashlib
+from lxml import etree
 
 from config.settings import *
 from core.knowledge_base import KnowledgeBase
@@ -113,8 +114,8 @@ class WordAnalyzer:
         Per ora estrae testo e struttura base
         """
         try:
-            # Estrai il MathML/OMML
-            mathml = omath_elem.xml
+            # FIX: Usa lxml.etree.tostring invece di .xml
+            mathml = etree.tostring(omath_elem, encoding='unicode')
             
             # Estrai testo semplificato
             text_content = ''.join(omath_elem.itertext())
@@ -123,7 +124,7 @@ class WordAnalyzer:
             context = self._get_context_around_paragraph(paragraph)
             
             # Crea hash univoco
-            equation_hash = hashlib.md5(mathml.encode()).hexdigest()
+            equation_hash = hashlib.md5(mathml.encode('utf-8')).hexdigest()
             
             equation_data = {
                 'mathml': mathml,
@@ -157,8 +158,8 @@ class WordAnalyzer:
             'has_subscript': False
         }
         
-        # Cerca elementi specifici nell'XML
-        xml_str = omath_elem.xml
+        # FIX: Usa lxml.etree.tostring invece di .xml
+        xml_str = etree.tostring(omath_elem, encoding='unicode')
         
         # Frazione
         if 'f' in xml_str or 'frac' in xml_str:
@@ -368,7 +369,7 @@ class WordAnalyzer:
         """Trova in quale paragrafo si trova un'immagine dato il rel_id"""
         for para_idx, paragraph in enumerate(self.document.paragraphs):
             # Cerca nel XML del paragrafo
-            para_xml = paragraph._element.xml
+            para_xml = etree.tostring(paragraph._element, encoding='unicode')
             if rel_id in para_xml:
                 return {
                     'paragraph_index': para_idx,
@@ -380,7 +381,8 @@ class WordAnalyzer:
             for row_idx, row in enumerate(table.rows):
                 for cell_idx, cell in row.cells:
                     for para in cell.paragraphs:
-                        if rel_id in para._element.xml:
+                        para_xml = etree.tostring(para._element, encoding='unicode')
+                        if rel_id in para_xml:
                             return {
                                 'paragraph_index': None,
                                 'in_table': True,
