@@ -1,0 +1,227 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>DLMF: Chapter 17 ð-Hypergeometric and Related Functions</title>
+<link rel="shortcut icon" href="./style/DLMF-16.png" type="image/png">
+<script type="text/javascript"><!--
+	var PATH="DLMF:/17";
+	var ROOT="./";
+      //--></script>
+<script type="text/javascript" src="./style/jquery.js"><!-- non-empty so ie6 will accept it --></script>
+<script type="text/javascript" src="./style/jquery.leaveNotice.js"><!-- non-empty so ie6 will accept it --></script>
+<script type="text/javascript" src="./style/DLMF.js"><!-- non-empty so ie6 will accept it --></script>
+<script async="" type="text/javascript" id="_fed_an_ua_tag" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=DOC&amp;subagency=NIST&amp;pua=UA-37115410-44&amp;yt=true&amp;exts=ppsx,pps,f90,sch,rtf,wrl,txz,m1v,xlsm,msi,xsd,f,tif,eps,mpg,xml,pl,xlt,c"><!-- non-empty so ie6 will accept it --></script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-BZB64W4M0L"></script><script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BZB64W4M0L');
+      </script>
+<link rel="stylesheet" type="text/css" href="./style/LaTeXML.css">
+<link rel="stylesheet" type="text/css" href="./style/DLMF.css">
+<link rel="stylesheet" type="text/css" href="./style/print.css" media="print">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="top" href="./" title="DLMF">
+<link rel="copyright" href="./about/notices" title="Copyright">
+<link rel="search" href="./search/search" title="Search">
+<link rel="help" class="ltx_help" href="./help/" title="Help">
+<link rel="start" href="./" title="">
+<link rel="prev" href="./16.27" title="Â§16.27 Software â£ Computation â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="next" href="./17.1" title="Â§17.1 Special Notation â£ Notation â£ Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="document" href="./front/foreword" title="Foreword">
+<link rel="document" href="./front/preface" title="Preface">
+<link rel="document" href="./front/introduction" title="Mathematical Introduction">
+<link rel="chapter" href="./1" title="Chapter 1 Algebraic and Analytic Methods">
+<link rel="chapter" href="./2" title="Chapter 2 Asymptotic Approximations">
+<link rel="chapter" href="./3" title="Chapter 3 Numerical Methods">
+<link rel="chapter" href="./4" title="Chapter 4 Elementary Functions">
+<link rel="chapter" href="./5" title="Chapter 5 Gamma Function">
+<link rel="chapter" href="./6" title="Chapter 6 Exponential, Logarithmic, Sine, and Cosine Integrals">
+<link rel="chapter" href="./7" title="Chapter 7 Error Functions, Dawsonâs and Fresnel Integrals">
+<link rel="chapter" href="./8" title="Chapter 8 Incomplete Gamma and Related Functions">
+<link rel="chapter" href="./9" title="Chapter 9 Airy and Related Functions">
+<link rel="chapter" href="./10" title="Chapter 10 Bessel Functions">
+<link rel="chapter" href="./11" title="Chapter 11 Struve and Related Functions">
+<link rel="chapter" href="./12" title="Chapter 12 Parabolic Cylinder Functions">
+<link rel="chapter" href="./13" title="Chapter 13 Confluent Hypergeometric Functions">
+<link rel="chapter" href="./14" title="Chapter 14 Legendre and Related Functions">
+<link rel="chapter" href="./15" title="Chapter 15 Hypergeometric Function">
+<link rel="chapter" href="./16" title="Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="chapter" href="./18" title="Chapter 18 Orthogonal Polynomials">
+<link rel="chapter" href="./19" title="Chapter 19 Elliptic Integrals">
+<link rel="chapter" href="./20" title="Chapter 20 Theta Functions">
+<link rel="chapter" href="./21" title="Chapter 21 Multidimensional Theta Functions">
+<link rel="chapter" href="./22" title="Chapter 22 Jacobian Elliptic Functions">
+<link rel="chapter" href="./23" title="Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="chapter" href="./24" title="Chapter 24 Bernoulli and Euler Polynomials">
+<link rel="chapter" href="./25" title="Chapter 25 Zeta and Related Functions">
+<link rel="chapter" href="./26" title="Chapter 26 Combinatorial Analysis">
+<link rel="chapter" href="./27" title="Chapter 27 Functions of Number Theory">
+<link rel="chapter" href="./28" title="Chapter 28 Mathieu Functions and Hillâs Equation">
+<link rel="chapter" href="./29" title="Chapter 29 LamÃ© Functions">
+<link rel="chapter" href="./30" title="Chapter 30 Spheroidal Wave Functions">
+<link rel="chapter" href="./31" title="Chapter 31 Heun Functions">
+<link rel="chapter" href="./32" title="Chapter 32 PainlevÃ© Transcendents">
+<link rel="chapter" href="./33" title="Chapter 33 Coulomb Functions">
+<link rel="chapter" href="./34" title="Chapter 34 3â¢ð,6â¢ð,9â¢ð Symbols">
+<link rel="chapter" href="./35" title="Chapter 35 Functions of Matrix Argument">
+<link rel="chapter" href="./36" title="Chapter 36 Integrals with Coalescing Saddles">
+<link rel="bibliography" href="./bib/" title="Bibliography">
+<link rel="index" href="./idx/" title="Index">
+<link rel="glossary" href="./not/" title="Notations">
+<link rel="document" href="./lof/" title="List of Figures">
+<link rel="document" href="./lot/" title="List of Tables">
+<link rel="document" href="./software/" title="Software Index">
+<link rel="document" href="./errata/" title="Errata">
+<link rel="document" href="./help/" title="Need Help?">
+<link rel="document" href="./search/" title="Advanced Search">
+<link rel="document" href="./about/" title="About the Project">
+<link rel="section" href="./17.1" title="Â§17.1 Special Notation â£ Notation â£ Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="section" href="./17.2" title="Â§17.2 Calculus â£ Properties â£ Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="section" href="./17.3" title="Â§17.3 ð-Elementary and ð-Special Functions â£ Properties â£ Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="section" href="./17.4" title="Â§17.4 Basic Hypergeometric Functions â£ Properties â£ Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="section" href="./17.5" title="Â§17.5 âÏâ,âÏâ,âÏâ Functions â£ Properties â£ Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="section" href="./17.6" title="Â§17.6 âÏâ Function â£ Properties â£ Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="section" href="./17.7" title="Â§17.7 Special Cases of Higher {_ð}Ï_ð  Functions â£ Properties â£ Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="section" href="./17.8" title="Â§17.8 Special Cases of {_ð}ð_ð Functions â£ Properties â£ Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="section" href="./17.9" title="Â§17.9 Further Transformations of {_{ð+1}}Ï_ð Functions â£ Properties â£ Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="section" href="./17.10" title="Â§17.10 Transformations of {_ð}ð_ð Functions â£ Properties â£ Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="section" href="./17.11" title="Â§17.11 Transformations of ð-Appell Functions â£ Properties â£ Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="section" href="./17.12" title="Â§17.12 Bailey Pairs â£ Properties â£ Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="section" href="./17.13" title="Â§17.13 Integrals â£ Properties â£ Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="section" href="./17.14" title="Â§17.14 Constant Term Identities â£ Properties â£ Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="section" href="./17.15" title="Â§17.15 Generalizations â£ Properties â£ Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="section" href="./17.16" title="Â§17.16 Mathematical Applications â£ Applications â£ Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="section" href="./17.17" title="Â§17.17 Physical Applications â£ Applications â£ Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="section" href="./17.18" title="Â§17.18 Methods of Computation â£ Computation â£ Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="section" href="./17.19" title="Â§17.19 Software â£ Computation â£ Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="author" href="./about/bio/GEAndrews" title="G.Â E.Â Andrews">
+</head>
+<body class="color_default textfont_default titlefont_default fontsize_default navbar_default">
+<div class="ltx_page_navbar">
+<div class="ltx_page_navlogo"><a href="./" title="Digital Library of Mathematical Functions"><span>DLMF</span></a></div>
+<div class="ltx_page_navitems">
+<form method="get" action="./search/search">
+<ul>
+<li><a href="./idx/">Index</a></li>
+<li><a href="./not/">Notations</a></li>
+<li><small><input type="text" name="q" value="" size="6" class="ltx_page_navitem_search"><button type="submit">Search</button></small></li>
+<li><a href="./help/" class="ltx_help">Help?</a></li>
+<li><a href="./help/cite">Citing</a></li>
+<li><a href="./help/customize" class="ltx_customize">Customize</a></li>
+<li id="showinfo"><a href="" onclick="showInfo(); return false;" title="Show Annotations">Annotate</a></li>
+<li id="hideinfo"><a href="" onclick="hideInfo(); return false;">UnAnnotate</a></li>
+</ul>
+</form>
+</div>
+<div class="ltx_page_navsponsors">
+<div><a href="./about/" class="ltx_page_navabout">About the Project</a></div>
+</div>
+</div>
+<div class="ltx_page_main">
+<div class="ltx_page_content">
+<section class="ltx_chapter ltx_leqno">
+<h1 class="ltx_title ltx_title_chapter">
+<span class="ltx_tag ltx_tag_chapter">Chapter 17 </span><math class="ltx_Math" altimg="m1.png" altimg-height="17px" altimg-valign="-6px" altimg-width="14px" alttext="q" display="inline"><mi href="./17.1#p1.t1.r4" title="complex base">q</mi></math>-Hypergeometric and Related Functions</h1>
+<div class="ltx_authors">
+<span class="ltx_creator ltx_role_author">
+<span class="ltx_personname"><a href="./about/bio/GEAndrews">G.Â E.Â Andrews</a>
+</span><span class="ltx_author_notes">
+<span class="ltx_contact ltx_role_affiliation">Department of Mathematics, Pennsylvania State University,
+University Park, Pennsylvania.
+</span></span></span>
+</div>
+<div id="info" class="ltx_metadata ltx_info">
+<span href="" class="ltx_infoicon ltx_icon" title="Show Annotations"><span class="ltx_font_bold">â</span></span>
+<div class="ltx_infocontent">
+<dl>
+<dt>Notes:</dt>
+<dd>The main reference used in writing this chapter is <cite class="ltx_cite ltx_citemacro_citet">Gasper and Rahman (<a href="./bib/G#bib862" title="Basic Hypergeometric Series" class="ltx_ref">2004</a>)</cite>. For
+additional bibliographic reading see <cite class="ltx_cite ltx_citemacro_citet">Andrews (<a href="./bib/#bib91" title="Applications of basic hypergeometric functions" class="ltx_ref">1974</a>, <a href="./bib/#bib92" title="The Theory of Partitions" class="ltx_ref">1976</a>, <a href="./bib/#bib95" title="q -Series: Their Development and Application in Analysis, Number Theory, Combinatorics, Physics, and Computer Algebra" class="ltx_ref">1986</a>)</cite>, <cite class="ltx_cite ltx_citemacro_citet">Andrews<span class="ltx_text ltx_bib_etal"> et al.</span> (<a href="./bib/#bib103" title="Special Functions" class="ltx_ref">1999</a>)</cite>, <cite class="ltx_cite ltx_citemacro_citet">Bailey (<a href="./bib/B#bib176" title="Generalized Hypergeometric Series" class="ltx_ref">1964</a>)</cite>,
+<cite class="ltx_cite ltx_citemacro_citet">Fine (<a href="./bib/F#bib801" title="Basic Hypergeometric Series and Applications" class="ltx_ref">1988</a>)</cite>, <cite class="ltx_cite ltx_citemacro_citet">Kac and Cheung (<a href="./bib/K#bib1199" title="Quantum Calculus" class="ltx_ref">2002</a>)</cite>, and <cite class="ltx_cite ltx_citemacro_citet">Slater (<a href="./bib/S#bib2099" title="Generalized Hypergeometric Functions" class="ltx_ref">1966</a>)</cite>.</dd>
+<dt>Referenced by:</dt>
+<dd>
+<a href="./about/bio/GEAndrews#S0.I1.ix1.p1" title="Profile George E. Andrews â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_text ltx_font_italic">Profile<span class="ltx_text"> </span></span>George E.Â Andrews</span></a>,
+<a href="./about/bio/GEAndrews#p3" title="Profile George E. Andrews â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_text ltx_font_italic">Profile<span class="ltx_text"> </span></span>George E.Â Andrews</span></a>,
+<a href="./about/staff#S2.I1.ix1.p1" title="Chapter Authors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Chapter Authors</span></a>,
+<a href="./about/staff#S4.I1.ix1.p1" title="Associate Editors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Associate Editors</span></a>,
+<a href="./errata/#V1.2.0.p3" title="Version 1.2.0 (March 27, 2024) â£ Errata" class="ltx_ref"><span class="ltx_text ltx_ref_title">Version 1.2.0 (March 27, 2024)</span></a>,
+<a href="./front/introduction#organization.p3" title="Organization and Objective â£ Mathematical Introduction" class="ltx_ref"><span class="ltx_text ltx_ref_title">Organization and Objective</span></a>
+</dd>
+<dt>Permalink:</dt>
+<dd><a href="./17" title="" class="ltx_ref">http://dlmf.nist.gov/17</a></dd>
+</dl>
+</div>
+</div>
+
+<div class="ltx_gallery">
+    <span style="height:100px">Â  </span>
+    <span style="height:100px">Â  </span>
+  </div>
+<div class="ltx_page_columns">
+<div class="ltx_page_column1">
+<ul class="ltx_toclist ltx_toclist_chapter">
+<li id="PT1" class="ltx_tocentry">
+<span class="ltx_text">Notation</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./17.1" title="In Notation â£ Chapter 17 ð-Hypergeometric and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.1 </span>Special Notation</span></a></li>
+</ol>
+</li>
+<li id="PT2" class="ltx_tocentry">
+<span class="ltx_text">Properties</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./17.2" title="In Properties â£ Chapter 17 ð-Hypergeometric and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.2 </span>Calculus</span></a></li>
+<li class="ltx_tocentry"><a href="./17.3" title="In Properties â£ Chapter 17 ð-Hypergeometric and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.3 </span><math class="ltx_Math" altimg="m1.png" altimg-height="17px" altimg-valign="-6px" altimg-width="14px" alttext="q" display="inline"><mi href="./17.1#p1.t1.r4" title="complex base">q</mi></math>-Elementary and <math class="ltx_Math" altimg="m1.png" altimg-height="17px" altimg-valign="-6px" altimg-width="14px" alttext="q" display="inline"><mi href="./17.1#p1.t1.r4" title="complex base">q</mi></math>-Special Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./17.4" title="In Properties â£ Chapter 17 ð-Hypergeometric and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.4 </span>Basic Hypergeometric Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./17.5" title="In Properties â£ Chapter 17 ð-Hypergeometric and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.5 </span><math class="ltx_Math" altimg="m2.png" altimg-height="22px" altimg-valign="-6px" altimg-width="116px" alttext="{{}_{0}\phi_{0}},{{}_{1}\phi_{0}},{{}_{1}\phi_{1}}" display="inline"><mrow><mmultiscripts><mi href="./17.4#E1" title="basic hypergeometric (or ð-hypergeometric) function">Ï</mi><mn>0</mn><mrow></mrow><mprescripts></mprescripts><mn>0</mn><mrow></mrow></mmultiscripts><mo>,</mo><mmultiscripts><mi href="./17.4#E1" title="basic hypergeometric (or ð-hypergeometric) function">Ï</mi><mn>0</mn><mrow></mrow><mprescripts></mprescripts><mn>1</mn><mrow></mrow></mmultiscripts><mo>,</mo><mmultiscripts><mi href="./17.4#E1" title="basic hypergeometric (or ð-hypergeometric) function">Ï</mi><mn>1</mn><mrow></mrow><mprescripts></mprescripts><mn>1</mn><mrow></mrow></mmultiscripts></mrow></math> Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./17.6" title="In Properties â£ Chapter 17 ð-Hypergeometric and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.6 </span><math class="ltx_Math" altimg="m3.png" altimg-height="22px" altimg-valign="-6px" altimg-width="35px" alttext="{{}_{2}\phi_{1}}" display="inline"><mmultiscripts><mi href="./17.4#E1" title="basic hypergeometric (or ð-hypergeometric) function">Ï</mi><mn>1</mn><mrow></mrow><mprescripts></mprescripts><mn>2</mn><mrow></mrow></mmultiscripts></math> Function</span></a></li>
+<li class="ltx_tocentry"><a href="./17.7" title="In Properties â£ Chapter 17 ð-Hypergeometric and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.7 </span>Special Cases of Higher <math class="ltx_Math" altimg="m5.png" altimg-height="22px" altimg-valign="-6px" altimg-width="35px" alttext="{{}_{r}\phi_{s}}" display="inline"><mmultiscripts><mi href="./17.4#E1" title="basic hypergeometric (or ð-hypergeometric) function">Ï</mi><mi href="./17.1#p1.t1.r1" title="nonnegative integer">s</mi><mrow></mrow><mprescripts></mprescripts><mi href="./17.1#p1.t1.r1" title="nonnegative integer">r</mi><mrow></mrow></mmultiscripts></math> Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./17.8" title="In Properties â£ Chapter 17 ð-Hypergeometric and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.8 </span>Special Cases of <math class="ltx_Math" altimg="m6.png" altimg-height="22px" altimg-valign="-6px" altimg-width="36px" alttext="{{}_{r}\psi_{r}}" display="inline"><mmultiscripts><mi href="./17.4#E3" title="bilateral basic hypergeometric (or bilateral ð-hypergeometric) function">Ï</mi><mi href="./17.1#p1.t1.r1" title="nonnegative integer">r</mi><mrow></mrow><mprescripts></mprescripts><mi href="./17.1#p1.t1.r1" title="nonnegative integer">r</mi><mrow></mrow></mmultiscripts></math> Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./17.9" title="In Properties â£ Chapter 17 ð-Hypergeometric and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.9 </span>Further Transformations of <math class="ltx_Math" altimg="m4.png" altimg-height="23px" altimg-valign="-7px" altimg-width="56px" alttext="{{}_{r+1}\phi_{r}}" display="inline"><mmultiscripts><mi href="./17.4#E1" title="basic hypergeometric (or ð-hypergeometric) function">Ï</mi><mi href="./17.1#p1.t1.r1" title="nonnegative integer">r</mi><mrow></mrow><mprescripts></mprescripts><mrow><mi href="./17.1#p1.t1.r1" title="nonnegative integer">r</mi><mo>+</mo><mn>1</mn></mrow><mrow></mrow></mmultiscripts></math> Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./17.10" title="In Properties â£ Chapter 17 ð-Hypergeometric and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.10 </span>Transformations of <math class="ltx_Math" altimg="m6.png" altimg-height="22px" altimg-valign="-6px" altimg-width="36px" alttext="{{}_{r}\psi_{r}}" display="inline"><mmultiscripts><mi href="./17.4#E3" title="bilateral basic hypergeometric (or bilateral ð-hypergeometric) function">Ï</mi><mi href="./17.1#p1.t1.r1" title="nonnegative integer">r</mi><mrow></mrow><mprescripts></mprescripts><mi href="./17.1#p1.t1.r1" title="nonnegative integer">r</mi><mrow></mrow></mmultiscripts></math> Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./17.11" title="In Properties â£ Chapter 17 ð-Hypergeometric and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.11 </span>Transformations of <math class="ltx_Math" altimg="m1.png" altimg-height="17px" altimg-valign="-6px" altimg-width="14px" alttext="q" display="inline"><mi href="./17.1#p1.t1.r4" title="complex base">q</mi></math>-Appell Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./17.12" title="In Properties â£ Chapter 17 ð-Hypergeometric and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.12 </span>Bailey Pairs</span></a></li>
+<li class="ltx_tocentry"><a href="./17.13" title="In Properties â£ Chapter 17 ð-Hypergeometric and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.13 </span>Integrals</span></a></li>
+<li class="ltx_tocentry"><a href="./17.14" title="In Properties â£ Chapter 17 ð-Hypergeometric and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.14 </span>Constant Term Identities</span></a></li>
+<li class="ltx_tocentry"><a href="./17.15" title="In Properties â£ Chapter 17 ð-Hypergeometric and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.15 </span>Generalizations</span></a></li>
+</ol>
+</li>
+</ul>
+</div>
+<div class="ltx_page_column2">
+<ul class="ltx_toclist ltx_toclist_chapter">
+<li id="PT3" class="ltx_tocentry">
+<span class="ltx_text">Applications</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./17.16" title="In Applications â£ Chapter 17 ð-Hypergeometric and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.16 </span>Mathematical Applications</span></a></li>
+<li class="ltx_tocentry"><a href="./17.17" title="In Applications â£ Chapter 17 ð-Hypergeometric and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.17 </span>Physical Applications</span></a></li>
+</ol>
+</li>
+<li id="PT4" class="ltx_tocentry">
+<span class="ltx_text">Computation</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./17.18" title="In Computation â£ Chapter 17 ð-Hypergeometric and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.18 </span>Methods of Computation</span></a></li>
+<li class="ltx_tocentry"><a href="./17.19" title="In Computation â£ Chapter 17 ð-Hypergeometric and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.19 </span>Software</span></a></li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+</section>
+</div>
+<div class="ltx_page_footer">
+<div class="ltx_siblings">
+<a href="./16.27" title="In Computation â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref" rel="prev"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.27 </span>Software</span></a><a href="./17.1" title="In Notation â£ Chapter 17 ð-Hypergeometric and Related Functions" class="ltx_ref" rel="next"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.1 </span>Special Notation</span></a>
+</div>
+<div class="ltx_footer_links ltx_centering">
+<a href="./about/notices">Â© 2010â2025 NIST</a> / <a href="./about/notices#S2">Disclaimer</a> / <a href="/cdn-cgi/l/email-protection#d99d95949ff4bfbcbcbdbbb8bab299b7b0aaadf7beb6af">Feedback</a>;
+ Version 1.2.4;
+Release date 2025-03-15.</div>
+<span id="pagesettings"></span>
+<div class="ltx_nist_logo"><a href="http://www.nist.gov/"><img src="./style/nistidc.png" width="500" alt="NIST"></a></div>
+<div class="ltx_nist_links ltx_align_right">
+<a href="https://www.nist.gov/privacy-policy">Site Privacy</a> <a href="https://www.nist.gov/oism/accessibility">Accessibility</a> <a href="https://www.nist.gov/privacy">Privacy Program</a> <a href="https://www.nist.gov/oism/copyrights">Copyrights</a> <a href="https://www.commerce.gov/vulnerability-disclosure-policy">Vulnerability Disclosure</a> <a href="https://www.nist.gov/no-fear-act-policy">No Fear Act Policy</a> <a href="https://www.nist.gov/foia">FOIA</a> <a href="https://www.nist.gov/environmental-policy-statement">Environmental Policy</a> <a href="https://www.nist.gov/summary-report-scientific-integrity">Scientific Integrity</a> <a href="https://www.nist.gov/nist-information-quality-standards">Information Quality Standards</a> <a href="https://www.commerce.gov/">Commerce.gov</a> <a href="http://www.science.gov/">Science.gov</a> <a href="http://www.usa.gov/">USA.gov</a>
+</div>
+</div>
+</div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'994afe29fee7125f',t:'MTc2MTQ5MjYwNA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

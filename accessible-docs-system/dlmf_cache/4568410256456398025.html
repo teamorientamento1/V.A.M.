@@ -1,0 +1,271 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>DLMF: Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function</title>
+<link rel="shortcut icon" href="./style/DLMF-16.png" type="image/png">
+<script type="text/javascript"><!--
+	var PATH="DLMF:/16";
+	var ROOT="./";
+      //--></script>
+<script type="text/javascript" src="./style/jquery.js"><!-- non-empty so ie6 will accept it --></script>
+<script type="text/javascript" src="./style/jquery.leaveNotice.js"><!-- non-empty so ie6 will accept it --></script>
+<script type="text/javascript" src="./style/DLMF.js"><!-- non-empty so ie6 will accept it --></script>
+<script async="" type="text/javascript" id="_fed_an_ua_tag" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=DOC&amp;subagency=NIST&amp;pua=UA-37115410-44&amp;yt=true&amp;exts=ppsx,pps,f90,sch,rtf,wrl,txz,m1v,xlsm,msi,xsd,f,tif,eps,mpg,xml,pl,xlt,c"><!-- non-empty so ie6 will accept it --></script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-BZB64W4M0L"></script><script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BZB64W4M0L');
+      </script>
+<link rel="stylesheet" type="text/css" href="./style/LaTeXML.css">
+<link rel="stylesheet" type="text/css" href="./style/DLMF.css">
+<link rel="stylesheet" type="text/css" href="./style/print.css" media="print">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="top" href="./" title="DLMF">
+<link rel="copyright" href="./about/notices" title="Copyright">
+<link rel="search" href="./search/search" title="Search">
+<link rel="help" class="ltx_help" href="./help/" title="Help">
+<link rel="start" href="./" title="">
+<link rel="prev" href="./15.20" title="Â§15.20 Software â£ Computation â£ Chapter 15 Hypergeometric Function">
+<link rel="next" href="./16.1" title="Â§16.1 Special Notation â£ Notation â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="document" href="./front/foreword" title="Foreword">
+<link rel="document" href="./front/preface" title="Preface">
+<link rel="document" href="./front/introduction" title="Mathematical Introduction">
+<link rel="chapter" href="./1" title="Chapter 1 Algebraic and Analytic Methods">
+<link rel="chapter" href="./2" title="Chapter 2 Asymptotic Approximations">
+<link rel="chapter" href="./3" title="Chapter 3 Numerical Methods">
+<link rel="chapter" href="./4" title="Chapter 4 Elementary Functions">
+<link rel="chapter" href="./5" title="Chapter 5 Gamma Function">
+<link rel="chapter" href="./6" title="Chapter 6 Exponential, Logarithmic, Sine, and Cosine Integrals">
+<link rel="chapter" href="./7" title="Chapter 7 Error Functions, Dawsonâs and Fresnel Integrals">
+<link rel="chapter" href="./8" title="Chapter 8 Incomplete Gamma and Related Functions">
+<link rel="chapter" href="./9" title="Chapter 9 Airy and Related Functions">
+<link rel="chapter" href="./10" title="Chapter 10 Bessel Functions">
+<link rel="chapter" href="./11" title="Chapter 11 Struve and Related Functions">
+<link rel="chapter" href="./12" title="Chapter 12 Parabolic Cylinder Functions">
+<link rel="chapter" href="./13" title="Chapter 13 Confluent Hypergeometric Functions">
+<link rel="chapter" href="./14" title="Chapter 14 Legendre and Related Functions">
+<link rel="chapter" href="./15" title="Chapter 15 Hypergeometric Function">
+<link rel="chapter" href="./17" title="Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="chapter" href="./18" title="Chapter 18 Orthogonal Polynomials">
+<link rel="chapter" href="./19" title="Chapter 19 Elliptic Integrals">
+<link rel="chapter" href="./20" title="Chapter 20 Theta Functions">
+<link rel="chapter" href="./21" title="Chapter 21 Multidimensional Theta Functions">
+<link rel="chapter" href="./22" title="Chapter 22 Jacobian Elliptic Functions">
+<link rel="chapter" href="./23" title="Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="chapter" href="./24" title="Chapter 24 Bernoulli and Euler Polynomials">
+<link rel="chapter" href="./25" title="Chapter 25 Zeta and Related Functions">
+<link rel="chapter" href="./26" title="Chapter 26 Combinatorial Analysis">
+<link rel="chapter" href="./27" title="Chapter 27 Functions of Number Theory">
+<link rel="chapter" href="./28" title="Chapter 28 Mathieu Functions and Hillâs Equation">
+<link rel="chapter" href="./29" title="Chapter 29 LamÃ© Functions">
+<link rel="chapter" href="./30" title="Chapter 30 Spheroidal Wave Functions">
+<link rel="chapter" href="./31" title="Chapter 31 Heun Functions">
+<link rel="chapter" href="./32" title="Chapter 32 PainlevÃ© Transcendents">
+<link rel="chapter" href="./33" title="Chapter 33 Coulomb Functions">
+<link rel="chapter" href="./34" title="Chapter 34 3â¢ð,6â¢ð,9â¢ð Symbols">
+<link rel="chapter" href="./35" title="Chapter 35 Functions of Matrix Argument">
+<link rel="chapter" href="./36" title="Chapter 36 Integrals with Coalescing Saddles">
+<link rel="bibliography" href="./bib/" title="Bibliography">
+<link rel="index" href="./idx/" title="Index">
+<link rel="glossary" href="./not/" title="Notations">
+<link rel="document" href="./lof/" title="List of Figures">
+<link rel="document" href="./lot/" title="List of Tables">
+<link rel="document" href="./software/" title="Software Index">
+<link rel="document" href="./errata/" title="Errata">
+<link rel="document" href="./help/" title="Need Help?">
+<link rel="document" href="./search/" title="Advanced Search">
+<link rel="document" href="./about/" title="About the Project">
+<link rel="section" href="./16.1" title="Â§16.1 Special Notation â£ Notation â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.2" title="Â§16.2 Definition and Analytic Properties â£ Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.3" title="Â§16.3 Derivatives and Contiguous Functions â£ Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.4" title="Â§16.4 Argument Unity â£ Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.5" title="Â§16.5 Integral Representations and Integrals â£ Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.6" title="Â§16.6 Transformations of Variable â£ Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.7" title="Â§16.7 Relations to Other Functions â£ Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.8" title="Â§16.8 Differential Equations â£ Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.9" title="Â§16.9 Zeros â£ Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.10" title="Â§16.10 Expansions in Series of {_ð}ð¹_ð Functions â£ Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.11" title="Â§16.11 Asymptotic Expansions â£ Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.12" title="Â§16.12 Products â£ Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.13" title="Â§16.13 Appell Functions â£ Two-Variable Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.14" title="Â§16.14 Partial Differential Equations â£ Two-Variable Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.15" title="Â§16.15 Integral Representations and Integrals â£ Two-Variable Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.16" title="Â§16.16 Transformations of Variables â£ Two-Variable Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.17" title="Â§16.17 Definition â£ Meijer ðº-Function â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.18" title="Â§16.18 Special Cases â£ Meijer ðº-Function â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.19" title="Â§16.19 Identities â£ Meijer ðº-Function â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.20" title="Â§16.20 Integrals and Series â£ Meijer ðº-Function â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.21" title="Â§16.21 Differential Equation â£ Meijer ðº-Function â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.22" title="Â§16.22 Asymptotic Expansions â£ Meijer ðº-Function â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.23" title="Â§16.23 Mathematical Applications â£ Applications â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.24" title="Â§16.24 Physical Applications â£ Applications â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.25" title="Â§16.25 Methods of Computation â£ Computation â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.26" title="Â§16.26 Approximations â£ Computation â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="section" href="./16.27" title="Â§16.27 Software â£ Computation â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="author" href="./about/bio/RAAskey" title="R.Â A.Â Askey">
+<link rel="author" href="./about/bio/ABOldeDaalhuis" title="A.Â B.Â OldeÂ Daalhuis">
+<meta name="keywords" lang="en" content="Appell functions, computation, generalized hypergeometric functions, with two variables">
+</head>
+<body class="color_default textfont_default titlefont_default fontsize_default navbar_default">
+<div class="ltx_page_navbar">
+<div class="ltx_page_navlogo"><a href="./" title="Digital Library of Mathematical Functions"><span>DLMF</span></a></div>
+<div class="ltx_page_navitems">
+<form method="get" action="./search/search">
+<ul>
+<li><a href="./idx/">Index</a></li>
+<li><a href="./not/">Notations</a></li>
+<li><small><input type="text" name="q" value="" size="6" class="ltx_page_navitem_search"><button type="submit">Search</button></small></li>
+<li><a href="./help/" class="ltx_help">Help?</a></li>
+<li><a href="./help/cite">Citing</a></li>
+<li><a href="./help/customize" class="ltx_customize">Customize</a></li>
+<li id="showinfo"><a href="" onclick="showInfo(); return false;" title="Show Annotations">Annotate</a></li>
+<li id="hideinfo"><a href="" onclick="hideInfo(); return false;">UnAnnotate</a></li>
+</ul>
+</form>
+</div>
+<div class="ltx_page_navsponsors">
+<div><a href="./about/" class="ltx_page_navabout">About the Project</a></div>
+</div>
+</div>
+<div class="ltx_page_main">
+<div class="ltx_page_content">
+<section class="ltx_chapter ltx_leqno">
+<h1 class="ltx_title ltx_title_chapter">
+<span class="ltx_tag ltx_tag_chapter">Chapter 16 </span>Generalized Hypergeometric Functions and Meijer <math class="ltx_Math" altimg="m1.png" altimg-height="18px" altimg-valign="-2px" altimg-width="21px" alttext="G" display="inline"><mi>G</mi></math>-Function</h1>
+<div class="ltx_authors">
+<span class="ltx_creator ltx_role_author">
+<span class="ltx_personname"><a href="./about/bio/RAAskey">R.Â A.Â Askey</a>
+</span><span class="ltx_author_notes">
+<span class="ltx_contact ltx_role_affiliation">Department of Mathematics,
+University of Wisconsin,
+Madison, Wisconsin.
+</span></span></span>
+<span class="ltx_creator ltx_role_author">
+<span class="ltx_personname"><a href="./about/bio/ABOldeDaalhuis">A.Â B.Â OldeÂ Daalhuis</a>
+</span><span class="ltx_author_notes">
+<span class="ltx_contact ltx_role_affiliation">School of Mathematics,
+Edinburgh University,
+Edinburgh, United Kingdom.
+</span></span></span>
+</div>
+<div id="info" class="ltx_metadata ltx_info">
+<span href="" class="ltx_infoicon ltx_icon" title="Show Annotations"><span class="ltx_font_bold">â</span></span>
+<div class="ltx_infocontent">
+<dl>
+<dt>Acknowledgements:</dt>
+<dd class="ltx_acknowledgements">The authors are pleased to acknowledge the assistance of
+B.Â L.Â J.Â Braaksma with Â§Â§<a href="./16.5" title="Â§16.5 Integral Representations and Integrals â£ Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref"><span class="ltx_text ltx_ref_tag">16.5</span></a> and <a href="./16.11" title="Â§16.11 Asymptotic Expansions â£ Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref"><span class="ltx_text ltx_ref_tag">16.11</span></a>.</dd>
+<dt>Notes:</dt>
+<dd>The main references used in writing this chapter are <cite class="ltx_cite ltx_citemacro_citet">ErdÃ©lyi<span class="ltx_text ltx_bib_etal"> et al.</span> (<a href="./bib/E#bib751" title="Higher Transcendental Functions. Vol. I" class="ltx_ref">1953a</a>)</cite>,
+<cite class="ltx_cite ltx_citemacro_citet">Luke (<a href="./bib/L#bib1495" title="The Special Functions and their Approximations, Vol. 1" class="ltx_ref">1969a</a>, <a href="./bib/L#bib1501" title="Mathematical Functions and their Approximations" class="ltx_ref">1975</a>)</cite>. For additional bibliographic reading see
+<cite class="ltx_cite ltx_citemacro_citet">Appell and KampÃ© de FÃ©riet (<a href="./bib/#bib2872" title="Fonctions hypergÃ©omÃ©triques et hypersphÃ©riques. Polynomes dâHermite" class="ltx_ref">1926</a>)</cite>, <cite class="ltx_cite ltx_citemacro_citet">Andrews<span class="ltx_text ltx_bib_etal"> et al.</span> (<a href="./bib/#bib103" title="Special Functions" class="ltx_ref">1999</a>)</cite> and <cite class="ltx_cite ltx_citemacro_citet">Slater (<a href="./bib/S#bib2099" title="Generalized Hypergeometric Functions" class="ltx_ref">1966</a>)</cite>.</dd>
+<dt>Referenced by:</dt>
+<dd>
+<a href="./about/bio/ABOldeDaalhuis#S0.I1.ix3.p1" title="Profile Adri B. Olde Daalhuis â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_text ltx_font_italic">Profile<span class="ltx_text"> </span></span>Adri B.Â Olde Daalhuis</span></a>,
+<a href="./about/bio/RAAskey#S0.I1.ix3.p1" title="Profile Richard A. Askey â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_text ltx_font_italic">Profile<span class="ltx_text"> </span></span>RichardÂ A.Â Askey</span></a>,
+<a href="./about/staff#S2.I1.ix16.p1" title="Chapter Authors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Chapter Authors</span></a>,
+<a href="./about/staff#S2.I1.ix3.p1" title="Chapter Authors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Chapter Authors</span></a>,
+<a href="./about/staff#S4.I1.ix15.p1" title="Associate Editors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Associate Editors</span></a>,
+<a href="./front/introduction#organization.p3" title="Organization and Objective â£ Mathematical Introduction" class="ltx_ref"><span class="ltx_text ltx_ref_title">Organization and Objective</span></a>,
+<a href="./software/#S1.t1.r66" title="Software Cross Index â£ Software Index" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Software Cross Index</span></a>
+</dd>
+<dt>Permalink:</dt>
+<dd><a href="./16" title="" class="ltx_ref">http://dlmf.nist.gov/16</a></dd>
+<dt>Addition (effective with 1.0.11):</dt>
+<dd>
+The reference <cite class="ltx_cite ltx_citemacro_citet">Appell and KampÃ© de FÃ©riet (<a href="./bib/#bib2872" title="Fonctions hypergÃ©omÃ©triques et hypersphÃ©riques. Polynomes dâHermite" class="ltx_ref">1926</a>)</cite> was added to the Note section.
+</dd>
+</dl>
+</div>
+</div>
+
+<div class="ltx_gallery">
+    <span style="height:100px">Â  </span>
+    <span style="height:100px">Â  </span>
+  </div>
+<div class="ltx_page_columns">
+<div class="ltx_page_column1">
+<ul class="ltx_toclist ltx_toclist_chapter">
+<li id="PT1" class="ltx_tocentry">
+<span class="ltx_text">Notation</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./16.1" title="In Notation â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.1 </span>Special Notation</span></a></li>
+</ol>
+</li>
+<li id="PT2" class="ltx_tocentry">
+<span class="ltx_text">Generalized Hypergeometric Functions</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./16.2" title="In Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.2 </span>Definition and Analytic Properties</span></a></li>
+<li class="ltx_tocentry"><a href="./16.3" title="In Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.3 </span>Derivatives and Contiguous Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./16.4" title="In Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.4 </span>Argument Unity</span></a></li>
+<li class="ltx_tocentry"><a href="./16.5" title="In Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.5 </span>Integral Representations and Integrals</span></a></li>
+<li class="ltx_tocentry"><a href="./16.6" title="In Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.6 </span>Transformations of Variable</span></a></li>
+<li class="ltx_tocentry"><a href="./16.7" title="In Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.7 </span>Relations to Other Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./16.8" title="In Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.8 </span>Differential Equations</span></a></li>
+<li class="ltx_tocentry"><a href="./16.9" title="In Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.9 </span>Zeros</span></a></li>
+<li class="ltx_tocentry"><a href="./16.10" title="In Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.10 </span>Expansions in Series of <math class="ltx_Math" altimg="m2.png" altimg-height="24px" altimg-valign="-8px" altimg-width="36px" alttext="{{}_{p}F_{q}}" display="inline"><mmultiscripts><mi href="./16.2" title="alternatively {_ð}ð¹_ð(ð;ð;ð§) or {_ð}ð¹_ð((ðÂ¦ð);ð§)generalized hypergeometric function">F</mi><mi href="./16.1#t1.r1" title="nonnegative integer">q</mi><mrow></mrow><mprescripts></mprescripts><mi href="./16.1#t1.r1" title="nonnegative integer">p</mi><mrow></mrow></mmultiscripts></math> Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./16.11" title="In Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.11 </span>Asymptotic Expansions</span></a></li>
+<li class="ltx_tocentry"><a href="./16.12" title="In Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.12 </span>Products</span></a></li>
+</ol>
+</li>
+<li id="PT3" class="ltx_tocentry">
+<span class="ltx_text">Two-Variable Hypergeometric Functions</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./16.13" title="In Two-Variable Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.13 </span>Appell Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./16.14" title="In Two-Variable Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.14 </span>Partial Differential Equations</span></a></li>
+<li class="ltx_tocentry"><a href="./16.15" title="In Two-Variable Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.15 </span>Integral Representations and Integrals</span></a></li>
+<li class="ltx_tocentry"><a href="./16.16" title="In Two-Variable Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.16 </span>Transformations of Variables</span></a></li>
+</ol>
+</li>
+</ul>
+</div>
+<div class="ltx_page_column2">
+<ul class="ltx_toclist ltx_toclist_chapter">
+<li id="PT4" class="ltx_tocentry">
+<span class="ltx_text">Meijer <math class="ltx_Math" altimg="m1.png" altimg-height="18px" altimg-valign="-2px" altimg-width="21px" alttext="G" display="inline"><mi>G</mi></math>-Function</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./16.17" title="In Meijer ðº-Function â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.17 </span>Definition</span></a></li>
+<li class="ltx_tocentry"><a href="./16.18" title="In Meijer ðº-Function â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.18 </span>Special Cases</span></a></li>
+<li class="ltx_tocentry"><a href="./16.19" title="In Meijer ðº-Function â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.19 </span>Identities</span></a></li>
+<li class="ltx_tocentry"><a href="./16.20" title="In Meijer ðº-Function â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.20 </span>Integrals and Series</span></a></li>
+<li class="ltx_tocentry"><a href="./16.21" title="In Meijer ðº-Function â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.21 </span>Differential Equation</span></a></li>
+<li class="ltx_tocentry"><a href="./16.22" title="In Meijer ðº-Function â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.22 </span>Asymptotic Expansions</span></a></li>
+</ol>
+</li>
+<li id="PT5" class="ltx_tocentry">
+<span class="ltx_text">Applications</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./16.23" title="In Applications â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.23 </span>Mathematical Applications</span></a></li>
+<li class="ltx_tocentry"><a href="./16.24" title="In Applications â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.24 </span>Physical Applications</span></a></li>
+</ol>
+</li>
+<li id="PT6" class="ltx_tocentry">
+<span class="ltx_text">Computation</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./16.25" title="In Computation â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.25 </span>Methods of Computation</span></a></li>
+<li class="ltx_tocentry"><a href="./16.26" title="In Computation â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.26 </span>Approximations</span></a></li>
+<li class="ltx_tocentry"><a href="./16.27" title="In Computation â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.27 </span>Software</span></a></li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+</section>
+</div>
+<div class="ltx_page_footer">
+<div class="ltx_siblings">
+<a href="./15.20" title="In Computation â£ Chapter 15 Hypergeometric Function" class="ltx_ref" rel="prev"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">15.20 </span>Software</span></a><a href="./16.1" title="In Notation â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref" rel="next"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.1 </span>Special Notation</span></a>
+</div>
+<div class="ltx_footer_links ltx_centering">
+<a href="./about/notices">Â© 2010â2025 NIST</a> / <a href="./about/notices#S2">Disclaimer</a> / <a href="/cdn-cgi/l/email-protection#f7b3bbbab1da919292939596949cb7999e8483d9909881">Feedback</a>;
+ Version 1.2.4;
+Release date 2025-03-15.</div>
+<span id="pagesettings"></span>
+<div class="ltx_nist_logo"><a href="http://www.nist.gov/"><img src="./style/nistidc.png" width="500" alt="NIST"></a></div>
+<div class="ltx_nist_links ltx_align_right">
+<a href="https://www.nist.gov/privacy-policy">Site Privacy</a> <a href="https://www.nist.gov/oism/accessibility">Accessibility</a> <a href="https://www.nist.gov/privacy">Privacy Program</a> <a href="https://www.nist.gov/oism/copyrights">Copyrights</a> <a href="https://www.commerce.gov/vulnerability-disclosure-policy">Vulnerability Disclosure</a> <a href="https://www.nist.gov/no-fear-act-policy">No Fear Act Policy</a> <a href="https://www.nist.gov/foia">FOIA</a> <a href="https://www.nist.gov/environmental-policy-statement">Environmental Policy</a> <a href="https://www.nist.gov/summary-report-scientific-integrity">Scientific Integrity</a> <a href="https://www.nist.gov/nist-information-quality-standards">Information Quality Standards</a> <a href="https://www.commerce.gov/">Commerce.gov</a> <a href="http://www.science.gov/">Science.gov</a> <a href="http://www.usa.gov/">USA.gov</a>
+</div>
+</div>
+</div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'994afe229870125f',t:'MTc2MTQ5MjYwMw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

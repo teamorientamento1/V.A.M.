@@ -1,0 +1,251 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>DLMF: Chapter 27 Functions of Number Theory</title>
+<link rel="shortcut icon" href="./style/DLMF-16.png" type="image/png">
+<script type="text/javascript"><!--
+	var PATH="DLMF:/27";
+	var ROOT="./";
+      //--></script>
+<script type="text/javascript" src="./style/jquery.js"><!-- non-empty so ie6 will accept it --></script>
+<script type="text/javascript" src="./style/jquery.leaveNotice.js"><!-- non-empty so ie6 will accept it --></script>
+<script type="text/javascript" src="./style/DLMF.js"><!-- non-empty so ie6 will accept it --></script>
+<script async="" type="text/javascript" id="_fed_an_ua_tag" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=DOC&amp;subagency=NIST&amp;pua=UA-37115410-44&amp;yt=true&amp;exts=ppsx,pps,f90,sch,rtf,wrl,txz,m1v,xlsm,msi,xsd,f,tif,eps,mpg,xml,pl,xlt,c"><!-- non-empty so ie6 will accept it --></script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-BZB64W4M0L"></script><script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BZB64W4M0L');
+      </script>
+<link rel="stylesheet" type="text/css" href="./style/LaTeXML.css">
+<link rel="stylesheet" type="text/css" href="./style/DLMF.css">
+<link rel="stylesheet" type="text/css" href="./style/print.css" media="print">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="top" href="./" title="DLMF">
+<link rel="copyright" href="./about/notices" title="Copyright">
+<link rel="search" href="./search/search" title="Search">
+<link rel="help" class="ltx_help" href="./help/" title="Help">
+<link rel="start" href="./" title="">
+<link rel="prev" href="./26.22" title="Â§26.22 Software â£ Computation â£ Chapter 26 Combinatorial Analysis">
+<link rel="next" href="./27.1" title="Â§27.1 Special Notation â£ Notation â£ Chapter 27 Functions of Number Theory">
+<link rel="document" href="./front/foreword" title="Foreword">
+<link rel="document" href="./front/preface" title="Preface">
+<link rel="document" href="./front/introduction" title="Mathematical Introduction">
+<link rel="chapter" href="./1" title="Chapter 1 Algebraic and Analytic Methods">
+<link rel="chapter" href="./2" title="Chapter 2 Asymptotic Approximations">
+<link rel="chapter" href="./3" title="Chapter 3 Numerical Methods">
+<link rel="chapter" href="./4" title="Chapter 4 Elementary Functions">
+<link rel="chapter" href="./5" title="Chapter 5 Gamma Function">
+<link rel="chapter" href="./6" title="Chapter 6 Exponential, Logarithmic, Sine, and Cosine Integrals">
+<link rel="chapter" href="./7" title="Chapter 7 Error Functions, Dawsonâs and Fresnel Integrals">
+<link rel="chapter" href="./8" title="Chapter 8 Incomplete Gamma and Related Functions">
+<link rel="chapter" href="./9" title="Chapter 9 Airy and Related Functions">
+<link rel="chapter" href="./10" title="Chapter 10 Bessel Functions">
+<link rel="chapter" href="./11" title="Chapter 11 Struve and Related Functions">
+<link rel="chapter" href="./12" title="Chapter 12 Parabolic Cylinder Functions">
+<link rel="chapter" href="./13" title="Chapter 13 Confluent Hypergeometric Functions">
+<link rel="chapter" href="./14" title="Chapter 14 Legendre and Related Functions">
+<link rel="chapter" href="./15" title="Chapter 15 Hypergeometric Function">
+<link rel="chapter" href="./16" title="Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="chapter" href="./17" title="Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="chapter" href="./18" title="Chapter 18 Orthogonal Polynomials">
+<link rel="chapter" href="./19" title="Chapter 19 Elliptic Integrals">
+<link rel="chapter" href="./20" title="Chapter 20 Theta Functions">
+<link rel="chapter" href="./21" title="Chapter 21 Multidimensional Theta Functions">
+<link rel="chapter" href="./22" title="Chapter 22 Jacobian Elliptic Functions">
+<link rel="chapter" href="./23" title="Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="chapter" href="./24" title="Chapter 24 Bernoulli and Euler Polynomials">
+<link rel="chapter" href="./25" title="Chapter 25 Zeta and Related Functions">
+<link rel="chapter" href="./26" title="Chapter 26 Combinatorial Analysis">
+<link rel="chapter" href="./28" title="Chapter 28 Mathieu Functions and Hillâs Equation">
+<link rel="chapter" href="./29" title="Chapter 29 LamÃ© Functions">
+<link rel="chapter" href="./30" title="Chapter 30 Spheroidal Wave Functions">
+<link rel="chapter" href="./31" title="Chapter 31 Heun Functions">
+<link rel="chapter" href="./32" title="Chapter 32 PainlevÃ© Transcendents">
+<link rel="chapter" href="./33" title="Chapter 33 Coulomb Functions">
+<link rel="chapter" href="./34" title="Chapter 34 3â¢ð,6â¢ð,9â¢ð Symbols">
+<link rel="chapter" href="./35" title="Chapter 35 Functions of Matrix Argument">
+<link rel="chapter" href="./36" title="Chapter 36 Integrals with Coalescing Saddles">
+<link rel="bibliography" href="./bib/" title="Bibliography">
+<link rel="index" href="./idx/" title="Index">
+<link rel="glossary" href="./not/" title="Notations">
+<link rel="document" href="./lof/" title="List of Figures">
+<link rel="document" href="./lot/" title="List of Tables">
+<link rel="document" href="./software/" title="Software Index">
+<link rel="document" href="./errata/" title="Errata">
+<link rel="document" href="./help/" title="Need Help?">
+<link rel="document" href="./search/" title="Advanced Search">
+<link rel="document" href="./about/" title="About the Project">
+<link rel="section" href="./27.1" title="Â§27.1 Special Notation â£ Notation â£ Chapter 27 Functions of Number Theory">
+<link rel="section" href="./27.2" title="Â§27.2 Functions â£ Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory">
+<link rel="section" href="./27.3" title="Â§27.3 Multiplicative Properties â£ Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory">
+<link rel="section" href="./27.4" title="Â§27.4 Euler Products and Dirichlet Series â£ Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory">
+<link rel="section" href="./27.5" title="Â§27.5 Inversion Formulas â£ Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory">
+<link rel="section" href="./27.6" title="Â§27.6 Divisor Sums â£ Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory">
+<link rel="section" href="./27.7" title="Â§27.7 Lambert Series as Generating Functions â£ Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory">
+<link rel="section" href="./27.8" title="Â§27.8 Dirichlet Characters â£ Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory">
+<link rel="section" href="./27.9" title="Â§27.9 Quadratic Characters â£ Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory">
+<link rel="section" href="./27.10" title="Â§27.10 Periodic Number-Theoretic Functions â£ Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory">
+<link rel="section" href="./27.11" title="Â§27.11 Asymptotic Formulas: Partial Sums â£ Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory">
+<link rel="section" href="./27.12" title="Â§27.12 Asymptotic Formulas: Primes â£ Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory">
+<link rel="section" href="./27.13" title="Â§27.13 Functions â£ Additive Number Theory â£ Chapter 27 Functions of Number Theory">
+<link rel="section" href="./27.14" title="Â§27.14 Unrestricted Partitions â£ Additive Number Theory â£ Chapter 27 Functions of Number Theory">
+<link rel="section" href="./27.15" title="Â§27.15 Chinese Remainder Theorem â£ Applications â£ Chapter 27 Functions of Number Theory">
+<link rel="section" href="./27.16" title="Â§27.16 Cryptography â£ Applications â£ Chapter 27 Functions of Number Theory">
+<link rel="section" href="./27.17" title="Â§27.17 Other Applications â£ Applications â£ Chapter 27 Functions of Number Theory">
+<link rel="section" href="./27.18" title="Â§27.18 Methods of Computation: Primes â£ Computation â£ Chapter 27 Functions of Number Theory">
+<link rel="section" href="./27.19" title="Â§27.19 Methods of Computation: Factorization â£ Computation â£ Chapter 27 Functions of Number Theory">
+<link rel="section" href="./27.20" title="Â§27.20 Methods of Computation: Other Number-Theoretic Functions â£ Computation â£ Chapter 27 Functions of Number Theory">
+<link rel="section" href="./27.21" title="Â§27.21 Tables â£ Computation â£ Chapter 27 Functions of Number Theory">
+<link rel="section" href="./27.22" title="Â§27.22 Software â£ Computation â£ Chapter 27 Functions of Number Theory">
+<link rel="author" href="./about/bio/TMApostol" title="T.Â M.Â Apostol">
+<meta name="keywords" lang="en" content="additive number theory, computation, multiplicative number theory, number-theoretic functions, prime numbers">
+</head>
+<body class="color_default textfont_default titlefont_default fontsize_default navbar_default">
+<div class="ltx_page_navbar">
+<div class="ltx_page_navlogo"><a href="./" title="Digital Library of Mathematical Functions"><span>DLMF</span></a></div>
+<div class="ltx_page_navitems">
+<form method="get" action="./search/search">
+<ul>
+<li><a href="./idx/">Index</a></li>
+<li><a href="./not/">Notations</a></li>
+<li><small><input type="text" name="q" value="" size="6" class="ltx_page_navitem_search"><button type="submit">Search</button></small></li>
+<li><a href="./help/" class="ltx_help">Help?</a></li>
+<li><a href="./help/cite">Citing</a></li>
+<li><a href="./help/customize" class="ltx_customize">Customize</a></li>
+<li id="showinfo"><a href="" onclick="showInfo(); return false;" title="Show Annotations">Annotate</a></li>
+<li id="hideinfo"><a href="" onclick="hideInfo(); return false;">UnAnnotate</a></li>
+</ul>
+</form>
+</div>
+<div class="ltx_page_navsponsors">
+<div><a href="./about/" class="ltx_page_navabout">About the Project</a></div>
+</div>
+</div>
+<div class="ltx_page_main">
+<div class="ltx_page_content">
+<section class="ltx_chapter ltx_leqno">
+<h1 class="ltx_title ltx_title_chapter">
+<span class="ltx_tag ltx_tag_chapter">Chapter 27 </span>Functions of Number Theory</h1>
+<div class="ltx_authors">
+<span class="ltx_creator ltx_role_author">
+<span class="ltx_personname"><a href="./about/bio/TMApostol">T.Â M.Â Apostol</a>
+</span><span class="ltx_author_notes">
+<span class="ltx_contact ltx_role_affiliation">California Institute of Technology, Pasadena, California.
+</span></span></span>
+</div>
+<div id="info" class="ltx_metadata ltx_info">
+<span href="" class="ltx_infoicon ltx_icon" title="Show Annotations"><span class="ltx_font_bold">â</span></span>
+<div class="ltx_infocontent">
+<dl>
+<dt>Acknowledgements:</dt>
+<dd class="ltx_acknowledgements">The author thanks Basil Gordon for comments on an earlier
+draft, and David Bressoud for providing Â§Â§<a href="./27.12" title="Â§27.12 Asymptotic Formulas: Primes â£ Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory" class="ltx_ref"><span class="ltx_text ltx_ref_tag">27.12</span></a>, <a href="./27.18" title="Â§27.18 Methods of Computation: Primes â£ Computation â£ Chapter 27 Functions of Number Theory" class="ltx_ref"><span class="ltx_text ltx_ref_tag">27.18</span></a>,
+<a href="./27.19" title="Â§27.19 Methods of Computation: Factorization â£ Computation â£ Chapter 27 Functions of Number Theory" class="ltx_ref"><span class="ltx_text ltx_ref_tag">27.19</span></a>, and <a href="./27.22" title="Â§27.22 Software â£ Computation â£ Chapter 27 Functions of Number Theory" class="ltx_ref"><span class="ltx_text ltx_ref_tag">27.22</span></a>.</dd>
+<dt>Notes:</dt>
+<dd>The main references used in writing this chapter are
+<cite class="ltx_cite ltx_citemacro_citet">Apostol (<a href="./bib/#bib115" title="Introduction to Analytic Number Theory" class="ltx_ref">1976</a>, <a href="./bib/#bib119" title="Modular Functions and Dirichlet Series in Number Theory" class="ltx_ref">1990</a>)</cite>, and <cite class="ltx_cite ltx_citemacro_citet">Apostol and Niven (<a href="./bib/#bib120" title="Number Theory" class="ltx_ref">1994</a>)</cite>.
+Further information can be found in <cite class="ltx_cite ltx_citemacro_citet">Andrews (<a href="./bib/#bib92" title="The Theory of Partitions" class="ltx_ref">1976</a>)</cite>,
+<cite class="ltx_cite ltx_citemacro_citet">ErdÃ©lyi<span class="ltx_text ltx_bib_etal"> et al.</span> (<a href="./bib/E#bib755" title="Higher Transcendental Functions. Vol. III" class="ltx_ref">1955</a>, Chapter XVII)</cite>,
+<cite class="ltx_cite ltx_citemacro_citet">Hardy and Wright (<a href="./bib/H#bib1047" title="An Introduction to the Theory of Numbers" class="ltx_ref">1979</a>)</cite>, and <cite class="ltx_cite ltx_citemacro_citet">Niven<span class="ltx_text ltx_bib_etal"> et al.</span> (<a href="./bib/N#bib1725" title="An Introduction to the Theory of Numbers" class="ltx_ref">1991</a>)</cite>.</dd>
+<dt>Referenced by:</dt>
+<dd>
+<a href="./about/bio/FGarvan#S0.I1.ix1.p1" title="Profile Frank Garvan â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_text ltx_font_italic">Profile<span class="ltx_text"> </span></span>FrankÂ Garvan</span></a>,
+<a href="./about/bio/TMApostol#S0.I1.ix2.p1" title="Profile Tom M. Apostol â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_text ltx_font_italic">Profile<span class="ltx_text"> </span></span>Tom M. Apostol</span></a>,
+<a href="./about/staff#S2.I1.ix2.p1" title="Chapter Authors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Chapter Authors</span></a>,
+<a href="./about/staff#S4.I1.ix7.p1" title="Associate Editors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Associate Editors</span></a>,
+<a href="./errata/#V1.0.10.I2.ix5" title="In Other Changes â£ Version 1.0.10 (August 7, 2015) â£ Errata" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Erratum (V1.0.10) for  ChapterÂ <span class="ltx_text ltx_ref_tag">27</span></span></a>,
+<a href="./errata/#V1.0.10.I2.ix5.p1" title="In Other Changes â£ Version 1.0.10 (August 7, 2015) â£ Errata" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Erratum (V1.0.10) for  ChapterÂ <span class="ltx_text ltx_ref_tag">27</span></span></a>,
+<a href="./front/introduction#organization.p3" title="Organization and Objective â£ Mathematical Introduction" class="ltx_ref"><span class="ltx_text ltx_ref_title">Organization and Objective</span></a>,
+<a href="./software/#S1.t1.r99" title="Software Cross Index â£ Software Index" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Software Cross Index</span></a>
+</dd>
+<dt>Permalink:</dt>
+<dd><a href="./27" title="" class="ltx_ref">http://dlmf.nist.gov/27</a></dd>
+<dt>Change of Notation (effective with 1.0.10):</dt>
+<dd>
+For consistency of notation across all chapters, the notation for logarithm
+has been changed to <math class="ltx_Math" altimg="m1.png" altimg-height="18px" altimg-valign="-2px" altimg-width="22px" alttext="\ln" display="inline"><mi href="./4.2#E2" title="principal branch of logarithm function">ln</mi></math> from <math class="ltx_Math" altimg="m2.png" altimg-height="22px" altimg-valign="-6px" altimg-width="31px" alttext="\mathrm{log}" display="inline"><mi>log</mi></math> throughout this chapter.
+</dd>
+</dl>
+</div>
+</div>
+
+<div class="ltx_gallery">
+    <a href="./27.4#E3" title="(27.4.3) â£ Â§27.4 Euler Products and Dirichlet Series â£ Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory"><img src="./27/g1.png" width="100" height="100" alt="Thumbnail image"></a>
+    <a href="./27.12#Px1" title="Prime Number Theorem â£ Â§27.12 Asymptotic Formulas: Primes â£ Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory"><img src="./27/g2.png" width="100" height="100" alt="Prime Number Theorem"></a>
+  </div>
+<div class="ltx_page_columns">
+<div class="ltx_page_column1">
+<ul class="ltx_toclist ltx_toclist_chapter">
+<li id="PT1" class="ltx_tocentry">
+<span class="ltx_text">Notation</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./27.1" title="In Notation â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.1 </span>Special Notation</span></a></li>
+</ol>
+</li>
+<li id="PT2" class="ltx_tocentry">
+<span class="ltx_text">Multiplicative Number Theory</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./27.2" title="In Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.2 </span>Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./27.3" title="In Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.3 </span>Multiplicative Properties</span></a></li>
+<li class="ltx_tocentry"><a href="./27.4" title="In Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.4 </span>Euler Products and Dirichlet Series</span></a></li>
+<li class="ltx_tocentry"><a href="./27.5" title="In Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.5 </span>Inversion Formulas</span></a></li>
+<li class="ltx_tocentry"><a href="./27.6" title="In Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.6 </span>Divisor Sums</span></a></li>
+<li class="ltx_tocentry"><a href="./27.7" title="In Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.7 </span>Lambert Series as Generating Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./27.8" title="In Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.8 </span>Dirichlet Characters</span></a></li>
+<li class="ltx_tocentry"><a href="./27.9" title="In Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.9 </span>Quadratic Characters</span></a></li>
+<li class="ltx_tocentry"><a href="./27.10" title="In Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.10 </span>Periodic Number-Theoretic Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./27.11" title="In Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.11 </span>Asymptotic Formulas: Partial Sums</span></a></li>
+<li class="ltx_tocentry"><a href="./27.12" title="In Multiplicative Number Theory â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.12 </span>Asymptotic Formulas: Primes</span></a></li>
+</ol>
+</li>
+</ul>
+</div>
+<div class="ltx_page_column2">
+<ul class="ltx_toclist ltx_toclist_chapter">
+<li id="PT3" class="ltx_tocentry">
+<span class="ltx_text">Additive Number Theory</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./27.13" title="In Additive Number Theory â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.13 </span>Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./27.14" title="In Additive Number Theory â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.14 </span>Unrestricted Partitions</span></a></li>
+</ol>
+</li>
+<li id="PT4" class="ltx_tocentry">
+<span class="ltx_text">Applications</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./27.15" title="In Applications â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.15 </span>Chinese Remainder Theorem</span></a></li>
+<li class="ltx_tocentry"><a href="./27.16" title="In Applications â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.16 </span>Cryptography</span></a></li>
+<li class="ltx_tocentry"><a href="./27.17" title="In Applications â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.17 </span>Other Applications</span></a></li>
+</ol>
+</li>
+<li id="PT5" class="ltx_tocentry">
+<span class="ltx_text">Computation</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./27.18" title="In Computation â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.18 </span>Methods of Computation: Primes</span></a></li>
+<li class="ltx_tocentry"><a href="./27.19" title="In Computation â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.19 </span>Methods of Computation: Factorization</span></a></li>
+<li class="ltx_tocentry"><a href="./27.20" title="In Computation â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.20 </span>Methods of Computation: Other Number-Theoretic Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./27.21" title="In Computation â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.21 </span>Tables</span></a></li>
+<li class="ltx_tocentry"><a href="./27.22" title="In Computation â£ Chapter 27 Functions of Number Theory" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.22 </span>Software</span></a></li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+</section>
+</div>
+<div class="ltx_page_footer">
+<div class="ltx_siblings">
+<a href="./26.22" title="In Computation â£ Chapter 26 Combinatorial Analysis" class="ltx_ref" rel="prev"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">26.22 </span>Software</span></a><a href="./27.1" title="In Notation â£ Chapter 27 Functions of Number Theory" class="ltx_ref" rel="next"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.1 </span>Special Notation</span></a>
+</div>
+<div class="ltx_footer_links ltx_centering">
+<a href="./about/notices">Â© 2010â2025 NIST</a> / <a href="./about/notices#S2">Disclaimer</a> / <a href="/cdn-cgi/l/email-protection#094d45444f246f6c6c6d6b686a624967607a7d276e667f">Feedback</a>;
+ Version 1.2.4;
+Release date 2025-03-15.</div>
+<span id="pagesettings"></span>
+<div class="ltx_nist_logo"><a href="http://www.nist.gov/"><img src="./style/nistidc.png" width="500" alt="NIST"></a></div>
+<div class="ltx_nist_links ltx_align_right">
+<a href="https://www.nist.gov/privacy-policy">Site Privacy</a> <a href="https://www.nist.gov/oism/accessibility">Accessibility</a> <a href="https://www.nist.gov/privacy">Privacy Program</a> <a href="https://www.nist.gov/oism/copyrights">Copyrights</a> <a href="https://www.commerce.gov/vulnerability-disclosure-policy">Vulnerability Disclosure</a> <a href="https://www.nist.gov/no-fear-act-policy">No Fear Act Policy</a> <a href="https://www.nist.gov/foia">FOIA</a> <a href="https://www.nist.gov/environmental-policy-statement">Environmental Policy</a> <a href="https://www.nist.gov/summary-report-scientific-integrity">Scientific Integrity</a> <a href="https://www.nist.gov/nist-information-quality-standards">Information Quality Standards</a> <a href="https://www.commerce.gov/">Commerce.gov</a> <a href="http://www.science.gov/">Science.gov</a> <a href="http://www.usa.gov/">USA.gov</a>
+</div>
+</div>
+</div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'994b1c3f8d02437b',t:'MTc2MTQ5MzgzNg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

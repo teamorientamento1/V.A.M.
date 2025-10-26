@@ -1,0 +1,346 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>DLMF: Chapter 18 Orthogonal Polynomials</title>
+<link rel="shortcut icon" href="./style/DLMF-16.png" type="image/png">
+<script type="text/javascript"><!--
+	var PATH="DLMF:/18";
+	var ROOT="./";
+      //--></script>
+<script type="text/javascript" src="./style/jquery.js"><!-- non-empty so ie6 will accept it --></script>
+<script type="text/javascript" src="./style/jquery.leaveNotice.js"><!-- non-empty so ie6 will accept it --></script>
+<script type="text/javascript" src="./style/DLMF.js"><!-- non-empty so ie6 will accept it --></script>
+<script async="" type="text/javascript" id="_fed_an_ua_tag" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=DOC&amp;subagency=NIST&amp;pua=UA-37115410-44&amp;yt=true&amp;exts=ppsx,pps,f90,sch,rtf,wrl,txz,m1v,xlsm,msi,xsd,f,tif,eps,mpg,xml,pl,xlt,c"><!-- non-empty so ie6 will accept it --></script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-BZB64W4M0L"></script><script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BZB64W4M0L');
+      </script>
+<link rel="stylesheet" type="text/css" href="./style/LaTeXML.css">
+<link rel="stylesheet" type="text/css" href="./style/DLMF.css">
+<link rel="stylesheet" type="text/css" href="./style/print.css" media="print">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="top" href="./" title="DLMF">
+<link rel="copyright" href="./about/notices" title="Copyright">
+<link rel="search" href="./search/search" title="Search">
+<link rel="help" class="ltx_help" href="./help/" title="Help">
+<link rel="start" href="./" title="">
+<link rel="prev" href="./17.19" title="Â§17.19 Software â£ Computation â£ Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="next" href="./18.1" title="Â§18.1 Notation â£ Notation â£ Chapter 18 Orthogonal Polynomials">
+<link rel="document" href="./front/foreword" title="Foreword">
+<link rel="document" href="./front/preface" title="Preface">
+<link rel="document" href="./front/introduction" title="Mathematical Introduction">
+<link rel="chapter" href="./1" title="Chapter 1 Algebraic and Analytic Methods">
+<link rel="chapter" href="./2" title="Chapter 2 Asymptotic Approximations">
+<link rel="chapter" href="./3" title="Chapter 3 Numerical Methods">
+<link rel="chapter" href="./4" title="Chapter 4 Elementary Functions">
+<link rel="chapter" href="./5" title="Chapter 5 Gamma Function">
+<link rel="chapter" href="./6" title="Chapter 6 Exponential, Logarithmic, Sine, and Cosine Integrals">
+<link rel="chapter" href="./7" title="Chapter 7 Error Functions, Dawsonâs and Fresnel Integrals">
+<link rel="chapter" href="./8" title="Chapter 8 Incomplete Gamma and Related Functions">
+<link rel="chapter" href="./9" title="Chapter 9 Airy and Related Functions">
+<link rel="chapter" href="./10" title="Chapter 10 Bessel Functions">
+<link rel="chapter" href="./11" title="Chapter 11 Struve and Related Functions">
+<link rel="chapter" href="./12" title="Chapter 12 Parabolic Cylinder Functions">
+<link rel="chapter" href="./13" title="Chapter 13 Confluent Hypergeometric Functions">
+<link rel="chapter" href="./14" title="Chapter 14 Legendre and Related Functions">
+<link rel="chapter" href="./15" title="Chapter 15 Hypergeometric Function">
+<link rel="chapter" href="./16" title="Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="chapter" href="./17" title="Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="chapter" href="./19" title="Chapter 19 Elliptic Integrals">
+<link rel="chapter" href="./20" title="Chapter 20 Theta Functions">
+<link rel="chapter" href="./21" title="Chapter 21 Multidimensional Theta Functions">
+<link rel="chapter" href="./22" title="Chapter 22 Jacobian Elliptic Functions">
+<link rel="chapter" href="./23" title="Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="chapter" href="./24" title="Chapter 24 Bernoulli and Euler Polynomials">
+<link rel="chapter" href="./25" title="Chapter 25 Zeta and Related Functions">
+<link rel="chapter" href="./26" title="Chapter 26 Combinatorial Analysis">
+<link rel="chapter" href="./27" title="Chapter 27 Functions of Number Theory">
+<link rel="chapter" href="./28" title="Chapter 28 Mathieu Functions and Hillâs Equation">
+<link rel="chapter" href="./29" title="Chapter 29 LamÃ© Functions">
+<link rel="chapter" href="./30" title="Chapter 30 Spheroidal Wave Functions">
+<link rel="chapter" href="./31" title="Chapter 31 Heun Functions">
+<link rel="chapter" href="./32" title="Chapter 32 PainlevÃ© Transcendents">
+<link rel="chapter" href="./33" title="Chapter 33 Coulomb Functions">
+<link rel="chapter" href="./34" title="Chapter 34 3â¢ð,6â¢ð,9â¢ð Symbols">
+<link rel="chapter" href="./35" title="Chapter 35 Functions of Matrix Argument">
+<link rel="chapter" href="./36" title="Chapter 36 Integrals with Coalescing Saddles">
+<link rel="bibliography" href="./bib/" title="Bibliography">
+<link rel="index" href="./idx/" title="Index">
+<link rel="glossary" href="./not/" title="Notations">
+<link rel="document" href="./lof/" title="List of Figures">
+<link rel="document" href="./lot/" title="List of Tables">
+<link rel="document" href="./software/" title="Software Index">
+<link rel="document" href="./errata/" title="Errata">
+<link rel="document" href="./help/" title="Need Help?">
+<link rel="document" href="./search/" title="Advanced Search">
+<link rel="document" href="./about/" title="About the Project">
+<link rel="section" href="./18.1" title="Â§18.1 Notation â£ Notation â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.2" title="Â§18.2 General Orthogonal Polynomials â£ General Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.3" title="Â§18.3 Definitions â£ Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.4" title="Â§18.4 Graphics â£ Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.5" title="Â§18.5 Explicit Representations â£ Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.6" title="Â§18.6 Symmetry, Special Values, and Limits to Monomials â£ Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.7" title="Â§18.7 Interrelations and Limit Relations â£ Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.8" title="Â§18.8 Differential Equations â£ Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.9" title="Â§18.9 Recurrence Relations and Derivatives â£ Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.10" title="Â§18.10 Integral Representations â£ Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.11" title="Â§18.11 Relations to Other Functions â£ Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.12" title="Â§18.12 Generating Functions â£ Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.13" title="Â§18.13 Continued Fractions â£ Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.14" title="Â§18.14 Inequalities â£ Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.15" title="Â§18.15 Asymptotic Approximations â£ Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.16" title="Â§18.16 Zeros â£ Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.17" title="Â§18.17 Integrals â£ Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.18" title="Â§18.18 Sums â£ Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.19" title="Â§18.19 Hahn Class: Definitions â£ Askey Scheme â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.20" title="Â§18.20 Hahn Class: Explicit Representations â£ Askey Scheme â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.21" title="Â§18.21 Hahn Class: Interrelations â£ Askey Scheme â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.22" title="Â§18.22 Hahn Class: Recurrence Relations and Differences â£ Askey Scheme â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.23" title="Â§18.23 Hahn Class: Generating Functions â£ Askey Scheme â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.24" title="Â§18.24 Hahn Class: Asymptotic Approximations â£ Askey Scheme â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.25" title="Â§18.25 Wilson Class: Definitions â£ Askey Scheme â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.26" title="Â§18.26 Wilson Class: Continued â£ Askey Scheme â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.27" title="Â§18.27 ð-Hahn Class â£ Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.28" title="Â§18.28 AskeyâWilson Class â£ Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.29" title="Â§18.29 Asymptotic Approximations for ð-Hahn and AskeyâWilson Classes â£ Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.30" title="Â§18.30 Associated OPâs â£ Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.31" title="Â§18.31 BernsteinâSzegÅ Polynomials â£ Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.32" title="Â§18.32 OPâs with Respect to Freud Weights â£ Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.33" title="Â§18.33 Polynomials Orthogonal on the Unit Circle â£ Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.34" title="Â§18.34 Bessel Polynomials â£ Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.35" title="Â§18.35 Pollaczek Polynomials â£ Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.36" title="Â§18.36 Miscellaneous Polynomials â£ Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.37" title="Â§18.37 Classical OPâs in Two or More Variables â£ Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.38" title="Â§18.38 Mathematical Applications â£ Applications â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.39" title="Â§18.39 Applications in the Physical Sciences â£ Applications â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.40" title="Â§18.40 Methods of Computation â£ Computation â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.41" title="Â§18.41 Tables â£ Computation â£ Chapter 18 Orthogonal Polynomials">
+<link rel="section" href="./18.42" title="Â§18.42 Software â£ Computation â£ Chapter 18 Orthogonal Polynomials">
+<link rel="author" href="./about/bio/THKoornwinder" title="T. H.Â Koornwinder">
+<link rel="author" href="./about/bio/RWong" title="R.Â Wong">
+<link rel="author" href="./about/bio/RKoekoek" title="R. Koekoek">
+<link rel="author" href="./about/bio/RFSwarttouw" title="R. F.Â Swarttouw">
+<link rel="author" href="./about/bio/WPReinhardt" title="W. P.Â Reinhardt">
+<meta name="keywords" lang="en" content="Chebyshev polynomials, Hahn class orthogonal polynomials, Hermite polynomials, Jacobi polynomials, Laguerre polynomials, Legendre polynomials, classical, classical orthogonal polynomials, computation, definitions, general, general orthogonal polynomials, orthogonal polynomials, ultraspherical polynomials">
+</head>
+<body class="color_default textfont_default titlefont_default fontsize_default navbar_default">
+<div class="ltx_page_navbar">
+<div class="ltx_page_navlogo"><a href="./" title="Digital Library of Mathematical Functions"><span>DLMF</span></a></div>
+<div class="ltx_page_navitems">
+<form method="get" action="./search/search">
+<ul>
+<li><a href="./idx/">Index</a></li>
+<li><a href="./not/">Notations</a></li>
+<li><small><input type="text" name="q" value="" size="6" class="ltx_page_navitem_search"><button type="submit">Search</button></small></li>
+<li><a href="./help/" class="ltx_help">Help?</a></li>
+<li><a href="./help/cite">Citing</a></li>
+<li><a href="./help/customize" class="ltx_customize">Customize</a></li>
+<li id="showinfo"><a href="" onclick="showInfo(); return false;" title="Show Annotations">Annotate</a></li>
+<li id="hideinfo"><a href="" onclick="hideInfo(); return false;">UnAnnotate</a></li>
+</ul>
+</form>
+</div>
+<div class="ltx_page_navsponsors">
+<div><a href="./about/" class="ltx_page_navabout">About the Project</a></div>
+</div>
+</div>
+<div class="ltx_page_main">
+<div class="ltx_page_content">
+<section class="ltx_chapter ltx_leqno">
+<h1 class="ltx_title ltx_title_chapter">
+<span class="ltx_tag ltx_tag_chapter">Chapter 18 </span>Orthogonal Polynomials</h1>
+<div class="ltx_authors">
+<span class="ltx_creator ltx_role_author">
+<span class="ltx_personname"><a href="./about/bio/THKoornwinder">T. H.Â Koornwinder</a>
+</span><span class="ltx_author_notes">
+<span class="ltx_contact ltx_role_affiliation">University of Amsterdam,
+Kortewegâde Vries Institute,
+Amsterdam, The Netherlands.
+</span></span></span>
+<span class="ltx_creator ltx_role_author">
+<span class="ltx_personname"><a href="./about/bio/RWong">R.Â Wong</a>
+</span><span class="ltx_author_notes">
+<span class="ltx_contact ltx_role_affiliation">City University of Hong Kong,
+Liu Bie Ju Centre for Mathematical Sciences,
+Kowloon,
+Hong Kong.
+</span></span></span>
+<span class="ltx_creator ltx_role_author">
+<span class="ltx_personname"><a href="./about/bio/RKoekoek">R. Koekoek</a>
+</span><span class="ltx_author_notes">
+<span class="ltx_contact ltx_role_affiliation">Delft University of Technology,
+Delft Institute of Applied Mathematics,
+Delft, The Netherlands.
+</span></span></span>
+<span class="ltx_creator ltx_role_author">
+<span class="ltx_personname"><a href="./about/bio/RFSwarttouw">R. F.Â Swarttouw</a>
+</span><span class="ltx_author_notes">
+<span class="ltx_contact ltx_role_affiliation">Delft University of Technology,
+Delft Institute of Applied Mathematics,
+Delft, The Netherlands.
+</span></span></span>
+<span class="ltx_creator ltx_role_author">
+<span class="ltx_personname"><a href="./about/bio/WPReinhardt">W. P.Â Reinhardt</a>
+</span><span class="ltx_author_notes">
+<span class="ltx_contact ltx_role_affiliation">University of Washington,
+Department of Chemistry,
+Seattle, Washington, USA.
+</span></span></span>
+</div>
+<div id="info" class="ltx_metadata ltx_info">
+<span href="" class="ltx_infoicon ltx_icon" title="Show Annotations"><span class="ltx_font_bold">â</span></span>
+<div class="ltx_infocontent">
+<dl>
+<dt>Notes:</dt>
+<dd>The main references for writing this chapter are
+<cite class="ltx_cite ltx_citemacro_citet">Andrews<span class="ltx_text ltx_bib_etal"> et al.</span> (<a href="./bib/#bib103" title="Special Functions" class="ltx_ref">1999</a>)</cite>,
+<cite class="ltx_cite ltx_citemacro_citet">Askey and Wilson (<a href="./bib/#bib163" title="Some basic hypergeometric orthogonal polynomials that generalize Jacobi polynomials" class="ltx_ref">1985</a>)</cite>,
+<cite class="ltx_cite ltx_citemacro_citet">Chihara (<a href="./bib/C#bib490" title="An Introduction to Orthogonal Polynomials" class="ltx_ref">1978</a>)</cite>,
+<cite class="ltx_cite ltx_citemacro_citet">Koekoek<span class="ltx_text ltx_bib_etal"> et al.</span> (<a href="./bib/K#bib2744" title="Hypergeometric Orthogonal Polynomials and Their q -Analogues" class="ltx_ref">2010</a>)</cite>, and
+<cite class="ltx_cite ltx_citemacro_citet">SzegÅ (<a href="./bib/S#bib2194" title="Orthogonal Polynomials" class="ltx_ref">1975</a>)</cite>.</dd>
+<dt>Referenced by:</dt>
+<dd>
+<a href="./14.7#i.p1" title="Â§14.7(i) ð=0 â£ Â§14.7 Integer Degree and Order â£ Real Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§14.7(i)</span></a>,
+<a href="./16.7#p1" title="Â§16.7 Relations to Other Functions â£ Generalized Hypergeometric Functions â£ Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§16.7</span></a>,
+<a href="./3.11#ii.p2" title="Â§3.11(ii) Chebyshev-Series Expansions â£ Â§3.11 Approximation Techniques â£ Areas â£ Chapter 3 Numerical Methods" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§3.11(ii)</span></a>,
+<a href="./about/news/#S1.I1.i7.p1" title="In Recent News â£ DLMF Project News â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">DLMF Update; Version 1.2.0</span></a>,
+<a href="./about/bio/RFSwarttouw#S0.I1.ix1.p1" title="Profile RenÃ© F. Swarttouw â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_text ltx_font_italic">Profile<span class="ltx_text"> </span></span>RenÃ©Â F.Â Swarttouw</span></a>,
+<a href="./about/bio/RKoekoek#S0.I1.ix1.p1" title="Profile Roelof Koekoek â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_text ltx_font_italic">Profile<span class="ltx_text"> </span></span>RoelofÂ Koekoek</span></a>,
+<a href="./about/bio/RWong#S0.I1.ix3.p1" title="Profile Roderick S. C. Wong â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_text ltx_font_italic">Profile<span class="ltx_text"> </span></span>Roderick S.Â C.Â Wong</span></a>,
+<a href="./about/bio/RWong#p6" title="Profile Roderick S. C. Wong â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_text ltx_font_italic">Profile<span class="ltx_text"> </span></span>Roderick S.Â C.Â Wong</span></a>,
+<a href="./about/bio/THKoornwinder#S0.I1.ix1.p1" title="Profile Tom H. Koornwinder â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_text ltx_font_italic">Profile<span class="ltx_text"> </span></span>TomÂ H.Â Koornwinder</span></a>,
+<a href="./about/bio/WGroenevelt#p4" title="Profile Wolter Groenevelt â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_text ltx_font_italic">Profile<span class="ltx_text"> </span></span>WolterÂ Groenevelt</span></a>,
+<a href="./about/staff#S2.I1.ix12.p1" title="Chapter Authors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Chapter Authors</span></a>,
+<a href="./about/staff#S2.I1.ix13.p1" title="Chapter Authors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Chapter Authors</span></a>,
+<a href="./about/staff#S2.I1.ix23.p1" title="Chapter Authors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Chapter Authors</span></a>,
+<a href="./about/staff#S2.I1.ix29.p1" title="Chapter Authors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Chapter Authors</span></a>,
+<a href="./about/staff#S4.I1.ix11.p1" title="Associate Editors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Associate Editors</span></a>,
+<a href="./about/staff#S4.I1.ix28.p1" title="Associate Editors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Associate Editors</span></a>,
+<a href="./about/staff#S5.I1.ix2.p1" title="Contributing Developers â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Contributing Developers</span></a>,
+<a href="./errata/#V1.0.20.I1.ix2" title="In Changes â£ Version 1.0.20 (September 15, 2018) â£ Errata" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Erratum (V1.0.20) for  ChapterÂ <span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_text">18 </span>Orthogonal Polynomials</span></span></a>,
+<a href="./errata/#V1.1.6.I1.ix1" title="In Errata â£ Version 1.1.6 (June 30, 2022) â£ Errata" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Erratum (V1.1.6) for  ChaptersÂ <span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_text">10 </span>Bessel Functions</span>, <span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_text">18 </span>Orthogonal Polynomials</span>, <span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_text">34 </span>3<span class="ltx_text ltx_font_italic">j</span>, 6<span class="ltx_text ltx_font_italic">j</span>, 9<span class="ltx_text ltx_font_italic">j</span> Symbols</span></span></a>,
+<a href="./errata/#V1.1.6.I1.ix2" title="In Errata â£ Version 1.1.6 (June 30, 2022) â£ Errata" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Erratum (V1.1.6) for  ChaptersÂ <span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_text">1 </span>Algebraic and Analytic Methods</span>, <span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_text">10 </span>Bessel Functions</span>, <span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_text">14 </span>Legendre and Related Functions</span>, <span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_text">18 </span>Orthogonal Polynomials</span>, <span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_text">29 </span>LamÃ© Functions</span></span></a>,
+<a href="./errata/#V1.2.0.I2.ix4.p1" title="In Other Changes â£ Version 1.2.0 (March 27, 2024) â£ Errata" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Erratum (V1.2.0) for  Chapter 18 Additions</span></a>,
+<a href="./errata/#V1.2.0.p1" title="Version 1.2.0 (March 27, 2024) â£ Errata" class="ltx_ref"><span class="ltx_text ltx_ref_title">Version 1.2.0 (March 27, 2024)</span></a>,
+<a href="./errata/#V1.2.0.p2" title="Version 1.2.0 (March 27, 2024) â£ Errata" class="ltx_ref"><span class="ltx_text ltx_ref_title">Version 1.2.0 (March 27, 2024)</span></a>,
+<a href="./front/introduction#organization.p3" title="Organization and Objective â£ Mathematical Introduction" class="ltx_ref"><span class="ltx_text ltx_ref_title">Organization and Objective</span></a>,
+<a href="./software/#S1.t1.r69" title="Software Cross Index â£ Software Index" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Software Cross Index</span></a>
+</dd>
+<dt>Permalink:</dt>
+<dd><a href="./18" title="" class="ltx_ref">http://dlmf.nist.gov/18</a></dd>
+</dl>
+</div>
+</div>
+
+<div class="ltx_gallery">
+    <span style="height:100px">Â  </span>
+    <span style="height:100px">Â  </span>
+  </div>
+<div class="ltx_page_columns">
+<div class="ltx_page_column1">
+<ul class="ltx_toclist ltx_toclist_chapter">
+<li id="PT1" class="ltx_tocentry">
+<span class="ltx_text">Notation</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./18.1" title="In Notation â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.1 </span>Notation</span></a></li>
+</ol>
+</li>
+<li id="PT2" class="ltx_tocentry">
+<span class="ltx_text">General Orthogonal Polynomials</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./18.2" title="In General Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.2 </span>General Orthogonal Polynomials</span></a></li>
+</ol>
+</li>
+<li id="PT3" class="ltx_tocentry">
+<span class="ltx_text">Classical Orthogonal Polynomials</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./18.3" title="In Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.3 </span>Definitions</span></a></li>
+<li class="ltx_tocentry"><a href="./18.4" title="In Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.4 </span>Graphics</span></a></li>
+<li class="ltx_tocentry"><a href="./18.5" title="In Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.5 </span>Explicit Representations</span></a></li>
+<li class="ltx_tocentry"><a href="./18.6" title="In Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.6 </span>Symmetry, Special Values, and Limits to Monomials</span></a></li>
+<li class="ltx_tocentry"><a href="./18.7" title="In Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.7 </span>Interrelations and Limit Relations</span></a></li>
+<li class="ltx_tocentry"><a href="./18.8" title="In Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.8 </span>Differential Equations</span></a></li>
+<li class="ltx_tocentry"><a href="./18.9" title="In Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.9 </span>Recurrence Relations and Derivatives</span></a></li>
+<li class="ltx_tocentry"><a href="./18.10" title="In Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.10 </span>Integral Representations</span></a></li>
+<li class="ltx_tocentry"><a href="./18.11" title="In Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.11 </span>Relations to Other Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./18.12" title="In Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.12 </span>Generating Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./18.13" title="In Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.13 </span>Continued Fractions</span></a></li>
+<li class="ltx_tocentry"><a href="./18.14" title="In Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.14 </span>Inequalities</span></a></li>
+<li class="ltx_tocentry"><a href="./18.15" title="In Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.15 </span>Asymptotic Approximations</span></a></li>
+<li class="ltx_tocentry"><a href="./18.16" title="In Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.16 </span>Zeros</span></a></li>
+<li class="ltx_tocentry"><a href="./18.17" title="In Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.17 </span>Integrals</span></a></li>
+<li class="ltx_tocentry"><a href="./18.18" title="In Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.18 </span>Sums</span></a></li>
+</ol>
+</li>
+<li id="PT4" class="ltx_tocentry">
+<span class="ltx_text">Askey Scheme</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./18.19" title="In Askey Scheme â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.19 </span>Hahn Class: Definitions</span></a></li>
+<li class="ltx_tocentry"><a href="./18.20" title="In Askey Scheme â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.20 </span>Hahn Class: Explicit Representations</span></a></li>
+<li class="ltx_tocentry"><a href="./18.21" title="In Askey Scheme â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.21 </span>Hahn Class: Interrelations</span></a></li>
+<li class="ltx_tocentry"><a href="./18.22" title="In Askey Scheme â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.22 </span>Hahn Class: Recurrence Relations and
+Differences</span></a></li>
+<li class="ltx_tocentry"><a href="./18.23" title="In Askey Scheme â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.23 </span>Hahn Class: Generating Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./18.24" title="In Askey Scheme â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.24 </span>Hahn Class: Asymptotic Approximations</span></a></li>
+<li class="ltx_tocentry"><a href="./18.25" title="In Askey Scheme â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.25 </span>Wilson Class: Definitions</span></a></li>
+<li class="ltx_tocentry"><a href="./18.26" title="In Askey Scheme â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.26 </span>Wilson Class: Continued</span></a></li>
+</ol>
+</li>
+</ul>
+</div>
+<div class="ltx_page_column2">
+<ul class="ltx_toclist ltx_toclist_chapter">
+<li id="PT5" class="ltx_tocentry">
+<span class="ltx_text">Other Orthogonal Polynomials</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./18.27" title="In Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.27 </span><math class="ltx_Math" altimg="m1.png" altimg-height="17px" altimg-valign="-6px" altimg-width="14px" alttext="q" display="inline"><mi href="./18.1#i.t1.r3" title="real variable">q</mi></math>-Hahn Class</span></a></li>
+<li class="ltx_tocentry"><a href="./18.28" title="In Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.28 </span>AskeyâWilson Class</span></a></li>
+<li class="ltx_tocentry"><a href="./18.29" title="In Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.29 </span>Asymptotic Approximations for <math class="ltx_Math" altimg="m1.png" altimg-height="17px" altimg-valign="-6px" altimg-width="14px" alttext="q" display="inline"><mi href="./18.1#i.t1.r3" title="real variable">q</mi></math>-Hahn and AskeyâWilson Classes</span></a></li>
+<li class="ltx_tocentry"><a href="./18.30" title="In Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.30 </span>Associated OPâs</span></a></li>
+<li class="ltx_tocentry"><a href="./18.31" title="In Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.31 </span>BernsteinâSzegÅ Polynomials</span></a></li>
+<li class="ltx_tocentry"><a href="./18.32" title="In Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.32 </span>OPâs with Respect to Freud Weights</span></a></li>
+<li class="ltx_tocentry"><a href="./18.33" title="In Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.33 </span>Polynomials Orthogonal on the Unit Circle</span></a></li>
+<li class="ltx_tocentry"><a href="./18.34" title="In Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.34 </span>Bessel Polynomials</span></a></li>
+<li class="ltx_tocentry"><a href="./18.35" title="In Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.35 </span>Pollaczek Polynomials</span></a></li>
+<li class="ltx_tocentry"><a href="./18.36" title="In Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.36 </span>Miscellaneous Polynomials</span></a></li>
+<li class="ltx_tocentry"><a href="./18.37" title="In Other Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.37 </span>Classical OPâs in Two or More Variables</span></a></li>
+</ol>
+</li>
+<li id="PT6" class="ltx_tocentry">
+<span class="ltx_text">Applications</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./18.38" title="In Applications â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.38 </span>Mathematical Applications</span></a></li>
+<li class="ltx_tocentry"><a href="./18.39" title="In Applications â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.39 </span>Applications in the Physical Sciences</span></a></li>
+</ol>
+</li>
+<li id="PT7" class="ltx_tocentry">
+<span class="ltx_text">Computation</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./18.40" title="In Computation â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.40 </span>Methods of Computation</span></a></li>
+<li class="ltx_tocentry"><a href="./18.41" title="In Computation â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.41 </span>Tables</span></a></li>
+<li class="ltx_tocentry"><a href="./18.42" title="In Computation â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.42 </span>Software</span></a></li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+</section>
+</div>
+<div class="ltx_page_footer">
+<div class="ltx_siblings">
+<a href="./17.19" title="In Computation â£ Chapter 17 ð-Hypergeometric and Related Functions" class="ltx_ref" rel="prev"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.19 </span>Software</span></a><a href="./18.1" title="In Notation â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref" rel="next"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.1 </span>Notation</span></a>
+</div>
+<div class="ltx_footer_links ltx_centering">
+<a href="./about/notices">Â© 2010â2025 NIST</a> / <a href="./about/notices#S2">Disclaimer</a> / <a href="/cdn-cgi/l/email-protection#f1b5bdbcb7dc979494959390929ab19f988285df969e87">Feedback</a>;
+ Version 1.2.4;
+Release date 2025-03-15.</div>
+<span id="pagesettings"></span>
+<div class="ltx_nist_logo"><a href="http://www.nist.gov/"><img src="./style/nistidc.png" width="500" alt="NIST"></a></div>
+<div class="ltx_nist_links ltx_align_right">
+<a href="https://www.nist.gov/privacy-policy">Site Privacy</a> <a href="https://www.nist.gov/oism/accessibility">Accessibility</a> <a href="https://www.nist.gov/privacy">Privacy Program</a> <a href="https://www.nist.gov/oism/copyrights">Copyrights</a> <a href="https://www.commerce.gov/vulnerability-disclosure-policy">Vulnerability Disclosure</a> <a href="https://www.nist.gov/no-fear-act-policy">No Fear Act Policy</a> <a href="https://www.nist.gov/foia">FOIA</a> <a href="https://www.nist.gov/environmental-policy-statement">Environmental Policy</a> <a href="https://www.nist.gov/summary-report-scientific-integrity">Scientific Integrity</a> <a href="https://www.nist.gov/nist-information-quality-standards">Information Quality Standards</a> <a href="https://www.commerce.gov/">Commerce.gov</a> <a href="http://www.science.gov/">Science.gov</a> <a href="http://www.usa.gov/">USA.gov</a>
+</div>
+</div>
+</div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'994afe316d73125f',t:'MTc2MTQ5MjYwNQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

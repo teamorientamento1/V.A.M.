@@ -1,0 +1,278 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>DLMF: Chapter 23 Weierstrass Elliptic and Modular Functions</title>
+<link rel="shortcut icon" href="./style/DLMF-16.png" type="image/png">
+<script type="text/javascript"><!--
+	var PATH="DLMF:/23";
+	var ROOT="./";
+      //--></script>
+<script type="text/javascript" src="./style/jquery.js"><!-- non-empty so ie6 will accept it --></script>
+<script type="text/javascript" src="./style/jquery.leaveNotice.js"><!-- non-empty so ie6 will accept it --></script>
+<script type="text/javascript" src="./style/DLMF.js"><!-- non-empty so ie6 will accept it --></script>
+<script async="" type="text/javascript" id="_fed_an_ua_tag" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=DOC&amp;subagency=NIST&amp;pua=UA-37115410-44&amp;yt=true&amp;exts=ppsx,pps,f90,sch,rtf,wrl,txz,m1v,xlsm,msi,xsd,f,tif,eps,mpg,xml,pl,xlt,c"><!-- non-empty so ie6 will accept it --></script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-BZB64W4M0L"></script><script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BZB64W4M0L');
+      </script>
+<link rel="stylesheet" type="text/css" href="./style/LaTeXML.css">
+<link rel="stylesheet" type="text/css" href="./style/DLMF.css">
+<link rel="stylesheet" type="text/css" href="./style/print.css" media="print">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="top" href="./" title="DLMF">
+<link rel="copyright" href="./about/notices" title="Copyright">
+<link rel="search" href="./search/search" title="Search">
+<link rel="help" class="ltx_help" href="./help/" title="Help">
+<link rel="start" href="./" title="">
+<link rel="prev" href="./22.22" title="Â§22.22 Software â£ Computation â£ Chapter 22 Jacobian Elliptic Functions">
+<link rel="next" href="./23.1" title="Â§23.1 Special Notation â£ Notation â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="document" href="./front/foreword" title="Foreword">
+<link rel="document" href="./front/preface" title="Preface">
+<link rel="document" href="./front/introduction" title="Mathematical Introduction">
+<link rel="chapter" href="./1" title="Chapter 1 Algebraic and Analytic Methods">
+<link rel="chapter" href="./2" title="Chapter 2 Asymptotic Approximations">
+<link rel="chapter" href="./3" title="Chapter 3 Numerical Methods">
+<link rel="chapter" href="./4" title="Chapter 4 Elementary Functions">
+<link rel="chapter" href="./5" title="Chapter 5 Gamma Function">
+<link rel="chapter" href="./6" title="Chapter 6 Exponential, Logarithmic, Sine, and Cosine Integrals">
+<link rel="chapter" href="./7" title="Chapter 7 Error Functions, Dawsonâs and Fresnel Integrals">
+<link rel="chapter" href="./8" title="Chapter 8 Incomplete Gamma and Related Functions">
+<link rel="chapter" href="./9" title="Chapter 9 Airy and Related Functions">
+<link rel="chapter" href="./10" title="Chapter 10 Bessel Functions">
+<link rel="chapter" href="./11" title="Chapter 11 Struve and Related Functions">
+<link rel="chapter" href="./12" title="Chapter 12 Parabolic Cylinder Functions">
+<link rel="chapter" href="./13" title="Chapter 13 Confluent Hypergeometric Functions">
+<link rel="chapter" href="./14" title="Chapter 14 Legendre and Related Functions">
+<link rel="chapter" href="./15" title="Chapter 15 Hypergeometric Function">
+<link rel="chapter" href="./16" title="Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="chapter" href="./17" title="Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="chapter" href="./18" title="Chapter 18 Orthogonal Polynomials">
+<link rel="chapter" href="./19" title="Chapter 19 Elliptic Integrals">
+<link rel="chapter" href="./20" title="Chapter 20 Theta Functions">
+<link rel="chapter" href="./21" title="Chapter 21 Multidimensional Theta Functions">
+<link rel="chapter" href="./22" title="Chapter 22 Jacobian Elliptic Functions">
+<link rel="chapter" href="./24" title="Chapter 24 Bernoulli and Euler Polynomials">
+<link rel="chapter" href="./25" title="Chapter 25 Zeta and Related Functions">
+<link rel="chapter" href="./26" title="Chapter 26 Combinatorial Analysis">
+<link rel="chapter" href="./27" title="Chapter 27 Functions of Number Theory">
+<link rel="chapter" href="./28" title="Chapter 28 Mathieu Functions and Hillâs Equation">
+<link rel="chapter" href="./29" title="Chapter 29 LamÃ© Functions">
+<link rel="chapter" href="./30" title="Chapter 30 Spheroidal Wave Functions">
+<link rel="chapter" href="./31" title="Chapter 31 Heun Functions">
+<link rel="chapter" href="./32" title="Chapter 32 PainlevÃ© Transcendents">
+<link rel="chapter" href="./33" title="Chapter 33 Coulomb Functions">
+<link rel="chapter" href="./34" title="Chapter 34 3â¢ð,6â¢ð,9â¢ð Symbols">
+<link rel="chapter" href="./35" title="Chapter 35 Functions of Matrix Argument">
+<link rel="chapter" href="./36" title="Chapter 36 Integrals with Coalescing Saddles">
+<link rel="bibliography" href="./bib/" title="Bibliography">
+<link rel="index" href="./idx/" title="Index">
+<link rel="glossary" href="./not/" title="Notations">
+<link rel="document" href="./lof/" title="List of Figures">
+<link rel="document" href="./lot/" title="List of Tables">
+<link rel="document" href="./software/" title="Software Index">
+<link rel="document" href="./errata/" title="Errata">
+<link rel="document" href="./help/" title="Need Help?">
+<link rel="document" href="./search/" title="Advanced Search">
+<link rel="document" href="./about/" title="About the Project">
+<link rel="section" href="./23.1" title="Â§23.1 Special Notation â£ Notation â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.2" title="Â§23.2 Definitions and Periodic Properties â£ Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.3" title="Â§23.3 Differential Equations â£ Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.4" title="Â§23.4 Graphics â£ Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.5" title="Â§23.5 Special Lattices â£ Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.6" title="Â§23.6 Relations to Other Functions â£ Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.7" title="Â§23.7 Quarter Periods â£ Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.8" title="Â§23.8 Trigonometric Series and Products â£ Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.9" title="Â§23.9 Laurent and Other Power Series â£ Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.10" title="Â§23.10 Addition Theorems and Other Identities â£ Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.11" title="Â§23.11 Integral Representations â£ Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.12" title="Â§23.12 Asymptotic Approximations â£ Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.13" title="Â§23.13 Zeros â£ Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.14" title="Â§23.14 Integrals â£ Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.15" title="Â§23.15 Definitions â£ Modular Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.16" title="Â§23.16 Graphics â£ Modular Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.17" title="Â§23.17 Elementary Properties â£ Modular Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.18" title="Â§23.18 Modular Transformations â£ Modular Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.19" title="Â§23.19 Interrelations â£ Modular Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.20" title="Â§23.20 Mathematical Applications â£ Applications â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.21" title="Â§23.21 Physical Applications â£ Applications â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.22" title="Â§23.22 Methods of Computation â£ Computation â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.23" title="Â§23.23 Tables â£ Computation â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="section" href="./23.24" title="Â§23.24 Software â£ Computation â£ Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="author" href="./about/bio/WPReinhardt" title="W.Â P.Â Reinhardt">
+<link rel="author" href="./about/bio/PLWalker" title="P.Â L.Â Walker">
+</head>
+<body class="color_default textfont_default titlefont_default fontsize_default navbar_default">
+<div class="ltx_page_navbar">
+<div class="ltx_page_navlogo"><a href="./" title="Digital Library of Mathematical Functions"><span>DLMF</span></a></div>
+<div class="ltx_page_navitems">
+<form method="get" action="./search/search">
+<ul>
+<li><a href="./idx/">Index</a></li>
+<li><a href="./not/">Notations</a></li>
+<li><small><input type="text" name="q" value="" size="6" class="ltx_page_navitem_search"><button type="submit">Search</button></small></li>
+<li><a href="./help/" class="ltx_help">Help?</a></li>
+<li><a href="./help/cite">Citing</a></li>
+<li><a href="./help/customize" class="ltx_customize">Customize</a></li>
+<li id="showinfo"><a href="" onclick="showInfo(); return false;" title="Show Annotations">Annotate</a></li>
+<li id="hideinfo"><a href="" onclick="hideInfo(); return false;">UnAnnotate</a></li>
+</ul>
+</form>
+</div>
+<div class="ltx_page_navsponsors">
+<div><a href="./about/" class="ltx_page_navabout">About the Project</a></div>
+</div>
+</div>
+<div class="ltx_page_main">
+<div class="ltx_page_content">
+<section class="ltx_chapter ltx_leqno">
+<h1 class="ltx_title ltx_title_chapter">
+<span class="ltx_tag ltx_tag_chapter">Chapter 23 </span>Weierstrass Elliptic and Modular Functions</h1>
+<div class="ltx_authors">
+<span class="ltx_creator ltx_role_author">
+<span class="ltx_personname"><a href="./about/bio/WPReinhardt">W.Â P.Â Reinhardt</a>
+</span><span class="ltx_author_notes">
+<span class="ltx_contact ltx_role_affiliation">University of Washington, Seattle, Washington.
+</span></span></span>
+<span class="ltx_creator ltx_role_author">
+<span class="ltx_personname"><a href="./about/bio/PLWalker">P.Â L.Â Walker</a>
+</span><span class="ltx_author_notes">
+<span class="ltx_contact ltx_role_affiliation">American University of Sharjah, Sharjah, United Arab Emirates.
+</span></span></span>
+</div>
+<div id="info" class="ltx_metadata ltx_info">
+<span href="" class="ltx_infoicon ltx_icon" title="Show Annotations"><span class="ltx_font_bold">â</span></span>
+<div class="ltx_infocontent">
+<dl>
+<dt>Acknowledgements:</dt>
+<dd class="ltx_acknowledgements">This chapter is based in part on
+<cite class="ltx_cite ltx_citemacro_citet">Abramowitz and Stegun (<a href="./bib/#bib24" title="Handbook of Mathematical Functions with Formulas, Graphs, and Mathematical Tables" class="ltx_ref">1964</a>, ChapterÂ 18)</cite>
+by T.Â H.Â Southard.</dd>
+<dt>Notes:</dt>
+<dd>The main references used in writing this chapter are
+<cite class="ltx_cite ltx_citemacro_citet">Lawden (<a href="./bib/L#bib1385" title="Elliptic Functions and Applications" class="ltx_ref">1989</a>, Chapters 6, 7, 9)</cite>,
+<cite class="ltx_cite ltx_citemacro_citet">McKean and Moll (<a href="./bib/M#bib1582" title="Elliptic Curves" class="ltx_ref">1999</a>, Chapters 1â5)</cite>,
+<cite class="ltx_cite ltx_citemacro_citet">Walker (<a href="./bib/W#bib2359" title="Elliptic Functions. A Constructive Approach" class="ltx_ref">1996</a>, Chapter 7 and Â§Â§3.4, 8.4)</cite>, and
+<cite class="ltx_cite ltx_citemacro_citet">Whittaker and Watson (<a href="./bib/W#bib2404" title="A Course of Modern Analysis" class="ltx_ref">1927</a>, Chapter 20 and Â§21.7)</cite>.
+For additional bibliographic reading see
+<cite class="ltx_cite ltx_citemacro_citet">Apostol (<a href="./bib/#bib119" title="Modular Functions and Dirichlet Series in Number Theory" class="ltx_ref">1990</a>, Chapters 1â6)</cite>, <cite class="ltx_cite ltx_citemacro_citet">Armitage and Eberlein (<a href="./bib/#bib2736" title="Elliptic Functions" class="ltx_ref">2006</a>)</cite>,
+<cite class="ltx_cite ltx_citemacro_citet">Copson (<a href="./bib/C#bib580" title="An Introduction to the Theory of Functions of a Complex Variable" class="ltx_ref">1935</a>, Chapters 13 and 15)</cite>,
+<cite class="ltx_cite ltx_citemacro_citet">ErdÃ©lyi<span class="ltx_text ltx_bib_etal"> et al.</span> (<a href="./bib/E#bib752" title="Higher Transcendental Functions. Vol. II" class="ltx_ref">1953b</a>, Â§Â§13.12â13.15 and 13.24)</cite>, and
+<cite class="ltx_cite ltx_citemacro_citet">Koblitz (<a href="./bib/K#bib1299" title="Introduction to Elliptic Curves and Modular Forms" class="ltx_ref">1993</a>, Chapters 1â4)</cite>.The main references used in writing this chapter are
+<cite class="ltx_cite ltx_citemacro_citet">Lawden (<a href="./bib/L#bib1385" title="Elliptic Functions and Applications" class="ltx_ref">1989</a>, Chapters 6, 7, 9)</cite>,
+<cite class="ltx_cite ltx_citemacro_citet">McKean and Moll (<a href="./bib/M#bib1582" title="Elliptic Curves" class="ltx_ref">1999</a>, Chapters 1â5)</cite>,
+<cite class="ltx_cite ltx_citemacro_citet">Walker (<a href="./bib/W#bib2359" title="Elliptic Functions. A Constructive Approach" class="ltx_ref">1996</a>, Chapter 7 and Â§Â§3.4, 8.4)</cite>, and
+<cite class="ltx_cite ltx_citemacro_citet">Whittaker and Watson (<a href="./bib/W#bib2404" title="A Course of Modern Analysis" class="ltx_ref">1927</a>, Chapter 20 and Â§21.7)</cite>.
+For additional bibliographic reading see
+<cite class="ltx_cite ltx_citemacro_citet">Apostol (<a href="./bib/#bib119" title="Modular Functions and Dirichlet Series in Number Theory" class="ltx_ref">1990</a>, Chapters 1â6)</cite>, <cite class="ltx_cite ltx_citemacro_citet">Armitage and Eberlein (<a href="./bib/#bib2736" title="Elliptic Functions" class="ltx_ref">2006</a>)</cite>,
+<cite class="ltx_cite ltx_citemacro_citet">Copson (<a href="./bib/C#bib580" title="An Introduction to the Theory of Functions of a Complex Variable" class="ltx_ref">1935</a>, Chapters 13 and 15)</cite>,
+<cite class="ltx_cite ltx_citemacro_citet">ErdÃ©lyi<span class="ltx_text ltx_bib_etal"> et al.</span> (<a href="./bib/E#bib752" title="Higher Transcendental Functions. Vol. II" class="ltx_ref">1953b</a>, Â§Â§13.12â13.15 and 13.24)</cite>, and
+<cite class="ltx_cite ltx_citemacro_citet">Koblitz (<a href="./bib/K#bib1299" title="Introduction to Elliptic Curves and Modular Forms" class="ltx_ref">1993</a>, Chapters 1â4)</cite>.</dd>
+<dt>Referenced by:</dt>
+<dd>
+<a href="./32.2#i.p5" title="Â§32.2(i) Introduction â£ Â§32.2 Differential Equations â£ Properties â£ Chapter 32 PainlevÃ© Transcendents" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§32.2(i)</span></a>,
+<a href="./about/news/#S1.I1.i5.p1" title="In Recent News â£ DLMF Project News â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">New Associate Editors for the DLMF</span></a>,
+<a href="./about/bio/PLWalker#S0.I1.ix3.p1" title="Profile Peter L. Walker â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_text ltx_font_italic">Profile<span class="ltx_text"> </span></span>Peter L.Â Walker</span></a>,
+<a href="./about/bio/VHMoll#S0.I1.ix2.p1" title="Profile Victor Moll â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_text ltx_font_italic">Profile<span class="ltx_text"> </span></span>VictorÂ Moll</span></a>,
+<a href="./about/bio/WPReinhardt#S0.I1.ix3.p1" title="Profile William P. Reinhardt â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_text ltx_font_italic">Profile<span class="ltx_text"> </span></span>William P.Â Reinhardt</span></a>,
+<a href="./about/bio/WPReinhardt#p7" title="Profile William P. Reinhardt â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_text ltx_font_italic">Profile<span class="ltx_text"> </span></span>William P.Â Reinhardt</span></a>,
+<a href="./about/staff#S2.I1.ix19.p1" title="Chapter Authors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Chapter Authors</span></a>,
+<a href="./about/staff#S2.I1.ix27.p1" title="Chapter Authors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Chapter Authors</span></a>,
+<a href="./about/staff#S4.I1.ix13.p1" title="Associate Editors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Associate Editors</span></a>,
+<a href="./about/staff#S4.I1.ix17.p1" title="Associate Editors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Associate Editors</span></a>,
+<a href="./about/staff#S4.I1.ix27.p1" title="Associate Editors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Associate Editors</span></a>,
+<a href="./errata/#V1.0.1.I4.ix3.p1" title="In Other Changes â£ Version 1.0.1 (June 27, 2011) â£ Errata" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Erratum (V1.0.1) for  References</span></a>,
+<a href="./software/#S1.t1.r83" title="Software Cross Index â£ Software Index" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Software Cross Index</span></a>
+</dd>
+<dt>Permalink:</dt>
+<dd><a href="./23" title="" class="ltx_ref">http://dlmf.nist.gov/23</a></dd>
+<dt>Addition (effective with 1.0.1):</dt>
+<dd>
+<cite class="ltx_cite ltx_citemacro_citet">Armitage and Eberlein (<a href="./bib/#bib2736" title="Elliptic Functions" class="ltx_ref">2006</a>)</cite> was added as a general reference for this chapter.
+</dd>
+</dl>
+</div>
+</div>
+
+<div class="ltx_gallery">
+    <span style="height:100px">Â  </span>
+    <span style="height:100px">Â  </span>
+  </div>
+<div class="ltx_page_columns">
+<div class="ltx_page_column1">
+<ul class="ltx_toclist ltx_toclist_chapter">
+<li id="PT1" class="ltx_tocentry">
+<span class="ltx_text">Notation</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./23.1" title="In Notation â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.1 </span>Special Notation</span></a></li>
+</ol>
+</li>
+<li id="PT2" class="ltx_tocentry">
+<span class="ltx_text">Weierstrass Elliptic Functions</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./23.2" title="In Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.2 </span>Definitions and Periodic Properties</span></a></li>
+<li class="ltx_tocentry"><a href="./23.3" title="In Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.3 </span>Differential Equations</span></a></li>
+<li class="ltx_tocentry"><a href="./23.4" title="In Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.4 </span>Graphics</span></a></li>
+<li class="ltx_tocentry"><a href="./23.5" title="In Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.5 </span>Special Lattices</span></a></li>
+<li class="ltx_tocentry"><a href="./23.6" title="In Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.6 </span>Relations to Other Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./23.7" title="In Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.7 </span>Quarter Periods</span></a></li>
+<li class="ltx_tocentry"><a href="./23.8" title="In Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.8 </span>Trigonometric Series and Products</span></a></li>
+<li class="ltx_tocentry"><a href="./23.9" title="In Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.9 </span>Laurent and Other Power Series</span></a></li>
+<li class="ltx_tocentry"><a href="./23.10" title="In Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.10 </span>Addition Theorems and Other Identities</span></a></li>
+<li class="ltx_tocentry"><a href="./23.11" title="In Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.11 </span>Integral Representations</span></a></li>
+<li class="ltx_tocentry"><a href="./23.12" title="In Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.12 </span>Asymptotic Approximations</span></a></li>
+<li class="ltx_tocentry"><a href="./23.13" title="In Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.13 </span>Zeros</span></a></li>
+<li class="ltx_tocentry"><a href="./23.14" title="In Weierstrass Elliptic Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.14 </span>Integrals</span></a></li>
+</ol>
+</li>
+</ul>
+</div>
+<div class="ltx_page_column2">
+<ul class="ltx_toclist ltx_toclist_chapter">
+<li id="PT3" class="ltx_tocentry">
+<span class="ltx_text">Modular Functions</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./23.15" title="In Modular Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.15 </span>Definitions</span></a></li>
+<li class="ltx_tocentry"><a href="./23.16" title="In Modular Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.16 </span>Graphics</span></a></li>
+<li class="ltx_tocentry"><a href="./23.17" title="In Modular Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.17 </span>Elementary Properties</span></a></li>
+<li class="ltx_tocentry"><a href="./23.18" title="In Modular Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.18 </span>Modular Transformations</span></a></li>
+<li class="ltx_tocentry"><a href="./23.19" title="In Modular Functions â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.19 </span>Interrelations</span></a></li>
+</ol>
+</li>
+<li id="PT4" class="ltx_tocentry">
+<span class="ltx_text">Applications</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./23.20" title="In Applications â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.20 </span>Mathematical Applications</span></a></li>
+<li class="ltx_tocentry"><a href="./23.21" title="In Applications â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.21 </span>Physical Applications</span></a></li>
+</ol>
+</li>
+<li id="PT5" class="ltx_tocentry">
+<span class="ltx_text">Computation</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./23.22" title="In Computation â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.22 </span>Methods of Computation</span></a></li>
+<li class="ltx_tocentry"><a href="./23.23" title="In Computation â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.23 </span>Tables</span></a></li>
+<li class="ltx_tocentry"><a href="./23.24" title="In Computation â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.24 </span>Software</span></a></li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+</section>
+</div>
+<div class="ltx_page_footer">
+<div class="ltx_siblings">
+<a href="./22.22" title="In Computation â£ Chapter 22 Jacobian Elliptic Functions" class="ltx_ref" rel="prev"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">22.22 </span>Software</span></a><a href="./23.1" title="In Notation â£ Chapter 23 Weierstrass Elliptic and Modular Functions" class="ltx_ref" rel="next"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.1 </span>Special Notation</span></a>
+</div>
+<div class="ltx_footer_links ltx_centering">
+<a href="./about/notices">Â© 2010â2025 NIST</a> / <a href="./about/notices#S2">Disclaimer</a> / <a href="/cdn-cgi/l/email-protection#57131b1a117a313232333536343c17393e242379303821">Feedback</a>;
+ Version 1.2.4;
+Release date 2025-03-15.</div>
+<span id="pagesettings"></span>
+<div class="ltx_nist_logo"><a href="http://www.nist.gov/"><img src="./style/nistidc.png" width="500" alt="NIST"></a></div>
+<div class="ltx_nist_links ltx_align_right">
+<a href="https://www.nist.gov/privacy-policy">Site Privacy</a> <a href="https://www.nist.gov/oism/accessibility">Accessibility</a> <a href="https://www.nist.gov/privacy">Privacy Program</a> <a href="https://www.nist.gov/oism/copyrights">Copyrights</a> <a href="https://www.commerce.gov/vulnerability-disclosure-policy">Vulnerability Disclosure</a> <a href="https://www.nist.gov/no-fear-act-policy">No Fear Act Policy</a> <a href="https://www.nist.gov/foia">FOIA</a> <a href="https://www.nist.gov/environmental-policy-statement">Environmental Policy</a> <a href="https://www.nist.gov/summary-report-scientific-integrity">Scientific Integrity</a> <a href="https://www.nist.gov/nist-information-quality-standards">Information Quality Standards</a> <a href="https://www.commerce.gov/">Commerce.gov</a> <a href="http://www.science.gov/">Science.gov</a> <a href="http://www.usa.gov/">USA.gov</a>
+</div>
+</div>
+</div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'994b1c224b57437b',t:'MTc2MTQ5MzgzMg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

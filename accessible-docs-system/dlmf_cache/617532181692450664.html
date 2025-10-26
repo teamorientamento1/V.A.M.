@@ -1,0 +1,273 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>DLMF: Chapter 14 Legendre and Related Functions</title>
+<link rel="shortcut icon" href="./style/DLMF-16.png" type="image/png">
+<script type="text/javascript"><!--
+	var PATH="DLMF:/14";
+	var ROOT="./";
+      //--></script>
+<script type="text/javascript" src="./style/jquery.js"><!-- non-empty so ie6 will accept it --></script>
+<script type="text/javascript" src="./style/jquery.leaveNotice.js"><!-- non-empty so ie6 will accept it --></script>
+<script type="text/javascript" src="./style/DLMF.js"><!-- non-empty so ie6 will accept it --></script>
+<script async="" type="text/javascript" id="_fed_an_ua_tag" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=DOC&amp;subagency=NIST&amp;pua=UA-37115410-44&amp;yt=true&amp;exts=ppsx,pps,f90,sch,rtf,wrl,txz,m1v,xlsm,msi,xsd,f,tif,eps,mpg,xml,pl,xlt,c"><!-- non-empty so ie6 will accept it --></script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-BZB64W4M0L"></script><script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BZB64W4M0L');
+      </script>
+<link rel="stylesheet" type="text/css" href="./style/LaTeXML.css">
+<link rel="stylesheet" type="text/css" href="./style/DLMF.css">
+<link rel="stylesheet" type="text/css" href="./style/print.css" media="print">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="top" href="./" title="DLMF">
+<link rel="copyright" href="./about/notices" title="Copyright">
+<link rel="search" href="./search/search" title="Search">
+<link rel="help" class="ltx_help" href="./help/" title="Help">
+<link rel="start" href="./" title="">
+<link rel="prev" href="./13.32" title="Â§13.32 Software â£ Computation â£ Chapter 13 Confluent Hypergeometric Functions">
+<link rel="next" href="./14.1" title="Â§14.1 Special Notation â£ Notation â£ Chapter 14 Legendre and Related Functions">
+<link rel="document" href="./front/foreword" title="Foreword">
+<link rel="document" href="./front/preface" title="Preface">
+<link rel="document" href="./front/introduction" title="Mathematical Introduction">
+<link rel="chapter" href="./1" title="Chapter 1 Algebraic and Analytic Methods">
+<link rel="chapter" href="./2" title="Chapter 2 Asymptotic Approximations">
+<link rel="chapter" href="./3" title="Chapter 3 Numerical Methods">
+<link rel="chapter" href="./4" title="Chapter 4 Elementary Functions">
+<link rel="chapter" href="./5" title="Chapter 5 Gamma Function">
+<link rel="chapter" href="./6" title="Chapter 6 Exponential, Logarithmic, Sine, and Cosine Integrals">
+<link rel="chapter" href="./7" title="Chapter 7 Error Functions, Dawsonâs and Fresnel Integrals">
+<link rel="chapter" href="./8" title="Chapter 8 Incomplete Gamma and Related Functions">
+<link rel="chapter" href="./9" title="Chapter 9 Airy and Related Functions">
+<link rel="chapter" href="./10" title="Chapter 10 Bessel Functions">
+<link rel="chapter" href="./11" title="Chapter 11 Struve and Related Functions">
+<link rel="chapter" href="./12" title="Chapter 12 Parabolic Cylinder Functions">
+<link rel="chapter" href="./13" title="Chapter 13 Confluent Hypergeometric Functions">
+<link rel="chapter" href="./15" title="Chapter 15 Hypergeometric Function">
+<link rel="chapter" href="./16" title="Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="chapter" href="./17" title="Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="chapter" href="./18" title="Chapter 18 Orthogonal Polynomials">
+<link rel="chapter" href="./19" title="Chapter 19 Elliptic Integrals">
+<link rel="chapter" href="./20" title="Chapter 20 Theta Functions">
+<link rel="chapter" href="./21" title="Chapter 21 Multidimensional Theta Functions">
+<link rel="chapter" href="./22" title="Chapter 22 Jacobian Elliptic Functions">
+<link rel="chapter" href="./23" title="Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="chapter" href="./24" title="Chapter 24 Bernoulli and Euler Polynomials">
+<link rel="chapter" href="./25" title="Chapter 25 Zeta and Related Functions">
+<link rel="chapter" href="./26" title="Chapter 26 Combinatorial Analysis">
+<link rel="chapter" href="./27" title="Chapter 27 Functions of Number Theory">
+<link rel="chapter" href="./28" title="Chapter 28 Mathieu Functions and Hillâs Equation">
+<link rel="chapter" href="./29" title="Chapter 29 LamÃ© Functions">
+<link rel="chapter" href="./30" title="Chapter 30 Spheroidal Wave Functions">
+<link rel="chapter" href="./31" title="Chapter 31 Heun Functions">
+<link rel="chapter" href="./32" title="Chapter 32 PainlevÃ© Transcendents">
+<link rel="chapter" href="./33" title="Chapter 33 Coulomb Functions">
+<link rel="chapter" href="./34" title="Chapter 34 3â¢ð,6â¢ð,9â¢ð Symbols">
+<link rel="chapter" href="./35" title="Chapter 35 Functions of Matrix Argument">
+<link rel="chapter" href="./36" title="Chapter 36 Integrals with Coalescing Saddles">
+<link rel="bibliography" href="./bib/" title="Bibliography">
+<link rel="index" href="./idx/" title="Index">
+<link rel="glossary" href="./not/" title="Notations">
+<link rel="document" href="./lof/" title="List of Figures">
+<link rel="document" href="./lot/" title="List of Tables">
+<link rel="document" href="./software/" title="Software Index">
+<link rel="document" href="./errata/" title="Errata">
+<link rel="document" href="./help/" title="Need Help?">
+<link rel="document" href="./search/" title="Advanced Search">
+<link rel="document" href="./about/" title="About the Project">
+<link rel="section" href="./14.1" title="Â§14.1 Special Notation â£ Notation â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.2" title="Â§14.2 Differential Equations â£ Real Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.3" title="Â§14.3 Definitions and Hypergeometric Representations â£ Real Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.4" title="Â§14.4 Graphics â£ Real Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.5" title="Â§14.5 Special Values â£ Real Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.6" title="Â§14.6 Integer Order â£ Real Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.7" title="Â§14.7 Integer Degree and Order â£ Real Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.8" title="Â§14.8 Behavior at Singularities â£ Real Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.9" title="Â§14.9 Connection Formulas â£ Real Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.10" title="Â§14.10 Recurrence Relations and Derivatives â£ Real Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.11" title="Â§14.11 Derivatives with Respect to Degree or Order â£ Real Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.12" title="Â§14.12 Integral Representations â£ Real Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.13" title="Â§14.13 Trigonometric Expansions â£ Real Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.14" title="Â§14.14 Continued Fractions â£ Real Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.15" title="Â§14.15 Uniform Asymptotic Approximations â£ Real Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.16" title="Â§14.16 Zeros â£ Real Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.17" title="Â§14.17 Integrals â£ Real Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.18" title="Â§14.18 Sums â£ Real Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.19" title="Â§14.19 Toroidal (or Ring) Functions â£ Real Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.20" title="Â§14.20 Conical (or Mehler) Functions â£ Real Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.21" title="Â§14.21 Definitions and Basic Properties â£ Complex Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.22" title="Â§14.22 Graphics â£ Complex Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.23" title="Â§14.23 Values on the Cut â£ Complex Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.24" title="Â§14.24 Analytic Continuation â£ Complex Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.25" title="Â§14.25 Integral Representations â£ Complex Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.26" title="Â§14.26 Uniform Asymptotic Expansions â£ Complex Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.27" title="Â§14.27 Zeros â£ Complex Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.28" title="Â§14.28 Sums â£ Complex Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.29" title="Â§14.29 Generalizations â£ Complex Arguments â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.30" title="Â§14.30 Spherical and Spheroidal Harmonics â£ Applications â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.31" title="Â§14.31 Other Applications â£ Applications â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.32" title="Â§14.32 Methods of Computation â£ Computation â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.33" title="Â§14.33 Tables â£ Computation â£ Chapter 14 Legendre and Related Functions">
+<link rel="section" href="./14.34" title="Â§14.34 Software â£ Computation â£ Chapter 14 Legendre and Related Functions">
+<link rel="author" href="./about/bio/TMDunster" title="T.Â M.Â Dunster">
+<meta name="keywords" lang="en" content="applications, associated Legendre functions">
+</head>
+<body class="color_default textfont_default titlefont_default fontsize_default navbar_default">
+<div class="ltx_page_navbar">
+<div class="ltx_page_navlogo"><a href="./" title="Digital Library of Mathematical Functions"><span>DLMF</span></a></div>
+<div class="ltx_page_navitems">
+<form method="get" action="./search/search">
+<ul>
+<li><a href="./idx/">Index</a></li>
+<li><a href="./not/">Notations</a></li>
+<li><small><input type="text" name="q" value="" size="6" class="ltx_page_navitem_search"><button type="submit">Search</button></small></li>
+<li><a href="./help/" class="ltx_help">Help?</a></li>
+<li><a href="./help/cite">Citing</a></li>
+<li><a href="./help/customize" class="ltx_customize">Customize</a></li>
+<li id="showinfo"><a href="" onclick="showInfo(); return false;" title="Show Annotations">Annotate</a></li>
+<li id="hideinfo"><a href="" onclick="hideInfo(); return false;">UnAnnotate</a></li>
+</ul>
+</form>
+</div>
+<div class="ltx_page_navsponsors">
+<div><a href="./about/" class="ltx_page_navabout">About the Project</a></div>
+</div>
+</div>
+<div class="ltx_page_main">
+<div class="ltx_page_content">
+<section class="ltx_chapter ltx_leqno">
+<h1 class="ltx_title ltx_title_chapter">
+<span class="ltx_tag ltx_tag_chapter">Chapter 14 </span>Legendre and Related Functions</h1>
+<div class="ltx_authors">
+<span class="ltx_creator ltx_role_author">
+<span class="ltx_personname"><a href="./about/bio/TMDunster">T.Â M.Â Dunster</a>
+</span><span class="ltx_author_notes">
+<span class="ltx_contact ltx_role_affiliation">Department of Mathematics and Statistics,
+San Diego State University,
+San Diego, California.
+</span></span></span>
+</div>
+<div id="info" class="ltx_metadata ltx_info">
+<span href="" class="ltx_infoicon ltx_icon" title="Show Annotations"><span class="ltx_font_bold">â</span></span>
+<div class="ltx_infocontent">
+<dl>
+<dt>Acknowledgements:</dt>
+<dd class="ltx_acknowledgements">This chapter is based in part on
+<cite class="ltx_cite ltx_citemacro_citet">Abramowitz and Stegun (<a href="./bib/#bib24" title="Handbook of Mathematical Functions with Formulas, Graphs, and Mathematical Tables" class="ltx_ref">1964</a>, Chapter 8)</cite> by Irene A. Stegun. The author is indebted to
+Richard Paris for correcting a long-standing error in Eq.Â (<a href="./14.18#E3" title="(14.18.3) â£ Â§14.18(ii) Addition Theorems â£ Â§14.18 Sums â£ Real Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref"><span class="ltx_text ltx_ref_tag">14.18.3</span></a>)
+in previous literature.</dd>
+<dt>Notes:</dt>
+<dd>The main reference used in writing this chapter is <cite class="ltx_cite ltx_citemacro_citet">Olver (<a href="./bib/O#bib1809" title="Asymptotics and Special Functions" class="ltx_ref">1997b</a>)</cite>. For
+additional bibliographic reading see <cite class="ltx_cite ltx_citemacro_citet">ErdÃ©lyi<span class="ltx_text ltx_bib_etal"> et al.</span> (<a href="./bib/E#bib751" title="Higher Transcendental Functions. Vol. I" class="ltx_ref">1953a</a>, Chapter III)</cite>,
+<cite class="ltx_cite ltx_citemacro_citet">Hobson (<a href="./bib/H#bib1092" title="The Theory of Spherical and Ellipsoidal Harmonics" class="ltx_ref">1931</a>)</cite>, <cite class="ltx_cite ltx_citemacro_citet">Jeffreys and Jeffreys (<a href="./bib/J#bib1166" title="Methods of Mathematical Physics" class="ltx_ref">1956</a>)</cite>, <cite class="ltx_cite ltx_citemacro_citet">MacRobert (<a href="./bib/M#bib1530" title="Spherical Harmonics. An Elementary Treatise on Harmonic Functions with Applications" class="ltx_ref">1967</a>)</cite>,
+<cite class="ltx_cite ltx_citemacro_citet">Magnus<span class="ltx_text ltx_bib_etal"> et al.</span> (<a href="./bib/M#bib1534" title="Formulas and Theorems for the Special Functions of Mathematical Physics" class="ltx_ref">1966</a>)</cite>, <cite class="ltx_cite ltx_citemacro_citet">Robin (<a href="./bib/R#bib1959" title="Fonctions sphÃ©riques de Legendre et fonctions sphÃ©roÃ¯dales. Tome I" class="ltx_ref">1957</a>, <a href="./bib/R#bib1960" title="Fonctions sphÃ©riques de Legendre et fonctions sphÃ©roÃ¯dales. Tome II" class="ltx_ref">1958</a>, <a href="./bib/R#bib1961" title="Fonctions sphÃ©riques de Legendre et fonctions sphÃ©roÃ¯dales. Tome III" class="ltx_ref">1959</a>)</cite>,
+<cite class="ltx_cite ltx_citemacro_citet">Snow (<a href="./bib/S#bib2131" title="Hypergeometric and Legendre Functions with Applications to Integral Equations of Potential Theory" class="ltx_ref">1952</a>)</cite>, <cite class="ltx_cite ltx_citemacro_citet">SzegÅ (<a href="./bib/S#bib2193" title="Orthogonal Polynomials" class="ltx_ref">1967</a>)</cite>,
+<cite class="ltx_cite ltx_citemacro_citet">Temme (<a href="./bib/T#bib2230" title="Special Functions: An Introduction to the Classical Functions of Mathematical Physics" class="ltx_ref">1996b</a>)</cite>, and <cite class="ltx_cite ltx_citemacro_citet">Wong (<a href="./bib/W#bib2438" title="Asymptotic Approximations of Integrals" class="ltx_ref">1989</a>)</cite>.</dd>
+<dt>Referenced by:</dt>
+<dd>
+<a href="./18.3#Px2.p1" title="Legendre â£ Â§18.3 Definitions â£ Classical Orthogonal Polynomials â£ Chapter 18 Orthogonal Polynomials" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§18.3</span></a>,
+<a href="./about/bio/TMDunster#S0.I1.ix1.p1" title="Profile T. Mark Dunster â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_text ltx_font_italic">Profile<span class="ltx_text"> </span></span>T.Â MarkÂ Dunster</span></a>,
+<a href="./about/staff#S2.I1.ix10.p1" title="Chapter Authors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Chapter Authors</span></a>,
+<a href="./about/staff#S4.I1.ix6.p1" title="Associate Editors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Associate Editors</span></a>,
+<a href="./errata/#V1.0.28.I2.ix1" title="In Other Changes â£ Version 1.0.28 (September 15, 2020) â£ Errata" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Erratum (V1.0.28) for  ChaptersÂ <span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_text">14 </span>Legendre and Related Functions</span>, <span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_text">15 </span>Hypergeometric Function</span></span></a>,
+<a href="./errata/#V1.1.6.I1.ix2" title="In Errata â£ Version 1.1.6 (June 30, 2022) â£ Errata" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Erratum (V1.1.6) for  ChaptersÂ <span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_text">1 </span>Algebraic and Analytic Methods</span>, <span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_text">10 </span>Bessel Functions</span>, <span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_text">14 </span>Legendre and Related Functions</span>, <span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_text">18 </span>Orthogonal Polynomials</span>, <span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_text">29 </span>LamÃ© Functions</span></span></a>,
+<a href="./software/#S1.t1.r59" title="Software Cross Index â£ Software Index" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Software Cross Index</span></a>
+</dd>
+<dt>Permalink:</dt>
+<dd><a href="./14" title="" class="ltx_ref">http://dlmf.nist.gov/14</a></dd>
+</dl>
+</div>
+</div>
+
+<div class="ltx_gallery">
+    <span style="height:100px">Â  </span>
+    <span style="height:100px">Â  </span>
+  </div>
+<div class="ltx_page_columns">
+<div class="ltx_page_column1">
+<ul class="ltx_toclist ltx_toclist_chapter">
+<li id="PT1" class="ltx_tocentry">
+<span class="ltx_text">Notation</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./14.1" title="In Notation â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.1 </span>Special Notation</span></a></li>
+</ol>
+</li>
+<li id="PT2" class="ltx_tocentry">
+<span class="ltx_text">Real Arguments</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./14.2" title="In Real Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.2 </span>Differential Equations</span></a></li>
+<li class="ltx_tocentry"><a href="./14.3" title="In Real Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.3 </span>Definitions and Hypergeometric Representations</span></a></li>
+<li class="ltx_tocentry"><a href="./14.4" title="In Real Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.4 </span>Graphics</span></a></li>
+<li class="ltx_tocentry"><a href="./14.5" title="In Real Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.5 </span>Special Values</span></a></li>
+<li class="ltx_tocentry"><a href="./14.6" title="In Real Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.6 </span>Integer Order</span></a></li>
+<li class="ltx_tocentry"><a href="./14.7" title="In Real Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.7 </span>Integer Degree and Order</span></a></li>
+<li class="ltx_tocentry"><a href="./14.8" title="In Real Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.8 </span>Behavior at Singularities</span></a></li>
+<li class="ltx_tocentry"><a href="./14.9" title="In Real Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.9 </span>Connection Formulas</span></a></li>
+<li class="ltx_tocentry"><a href="./14.10" title="In Real Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.10 </span>Recurrence Relations and Derivatives</span></a></li>
+<li class="ltx_tocentry"><a href="./14.11" title="In Real Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.11 </span>Derivatives with Respect to Degree or Order</span></a></li>
+<li class="ltx_tocentry"><a href="./14.12" title="In Real Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.12 </span>Integral Representations</span></a></li>
+<li class="ltx_tocentry"><a href="./14.13" title="In Real Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.13 </span>Trigonometric Expansions</span></a></li>
+<li class="ltx_tocentry"><a href="./14.14" title="In Real Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.14 </span>Continued Fractions</span></a></li>
+<li class="ltx_tocentry"><a href="./14.15" title="In Real Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.15 </span>Uniform Asymptotic Approximations</span></a></li>
+<li class="ltx_tocentry"><a href="./14.16" title="In Real Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.16 </span>Zeros</span></a></li>
+<li class="ltx_tocentry"><a href="./14.17" title="In Real Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.17 </span>Integrals</span></a></li>
+<li class="ltx_tocentry"><a href="./14.18" title="In Real Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.18 </span>Sums</span></a></li>
+<li class="ltx_tocentry"><a href="./14.19" title="In Real Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.19 </span>Toroidal (or Ring) Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./14.20" title="In Real Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.20 </span>Conical (or Mehler) Functions</span></a></li>
+</ol>
+</li>
+</ul>
+</div>
+<div class="ltx_page_column2">
+<ul class="ltx_toclist ltx_toclist_chapter">
+<li id="PT3" class="ltx_tocentry">
+<span class="ltx_text">Complex Arguments</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./14.21" title="In Complex Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.21 </span>Definitions and Basic Properties</span></a></li>
+<li class="ltx_tocentry"><a href="./14.22" title="In Complex Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.22 </span>Graphics</span></a></li>
+<li class="ltx_tocentry"><a href="./14.23" title="In Complex Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.23 </span>Values on the Cut</span></a></li>
+<li class="ltx_tocentry"><a href="./14.24" title="In Complex Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.24 </span>Analytic Continuation</span></a></li>
+<li class="ltx_tocentry"><a href="./14.25" title="In Complex Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.25 </span>Integral Representations</span></a></li>
+<li class="ltx_tocentry"><a href="./14.26" title="In Complex Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.26 </span>Uniform Asymptotic Expansions</span></a></li>
+<li class="ltx_tocentry"><a href="./14.27" title="In Complex Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.27 </span>Zeros</span></a></li>
+<li class="ltx_tocentry"><a href="./14.28" title="In Complex Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.28 </span>Sums</span></a></li>
+<li class="ltx_tocentry"><a href="./14.29" title="In Complex Arguments â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.29 </span>Generalizations</span></a></li>
+</ol>
+</li>
+<li id="PT4" class="ltx_tocentry">
+<span class="ltx_text">Applications</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./14.30" title="In Applications â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.30 </span>Spherical and Spheroidal Harmonics</span></a></li>
+<li class="ltx_tocentry"><a href="./14.31" title="In Applications â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.31 </span>Other Applications</span></a></li>
+</ol>
+</li>
+<li id="PT5" class="ltx_tocentry">
+<span class="ltx_text">Computation</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./14.32" title="In Computation â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.32 </span>Methods of Computation</span></a></li>
+<li class="ltx_tocentry"><a href="./14.33" title="In Computation â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.33 </span>Tables</span></a></li>
+<li class="ltx_tocentry"><a href="./14.34" title="In Computation â£ Chapter 14 Legendre and Related Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.34 </span>Software</span></a></li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+</section>
+</div>
+<div class="ltx_page_footer">
+<div class="ltx_siblings">
+<a href="./13.32" title="In Computation â£ Chapter 13 Confluent Hypergeometric Functions" class="ltx_ref" rel="prev"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">13.32 </span>Software</span></a><a href="./14.1" title="In Notation â£ Chapter 14 Legendre and Related Functions" class="ltx_ref" rel="next"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.1 </span>Special Notation</span></a>
+</div>
+<div class="ltx_footer_links ltx_centering">
+<a href="./about/notices">Â© 2010â2025 NIST</a> / <a href="./about/notices#S2">Disclaimer</a> / <a href="/cdn-cgi/l/email-protection#2e6a62636803484b4b4a4c4f4d456e40475d5a00494158">Feedback</a>;
+ Version 1.2.4;
+Release date 2025-03-15.</div>
+<span id="pagesettings"></span>
+<div class="ltx_nist_logo"><a href="http://www.nist.gov/"><img src="./style/nistidc.png" width="500" alt="NIST"></a></div>
+<div class="ltx_nist_links ltx_align_right">
+<a href="https://www.nist.gov/privacy-policy">Site Privacy</a> <a href="https://www.nist.gov/oism/accessibility">Accessibility</a> <a href="https://www.nist.gov/privacy">Privacy Program</a> <a href="https://www.nist.gov/oism/copyrights">Copyrights</a> <a href="https://www.commerce.gov/vulnerability-disclosure-policy">Vulnerability Disclosure</a> <a href="https://www.nist.gov/no-fear-act-policy">No Fear Act Policy</a> <a href="https://www.nist.gov/foia">FOIA</a> <a href="https://www.nist.gov/environmental-policy-statement">Environmental Policy</a> <a href="https://www.nist.gov/summary-report-scientific-integrity">Scientific Integrity</a> <a href="https://www.nist.gov/nist-information-quality-standards">Information Quality Standards</a> <a href="https://www.commerce.gov/">Commerce.gov</a> <a href="http://www.science.gov/">Science.gov</a> <a href="http://www.usa.gov/">USA.gov</a>
+</div>
+</div>
+</div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'994b1be0082f437b',t:'MTc2MTQ5MzgyMQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>DLMF: Chapter 4 Elementary Functions</title>
+<link rel="shortcut icon" href="./style/DLMF-16.png" type="image/png">
+<script type="text/javascript"><!--
+	var PATH="DLMF:/4";
+	var ROOT="./";
+      //--></script>
+<script type="text/javascript" src="./style/jquery.js"><!-- non-empty so ie6 will accept it --></script>
+<script type="text/javascript" src="./style/jquery.leaveNotice.js"><!-- non-empty so ie6 will accept it --></script>
+<script type="text/javascript" src="./style/DLMF.js"><!-- non-empty so ie6 will accept it --></script>
+<script async="" type="text/javascript" id="_fed_an_ua_tag" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=DOC&amp;subagency=NIST&amp;pua=UA-37115410-44&amp;yt=true&amp;exts=ppsx,pps,f90,sch,rtf,wrl,txz,m1v,xlsm,msi,xsd,f,tif,eps,mpg,xml,pl,xlt,c"><!-- non-empty so ie6 will accept it --></script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-BZB64W4M0L"></script><script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BZB64W4M0L');
+      </script>
+<link rel="stylesheet" type="text/css" href="./style/LaTeXML.css">
+<link rel="stylesheet" type="text/css" href="./style/DLMF.css">
+<link rel="stylesheet" type="text/css" href="./style/print.css" media="print">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="top" href="./" title="DLMF">
+<link rel="copyright" href="./about/notices" title="Copyright">
+<link rel="search" href="./search/search" title="Search">
+<link rel="help" class="ltx_help" href="./help/" title="Help">
+<link rel="start" href="./" title="">
+<link rel="prev" href="./3.12" title="Â§3.12 Mathematical Constants â£ Areas â£ Chapter 3 Numerical Methods">
+<link rel="next" href="./4.1" title="Â§4.1 Special Notation â£ Notation â£ Chapter 4 Elementary Functions">
+<link rel="document" href="./front/foreword" title="Foreword">
+<link rel="document" href="./front/preface" title="Preface">
+<link rel="document" href="./front/introduction" title="Mathematical Introduction">
+<link rel="chapter" href="./1" title="Chapter 1 Algebraic and Analytic Methods">
+<link rel="chapter" href="./2" title="Chapter 2 Asymptotic Approximations">
+<link rel="chapter" href="./3" title="Chapter 3 Numerical Methods">
+<link rel="chapter" href="./5" title="Chapter 5 Gamma Function">
+<link rel="chapter" href="./6" title="Chapter 6 Exponential, Logarithmic, Sine, and Cosine Integrals">
+<link rel="chapter" href="./7" title="Chapter 7 Error Functions, Dawsonâs and Fresnel Integrals">
+<link rel="chapter" href="./8" title="Chapter 8 Incomplete Gamma and Related Functions">
+<link rel="chapter" href="./9" title="Chapter 9 Airy and Related Functions">
+<link rel="chapter" href="./10" title="Chapter 10 Bessel Functions">
+<link rel="chapter" href="./11" title="Chapter 11 Struve and Related Functions">
+<link rel="chapter" href="./12" title="Chapter 12 Parabolic Cylinder Functions">
+<link rel="chapter" href="./13" title="Chapter 13 Confluent Hypergeometric Functions">
+<link rel="chapter" href="./14" title="Chapter 14 Legendre and Related Functions">
+<link rel="chapter" href="./15" title="Chapter 15 Hypergeometric Function">
+<link rel="chapter" href="./16" title="Chapter 16 Generalized Hypergeometric Functions and Meijer ðº-Function">
+<link rel="chapter" href="./17" title="Chapter 17 ð-Hypergeometric and Related Functions">
+<link rel="chapter" href="./18" title="Chapter 18 Orthogonal Polynomials">
+<link rel="chapter" href="./19" title="Chapter 19 Elliptic Integrals">
+<link rel="chapter" href="./20" title="Chapter 20 Theta Functions">
+<link rel="chapter" href="./21" title="Chapter 21 Multidimensional Theta Functions">
+<link rel="chapter" href="./22" title="Chapter 22 Jacobian Elliptic Functions">
+<link rel="chapter" href="./23" title="Chapter 23 Weierstrass Elliptic and Modular Functions">
+<link rel="chapter" href="./24" title="Chapter 24 Bernoulli and Euler Polynomials">
+<link rel="chapter" href="./25" title="Chapter 25 Zeta and Related Functions">
+<link rel="chapter" href="./26" title="Chapter 26 Combinatorial Analysis">
+<link rel="chapter" href="./27" title="Chapter 27 Functions of Number Theory">
+<link rel="chapter" href="./28" title="Chapter 28 Mathieu Functions and Hillâs Equation">
+<link rel="chapter" href="./29" title="Chapter 29 LamÃ© Functions">
+<link rel="chapter" href="./30" title="Chapter 30 Spheroidal Wave Functions">
+<link rel="chapter" href="./31" title="Chapter 31 Heun Functions">
+<link rel="chapter" href="./32" title="Chapter 32 PainlevÃ© Transcendents">
+<link rel="chapter" href="./33" title="Chapter 33 Coulomb Functions">
+<link rel="chapter" href="./34" title="Chapter 34 3â¢ð,6â¢ð,9â¢ð Symbols">
+<link rel="chapter" href="./35" title="Chapter 35 Functions of Matrix Argument">
+<link rel="chapter" href="./36" title="Chapter 36 Integrals with Coalescing Saddles">
+<link rel="bibliography" href="./bib/" title="Bibliography">
+<link rel="index" href="./idx/" title="Index">
+<link rel="glossary" href="./not/" title="Notations">
+<link rel="document" href="./lof/" title="List of Figures">
+<link rel="document" href="./lot/" title="List of Tables">
+<link rel="document" href="./software/" title="Software Index">
+<link rel="document" href="./errata/" title="Errata">
+<link rel="document" href="./help/" title="Need Help?">
+<link rel="document" href="./search/" title="Advanced Search">
+<link rel="document" href="./about/" title="About the Project">
+<link rel="section" href="./4.1" title="Â§4.1 Special Notation â£ Notation â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.2" title="Â§4.2 Definitions â£ Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.3" title="Â§4.3 Graphics â£ Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.4" title="Â§4.4 Special Values and Limits â£ Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.5" title="Â§4.5 Inequalities â£ Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.6" title="Â§4.6 Power Series â£ Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.7" title="Â§4.7 Derivatives and Differential Equations â£ Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.8" title="Â§4.8 Identities â£ Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.9" title="Â§4.9 Continued Fractions â£ Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.10" title="Â§4.10 Integrals â£ Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.11" title="Â§4.11 Sums â£ Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.12" title="Â§4.12 Generalized Logarithms and Exponentials â£ Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.13" title="Â§4.13 Lambert ð-Function â£ Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.14" title="Â§4.14 Definitions and Periodicity â£ Trigonometric Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.15" title="Â§4.15 Graphics â£ Trigonometric Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.16" title="Â§4.16 Elementary Properties â£ Trigonometric Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.17" title="Â§4.17 Special Values and Limits â£ Trigonometric Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.18" title="Â§4.18 Inequalities â£ Trigonometric Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.19" title="Â§4.19 Maclaurin Series and Laurent Series â£ Trigonometric Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.20" title="Â§4.20 Derivatives and Differential Equations â£ Trigonometric Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.21" title="Â§4.21 Identities â£ Trigonometric Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.22" title="Â§4.22 Infinite Products and Partial Fractions â£ Trigonometric Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.23" title="Â§4.23 Inverse Trigonometric Functions â£ Trigonometric Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.24" title="Â§4.24 Inverse Trigonometric Functions: Further Properties â£ Trigonometric Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.25" title="Â§4.25 Continued Fractions â£ Trigonometric Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.26" title="Â§4.26 Integrals â£ Trigonometric Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.27" title="Â§4.27 Sums â£ Trigonometric Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.28" title="Â§4.28 Definitions and Periodicity â£ Hyperbolic Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.29" title="Â§4.29 Graphics â£ Hyperbolic Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.30" title="Â§4.30 Elementary Properties â£ Hyperbolic Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.31" title="Â§4.31 Special Values and Limits â£ Hyperbolic Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.32" title="Â§4.32 Inequalities â£ Hyperbolic Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.33" title="Â§4.33 Maclaurin Series and Laurent Series â£ Hyperbolic Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.34" title="Â§4.34 Derivatives and Differential Equations â£ Hyperbolic Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.35" title="Â§4.35 Identities â£ Hyperbolic Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.36" title="Â§4.36 Infinite Products and Partial Fractions â£ Hyperbolic Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.37" title="Â§4.37 Inverse Hyperbolic Functions â£ Hyperbolic Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.38" title="Â§4.38 Inverse Hyperbolic Functions: Further Properties â£ Hyperbolic Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.39" title="Â§4.39 Continued Fractions â£ Hyperbolic Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.40" title="Â§4.40 Integrals â£ Hyperbolic Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.41" title="Â§4.41 Sums â£ Hyperbolic Functions â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.42" title="Â§4.42 Solution of Triangles â£ Applications â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.43" title="Â§4.43 Cubic Equations â£ Applications â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.44" title="Â§4.44 Other Applications â£ Applications â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.45" title="Â§4.45 Methods of Computation â£ Computation â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.46" title="Â§4.46 Tables â£ Computation â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.47" title="Â§4.47 Approximations â£ Computation â£ Chapter 4 Elementary Functions">
+<link rel="section" href="./4.48" title="Â§4.48 Software â£ Computation â£ Chapter 4 Elementary Functions">
+<link rel="author" href="./about/bio/RRoy" title="R.Â Roy">
+<link rel="author" href="./about/bio/FWJOlver" title="F.Â W.Â J.Â Olver">
+<meta name="keywords" lang="en" content="hyperbolic functions, logarithm function, trigonometric functions">
+</head>
+<body class="color_default textfont_default titlefont_default fontsize_default navbar_default">
+<div class="ltx_page_navbar">
+<div class="ltx_page_navlogo"><a href="./" title="Digital Library of Mathematical Functions"><span>DLMF</span></a></div>
+<div class="ltx_page_navitems">
+<form method="get" action="./search/search">
+<ul>
+<li><a href="./idx/">Index</a></li>
+<li><a href="./not/">Notations</a></li>
+<li><small><input type="text" name="q" value="" size="6" class="ltx_page_navitem_search"><button type="submit">Search</button></small></li>
+<li><a href="./help/" class="ltx_help">Help?</a></li>
+<li><a href="./help/cite">Citing</a></li>
+<li><a href="./help/customize" class="ltx_customize">Customize</a></li>
+<li id="showinfo"><a href="" onclick="showInfo(); return false;" title="Show Annotations">Annotate</a></li>
+<li id="hideinfo"><a href="" onclick="hideInfo(); return false;">UnAnnotate</a></li>
+</ul>
+</form>
+</div>
+<div class="ltx_page_navsponsors">
+<div><a href="./about/" class="ltx_page_navabout">About the Project</a></div>
+</div>
+</div>
+<div class="ltx_page_main">
+<div class="ltx_page_content">
+<section class="ltx_chapter ltx_leqno">
+<h1 class="ltx_title ltx_title_chapter">
+<span class="ltx_tag ltx_tag_chapter">Chapter 4 </span>Elementary Functions</h1>
+<div class="ltx_authors">
+<span class="ltx_creator ltx_role_author">
+<span class="ltx_personname"><a href="./about/bio/RRoy">R.Â Roy</a>
+</span><span class="ltx_author_notes">
+<span class="ltx_contact ltx_role_affiliation">Department of Mathematics and Computer Science,
+Beloit College,
+Beloit, Wisconsin.
+</span></span></span>
+<span class="ltx_creator ltx_role_author">
+<span class="ltx_personname"><a href="./about/bio/FWJOlver">F.Â W.Â J.Â Olver</a>
+</span><span class="ltx_author_notes">
+<span class="ltx_contact ltx_role_affiliation">Institute for Physical Science and Technology and
+Department of Mathematics,
+University of Maryland,
+College Park, Maryland.
+</span></span></span>
+</div>
+<div id="info" class="ltx_metadata ltx_info">
+<span href="" class="ltx_infoicon ltx_icon" title="Show Annotations"><span class="ltx_font_bold">â</span></span>
+<div class="ltx_infocontent">
+<dl>
+<dt>Acknowledgements:</dt>
+<dd class="ltx_acknowledgements">The authors are grateful to Steven G. Krantz and Peter R. Turner
+for advice on early drafts of this chapter.</dd>
+<dt>Notes:</dt>
+<dd>The main references used in writing this chapter are <cite class="ltx_cite ltx_citemacro_citet">Levinson and Redheffer (<a href="./bib/L#bib1426" title="Complex Variables" class="ltx_ref">1970</a>)</cite>,
+<cite class="ltx_cite ltx_citemacro_citet">Hobson (<a href="./bib/H#bib1091" title="A Treatise on Plane and Advanced Trigonometry" class="ltx_ref">1928</a>)</cite>, <cite class="ltx_cite ltx_citemacro_citet">Wall (<a href="./bib/W#bib2362" title="Analytic Theory of Continued Fractions" class="ltx_ref">1948</a>)</cite>, and <cite class="ltx_cite ltx_citemacro_citet">Whittaker and Watson (<a href="./bib/W#bib2404" title="A Course of Modern Analysis" class="ltx_ref">1927</a>)</cite>.
+For additional bibliographic reading see <cite class="ltx_cite ltx_citemacro_citet">Copson (<a href="./bib/C#bib580" title="An Introduction to the Theory of Functions of a Complex Variable" class="ltx_ref">1935</a>)</cite> and
+<cite class="ltx_cite ltx_citemacro_citet">Silverman (<a href="./bib/S#bib2085" title="Introductory Complex Analysis" class="ltx_ref">1967</a>)</cite>.</dd>
+<dt>Referenced by:</dt>
+<dd>
+<a href="./about/bio/FWJOlver#S0.I1.ix3.p1" title="Profile Frank W. J. Olver â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_text ltx_font_italic">Profile<span class="ltx_text"> </span></span>FrankÂ W.Â J.Â Olver</span></a>,
+<a href="./about/bio/RRoy#S0.I1.ix2.p1" title="Profile Ranjan Roy â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_text ltx_font_italic">Profile<span class="ltx_text"> </span></span>Ranjan Roy</span></a>,
+<a href="./about/bio/RRoy#p6" title="Profile Ranjan Roy â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_text ltx_font_italic">Profile<span class="ltx_text"> </span></span>Ranjan Roy</span></a>,
+<a href="./about/staff#S2.I1.ix17.p1" title="Chapter Authors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Chapter Authors</span></a>,
+<a href="./about/staff#S2.I1.ix21.p1" title="Chapter Authors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Chapter Authors</span></a>,
+<a href="./about/staff#S4.I1.ix19.p1" title="Associate Editors â£ Project Staff â£ About the Project" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Associate Editors</span></a>,
+<a href="./software/#S1.t1.r4" title="Software Cross Index â£ Software Index" class="ltx_ref"><span class="ltx_text ltx_ref_tag">Â§</span> â£ <span class="ltx_text ltx_ref_title">Software Cross Index</span></a>
+</dd>
+<dt>Permalink:</dt>
+<dd><a href="./4" title="" class="ltx_ref">http://dlmf.nist.gov/4</a></dd>
+</dl>
+</div>
+</div>
+
+<div class="ltx_gallery">
+    <span style="height:100px">Â  </span>
+    <span style="height:100px">Â  </span>
+  </div>
+<div class="ltx_page_columns">
+<div class="ltx_page_column1">
+<ul class="ltx_toclist ltx_toclist_chapter">
+<li id="PT1" class="ltx_tocentry">
+<span class="ltx_text">Notation</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./4.1" title="In Notation â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.1 </span>Special Notation</span></a></li>
+</ol>
+</li>
+<li id="PT2" class="ltx_tocentry">
+<span class="ltx_text">Logarithm, Exponential, Powers</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./4.2" title="In Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.2 </span>Definitions</span></a></li>
+<li class="ltx_tocentry"><a href="./4.3" title="In Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.3 </span>Graphics</span></a></li>
+<li class="ltx_tocentry"><a href="./4.4" title="In Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.4 </span>Special Values and Limits</span></a></li>
+<li class="ltx_tocentry"><a href="./4.5" title="In Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.5 </span>Inequalities</span></a></li>
+<li class="ltx_tocentry"><a href="./4.6" title="In Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.6 </span>Power Series</span></a></li>
+<li class="ltx_tocentry"><a href="./4.7" title="In Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.7 </span>Derivatives and Differential Equations</span></a></li>
+<li class="ltx_tocentry"><a href="./4.8" title="In Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.8 </span>Identities</span></a></li>
+<li class="ltx_tocentry"><a href="./4.9" title="In Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.9 </span>Continued Fractions</span></a></li>
+<li class="ltx_tocentry"><a href="./4.10" title="In Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.10 </span>Integrals</span></a></li>
+<li class="ltx_tocentry"><a href="./4.11" title="In Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.11 </span>Sums</span></a></li>
+<li class="ltx_tocentry"><a href="./4.12" title="In Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.12 </span>Generalized Logarithms and Exponentials</span></a></li>
+<li class="ltx_tocentry"><a href="./4.13" title="In Logarithm, Exponential, Powers â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.13 </span>Lambert <math class="ltx_Math" altimg="m1.png" altimg-height="18px" altimg-valign="-2px" altimg-width="27px" alttext="W" display="inline"><mi href="./4.13#E1" title="Lambert ð-function">W</mi></math>-Function</span></a></li>
+</ol>
+</li>
+<li id="PT3" class="ltx_tocentry">
+<span class="ltx_text">Trigonometric Functions</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./4.14" title="In Trigonometric Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.14 </span>Definitions and Periodicity</span></a></li>
+<li class="ltx_tocentry"><a href="./4.15" title="In Trigonometric Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.15 </span>Graphics</span></a></li>
+<li class="ltx_tocentry"><a href="./4.16" title="In Trigonometric Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.16 </span>Elementary Properties</span></a></li>
+<li class="ltx_tocentry"><a href="./4.17" title="In Trigonometric Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.17 </span>Special Values and Limits</span></a></li>
+<li class="ltx_tocentry"><a href="./4.18" title="In Trigonometric Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.18 </span>Inequalities</span></a></li>
+<li class="ltx_tocentry"><a href="./4.19" title="In Trigonometric Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.19 </span>Maclaurin Series and Laurent Series</span></a></li>
+<li class="ltx_tocentry"><a href="./4.20" title="In Trigonometric Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.20 </span>Derivatives and Differential Equations</span></a></li>
+<li class="ltx_tocentry"><a href="./4.21" title="In Trigonometric Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.21 </span>Identities</span></a></li>
+<li class="ltx_tocentry"><a href="./4.22" title="In Trigonometric Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.22 </span>Infinite Products and Partial Fractions</span></a></li>
+<li class="ltx_tocentry"><a href="./4.23" title="In Trigonometric Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.23 </span>Inverse Trigonometric Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./4.24" title="In Trigonometric Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.24 </span>Inverse Trigonometric Functions: Further Properties</span></a></li>
+<li class="ltx_tocentry"><a href="./4.25" title="In Trigonometric Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.25 </span>Continued Fractions</span></a></li>
+<li class="ltx_tocentry"><a href="./4.26" title="In Trigonometric Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.26 </span>Integrals</span></a></li>
+<li class="ltx_tocentry"><a href="./4.27" title="In Trigonometric Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.27 </span>Sums</span></a></li>
+</ol>
+</li>
+</ul>
+</div>
+<div class="ltx_page_column2">
+<ul class="ltx_toclist ltx_toclist_chapter">
+<li id="PT4" class="ltx_tocentry">
+<span class="ltx_text">Hyperbolic Functions</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./4.28" title="In Hyperbolic Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.28 </span>Definitions and Periodicity</span></a></li>
+<li class="ltx_tocentry"><a href="./4.29" title="In Hyperbolic Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.29 </span>Graphics</span></a></li>
+<li class="ltx_tocentry"><a href="./4.30" title="In Hyperbolic Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.30 </span>Elementary Properties</span></a></li>
+<li class="ltx_tocentry"><a href="./4.31" title="In Hyperbolic Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.31 </span>Special Values and Limits</span></a></li>
+<li class="ltx_tocentry"><a href="./4.32" title="In Hyperbolic Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.32 </span>Inequalities</span></a></li>
+<li class="ltx_tocentry"><a href="./4.33" title="In Hyperbolic Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.33 </span>Maclaurin Series and Laurent Series</span></a></li>
+<li class="ltx_tocentry"><a href="./4.34" title="In Hyperbolic Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.34 </span>Derivatives and Differential Equations</span></a></li>
+<li class="ltx_tocentry"><a href="./4.35" title="In Hyperbolic Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.35 </span>Identities</span></a></li>
+<li class="ltx_tocentry"><a href="./4.36" title="In Hyperbolic Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.36 </span>Infinite Products and Partial Fractions</span></a></li>
+<li class="ltx_tocentry"><a href="./4.37" title="In Hyperbolic Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.37 </span>Inverse Hyperbolic Functions</span></a></li>
+<li class="ltx_tocentry"><a href="./4.38" title="In Hyperbolic Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.38 </span>Inverse Hyperbolic Functions: Further Properties</span></a></li>
+<li class="ltx_tocentry"><a href="./4.39" title="In Hyperbolic Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.39 </span>Continued Fractions</span></a></li>
+<li class="ltx_tocentry"><a href="./4.40" title="In Hyperbolic Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.40 </span>Integrals</span></a></li>
+<li class="ltx_tocentry"><a href="./4.41" title="In Hyperbolic Functions â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.41 </span>Sums</span></a></li>
+</ol>
+</li>
+<li id="PT5" class="ltx_tocentry">
+<span class="ltx_text">Applications</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./4.42" title="In Applications â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.42 </span>Solution of Triangles</span></a></li>
+<li class="ltx_tocentry"><a href="./4.43" title="In Applications â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.43 </span>Cubic Equations</span></a></li>
+<li class="ltx_tocentry"><a href="./4.44" title="In Applications â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.44 </span>Other Applications</span></a></li>
+</ol>
+</li>
+<li id="PT6" class="ltx_tocentry">
+<span class="ltx_text">Computation</span>
+<ol class="ltx_toclist ltx_toclist_part">
+<li class="ltx_tocentry"><a href="./4.45" title="In Computation â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.45 </span>Methods of Computation</span></a></li>
+<li class="ltx_tocentry"><a href="./4.46" title="In Computation â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.46 </span>Tables</span></a></li>
+<li class="ltx_tocentry"><a href="./4.47" title="In Computation â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.47 </span>Approximations</span></a></li>
+<li class="ltx_tocentry"><a href="./4.48" title="In Computation â£ Chapter 4 Elementary Functions" class="ltx_ref ltx_toc"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.48 </span>Software</span></a></li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+</section>
+</div>
+<div class="ltx_page_footer">
+<div class="ltx_siblings">
+<a href="./3.12" title="In Areas â£ Chapter 3 Numerical Methods" class="ltx_ref" rel="prev"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">3.12 </span>Mathematical Constants</span></a><a href="./4.1" title="In Notation â£ Chapter 4 Elementary Functions" class="ltx_ref" rel="next"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.1 </span>Special Notation</span></a>
+</div>
+<div class="ltx_footer_links ltx_centering">
+<a href="./about/notices">Â© 2010â2025 NIST</a> / <a href="./about/notices#S2">Disclaimer</a> / <a href="/cdn-cgi/l/email-protection#96d2dadbd0bbf0f3f3f2f4f7f5fdd6f8ffe5e2b8f1f9e0">Feedback</a>;
+ Version 1.2.4;
+Release date 2025-03-15.</div>
+<span id="pagesettings"></span>
+<div class="ltx_nist_logo"><a href="http://www.nist.gov/"><img src="./style/nistidc.png" width="500" alt="NIST"></a></div>
+<div class="ltx_nist_links ltx_align_right">
+<a href="https://www.nist.gov/privacy-policy">Site Privacy</a> <a href="https://www.nist.gov/oism/accessibility">Accessibility</a> <a href="https://www.nist.gov/privacy">Privacy Program</a> <a href="https://www.nist.gov/oism/copyrights">Copyrights</a> <a href="https://www.commerce.gov/vulnerability-disclosure-policy">Vulnerability Disclosure</a> <a href="https://www.nist.gov/no-fear-act-policy">No Fear Act Policy</a> <a href="https://www.nist.gov/foia">FOIA</a> <a href="https://www.nist.gov/environmental-policy-statement">Environmental Policy</a> <a href="https://www.nist.gov/summary-report-scientific-integrity">Scientific Integrity</a> <a href="https://www.nist.gov/nist-information-quality-standards">Information Quality Standards</a> <a href="https://www.commerce.gov/">Commerce.gov</a> <a href="http://www.science.gov/">Science.gov</a> <a href="http://www.usa.gov/">USA.gov</a>
+</div>
+</div>
+</div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'994b1b967b2d437b',t:'MTc2MTQ5MzgwOQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
