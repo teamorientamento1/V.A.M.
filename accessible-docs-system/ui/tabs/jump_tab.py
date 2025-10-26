@@ -1,769 +1,568 @@
-"""
-Jump Manager Tab - UI Completa per Gestione Collegamenti
-"""
-import tkinter as tk
-from tkinter import ttk, messagebox, filedialog, scrolledtext
-from pathlib import Path
-import json
-from typing import Dict, List, Optional
+from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QListWidget, 
+                             QLabel, QPushButton, QTextEdit, QSplitter, QGroupBox,
+                             QListWidgetItem, QMessageBox, QCheckBox, QLineEdit,
+                             QTreeWidget, QTreeWidgetItem, QFrame)
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QPixmap, QFont
+import io
+from PIL import Image
+from core.reference_finder import search_references_in_document
+from ui.dialogs.reference_detail_dialog import ReferenceDetailDialog
 
-class JumpManagerTab(ttk.Frame):
-    """
-    Tab completo per gestione jump con:
-    - Selezione tipo elemento (immagine/equazione/tabella)
-    - Lista elementi trovati
-    - Creazione jump con preview
-    - Validazione collegamenti
-    - Export/import configurazioni
-    """
+
+class JumpTab(QWidget):
+    def __init__(self, main_window):
+        super().__init__()
+        self.main_window = main_window
+        self.elements_data = []
+        self.filtered_elements = []
+        self.current_element = None
+        self.current_references = []
+        self.current_filter = 'all'
+        self.init_ui()
+        
+    def init_ui(self):
+        layout = QVBoxLayout()
+        
+        # === BANNER WARNING ===
+        self.warning_banner = QFrame()
+        self.warning_banner.setStyleSheet("""
+            QFrame {
+                background-color: #fff3cd;
+                border: 2px solid #ffc107;
+                border-radius: 5px;
+                padding: 10px;
+            }
+        """)
+        warning_layout = QHBoxLayout()
+        self.warning_label = QLabel("⚠ Modifiche in corso in altre schede. Clicca per aggiornare.")
+        self.warning_label.setFont(QFont('Arial', 10, QFont.Weight.Bold))
+        self.warning_label.setStyleSheet("color: #856404;")
+        warning_layout.addWidget(self.warning_label)
+        
+        self.btn_warning_refresh = QPushButton("🔄 Aggiorna Ora")
+        self.btn_warning_refresh.setStyleSheet("background: #ffc107; font-weight: bold;")
+        self.btn_warning_refresh.clicked.connect(self.refresh_from_other_tabs)
+        warning_layout.addWidget(self.btn_warning_refresh)
+        
+        self.warning_banner.setLayout(warning_layout)
+        self.warning_banner.hide()
+        layout.addWidget(self.warning_banner)
+        
+        # === SPLITTER PRINCIPALE ===
+        splitter = QSplitter(Qt.Orientation.Horizontal)
+        
+        left_panel = self.create_filters_panel()
+        splitter.addWidget(left_panel)
+        
+        center_panel = self.create_preview_panel()
+        splitter.addWidget(center_panel)
+        
+        right_panel = self.create_config_panel()
+        splitter.addWidget(right_panel)
+        
+        splitter.setSizes([200, 550, 450])
+        layout.addWidget(splitter)
+        
+        self.setLayout(layout)
     
-    def __init__(self, parent, app_controller):
-        super().__init__(parent, padding="10")
-        self.app = app_controller
+    def create_filters_panel(self):
+        panel = QWidget()
+        layout = QVBoxLayout()
         
-        # Dati
-        self.current_analysis = None
-        self.jumps_created = []
-        self.descriptions = {}
-        self.selected_element = None
-        self.next_jump_id = 1
+        title = QLabel("Filtri")
+        title.setFont(QFont('Arial', 10, QFont.Weight.Bold))
+        layout.addWidget(title)
         
-        self._create_ui()
-    
-    def _create_ui(self):
-        """Crea interfaccia completa"""
-        # Main container con scrollbar
-        main_container = ttk.Frame(self)
-        main_container.pack(fill=tk.BOTH, expand=True)
+        # === INDICATORE AGGIORNAMENTO ===
+        self.update_indicator = QLabel("✓ Aggiornato")
+        self.update_indicator.setStyleSheet("color: green; font-weight: bold;")
+        layout.addWidget(self.update_indicator)
         
-        # Header con titolo e stats
-        self._create_header(main_container)
+        self.filter_tree = QTreeWidget()
+        self.filter_tree.setHeaderHidden(True)
+        self.filter_tree.itemClicked.connect(self.on_filter_changed)
         
-        # Contenuto principale in 2 colonne
-        content_frame = ttk.Frame(main_container)
-        content_frame.pack(fill=tk.BOTH, expand=True, pady=10)
+        self.filter_all = QTreeWidgetItem(["Tutti (0)"])
+        self.filter_tree.addTopLevelItem(self.filter_all)
         
-        # Colonna sinistra: Selezione elementi
-        left_panel = ttk.Frame(content_frame)
-        left_panel.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 5))
-        self._create_elements_panel(left_panel)
+        self.filter_images = QTreeWidgetItem(["▼ Immagini (0)"])
+        self.filter_tree.addTopLevelItem(self.filter_images)
         
-        # Colonna destra: Jump e configurazione
-        right_panel = ttk.Frame(content_frame)
-        right_panel.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=(5, 0))
-        self._create_jump_config_panel(right_panel)
+        self.filter_tables = QTreeWidgetItem(["▼ Tabelle (0)"])
+        self.filter_tree.addTopLevelItem(self.filter_tables)
         
-        # Bottom: Azioni e preview
-        self._create_actions_panel(main_container)
-    
-    def _create_header(self, parent):
-        """Header con titolo e statistiche"""
-        header_frame = ttk.Frame(parent)
-        header_frame.pack(fill=tk.X, pady=(0, 10))
+        self.filter_equations = QTreeWidgetItem(["▼ Equazioni (0)"])
+        self.filter_tree.addTopLevelItem(self.filter_equations)
         
-        # Titolo
-        title = ttk.Label(header_frame, text="🔗 Jump Manager", 
-                         font=('Arial', 16, 'bold'))
-        title.pack(side=tk.LEFT)
+        self.filter_eq_matrix = QTreeWidgetItem(["Matrici (0)"])
+        self.filter_eq_super = QTreeWidgetItem(["Apici/Pedici (0)"])
+        self.filter_eq_frac = QTreeWidgetItem(["Frazioni (0)"])
+        self.filter_eq_int = QTreeWidgetItem(["Integrali (0)"])
+        self.filter_eq_other = QTreeWidgetItem(["Altro (0)"])
         
-        # Stats
-        self.stats_var = tk.StringVar(value="Nessun documento caricato")
-        stats_label = ttk.Label(header_frame, textvariable=self.stats_var,
-                               font=('Arial', 10, 'italic'))
-        stats_label.pack(side=tk.RIGHT)
-    
-    def _create_elements_panel(self, parent):
-        """Panel selezione elementi"""
-        # Titolo
-        ttk.Label(parent, text="1. Seleziona Elementi", 
-                 font=('Arial', 12, 'bold')).pack(anchor=tk.W, pady=(0, 10))
+        self.filter_equations.addChildren([
+            self.filter_eq_matrix,
+            self.filter_eq_super,
+            self.filter_eq_frac,
+            self.filter_eq_int,
+            self.filter_eq_other
+        ])
         
-        # Tipo elemento
-        type_frame = ttk.LabelFrame(parent, text="Tipo Elemento", padding="10")
-        type_frame.pack(fill=tk.X, pady=(0, 10))
+        layout.addWidget(self.filter_tree)
         
-        self.element_type_var = tk.StringVar(value="images")
-        
-        element_types = [
-            ("📸 Immagini", "images"),
-            ("∑ Equazioni", "equations"),
-            ("📊 Tabelle", "tables")
-        ]
-        
-        for text, value in element_types:
-            ttk.Radiobutton(type_frame, text=text, variable=self.element_type_var,
-                          value=value, command=self._on_type_changed).pack(anchor=tk.W)
+        self.stats_label = QLabel("0 elementi")
+        layout.addWidget(self.stats_label)
         
         # Lista elementi
-        list_frame = ttk.LabelFrame(parent, text="Elementi Trovati", padding="10")
-        list_frame.pack(fill=tk.BOTH, expand=True)
+        self.elements_list = QListWidget()
+        self.elements_list.itemClicked.connect(self.on_element_clicked)
+        layout.addWidget(self.elements_list)
         
-        # Treeview elementi
-        columns = ('ID', 'Label', 'Posizione', 'Ha Jump')
-        self.elements_tree = ttk.Treeview(list_frame, columns=columns, 
-                                          show='headings', height=10)
-        
-        self.elements_tree.heading('ID', text='ID')
-        self.elements_tree.heading('Label', text='Label')
-        self.elements_tree.heading('Posizione', text='Posizione')
-        self.elements_tree.heading('Ha Jump', text='Jump')
-        
-        self.elements_tree.column('ID', width=50)
-        self.elements_tree.column('Label', width=100)
-        self.elements_tree.column('Posizione', width=100)
-        self.elements_tree.column('Ha Jump', width=80)
-        
-        # Scrollbar
-        scrollbar = ttk.Scrollbar(list_frame, orient=tk.VERTICAL,
-                                 command=self.elements_tree.yview)
-        self.elements_tree.configure(yscrollcommand=scrollbar.set)
-        
-        self.elements_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        
-        # Bind selezione
-        self.elements_tree.bind('<<TreeviewSelect>>', self._on_element_selected)
-        
-        # Info elemento selezionato
-        info_frame = ttk.LabelFrame(parent, text="Info Elemento", padding="5")
-        info_frame.pack(fill=tk.X, pady=(10, 0))
-        
-        self.element_info_text = tk.Text(info_frame, height=4, wrap=tk.WORD,
-                                         font=('Courier', 9))
-        self.element_info_text.pack(fill=tk.BOTH, expand=True)
+        panel.setLayout(layout)
+        return panel
     
-    def _create_jump_config_panel(self, parent):
-        """Panel configurazione jump"""
-        # Titolo
-        ttk.Label(parent, text="2. Configura Jump", 
-                 font=('Arial', 12, 'bold')).pack(anchor=tk.W, pady=(0, 10))
+    def create_preview_panel(self):
+        panel = QWidget()
+        layout = QVBoxLayout()
         
-        # Descrizione
-        desc_frame = ttk.LabelFrame(parent, text="Descrizione Elemento", padding="10")
-        desc_frame.pack(fill=tk.BOTH, expand=True, pady=(0, 10))
+        group_before = QGroupBox("Testo prima (5 righe)")
+        layout_before = QVBoxLayout()
+        self.text_before = QTextEdit()
+        self.text_before.setReadOnly(True)
+        self.text_before.setMaximumHeight(150)
+        layout_before.addWidget(self.text_before)
+        group_before.setLayout(layout_before)
+        layout.addWidget(group_before)
         
-        # Textarea descrizione
-        self.description_text = scrolledtext.ScrolledText(desc_frame, height=8,
-                                                          wrap=tk.WORD,
-                                                          font=('Arial', 10))
-        self.description_text.pack(fill=tk.BOTH, expand=True)
+        group_preview = QGroupBox("Preview Elemento")
+        layout_preview = QVBoxLayout()
         
-        # Pulsanti descrizione
-        desc_buttons = ttk.Frame(desc_frame)
-        desc_buttons.pack(fill=tk.X, pady=(5, 0))
+        self.element_preview = QLabel("Seleziona un elemento")
+        self.element_preview.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.element_preview.setMinimumHeight(300)
+        self.element_preview.setStyleSheet("border: 2px solid #ccc; background: #f9f9f9;")
+        self.element_preview.setWordWrap(True)
+        layout_preview.addWidget(self.element_preview)
         
-        ttk.Button(desc_buttons, text="📋 Carica da File",
-                  command=self._load_descriptions_file).pack(side=tk.LEFT, padx=2)
-        ttk.Button(desc_buttons, text="💾 Salva Descrizioni",
-                  command=self._save_descriptions_file).pack(side=tk.LEFT, padx=2)
-        ttk.Button(desc_buttons, text="🤖 Genera Auto",
-                  command=self._generate_auto_description).pack(side=tk.LEFT, padx=2)
+        self.adjacent_warning = QLabel()
+        self.adjacent_warning.setStyleSheet("color: #ff6600; font-weight: bold;")
+        self.adjacent_warning.hide()
+        layout_preview.addWidget(self.adjacent_warning)
         
-        # Opzioni jump
-        options_frame = ttk.LabelFrame(parent, text="Opzioni Jump", padding="10")
-        options_frame.pack(fill=tk.X, pady=(0, 10))
+        group_preview.setLayout(layout_preview)
+        layout.addWidget(group_preview)
         
-        # Testo link
-        ttk.Label(options_frame, text="Testo Link:").pack(anchor=tk.W)
-        self.link_text_var = tk.StringVar(value="[Vedi descrizione]")
-        ttk.Entry(options_frame, textvariable=self.link_text_var,
-                 width=30).pack(fill=tk.X, pady=(0, 10))
+        group_after = QGroupBox("Testo dopo (5 righe)")
+        layout_after = QVBoxLayout()
+        self.text_after = QTextEdit()
+        self.text_after.setReadOnly(True)
+        self.text_after.setMaximumHeight(150)
+        layout_after.addWidget(self.text_after)
+        group_after.setLayout(layout_after)
+        layout.addWidget(group_after)
         
-        # Posizione link
-        ttk.Label(options_frame, text="Posizione Link:").pack(anchor=tk.W)
-        self.link_position_var = tk.StringVar(value="after")
-        pos_frame = ttk.Frame(options_frame)
-        pos_frame.pack(fill=tk.X)
-        ttk.Radiobutton(pos_frame, text="Prima", variable=self.link_position_var,
-                       value="before").pack(side=tk.LEFT)
-        ttk.Radiobutton(pos_frame, text="Dopo", variable=self.link_position_var,
-                       value="after").pack(side=tk.LEFT)
-        ttk.Radiobutton(pos_frame, text="Inline", variable=self.link_position_var,
-                       value="inline").pack(side=tk.LEFT)
-        
-        # Opzioni avanzate
-        self.add_return_link_var = tk.BooleanVar(value=True)
-        ttk.Checkbutton(options_frame, text="Aggiungi link di ritorno",
-                       variable=self.add_return_link_var).pack(anchor=tk.W, pady=5)
-        
-        self.block_tts_var = tk.BooleanVar(value=True)
-        ttk.Checkbutton(options_frame, text="Blocca TTS su link ritorno",
-                       variable=self.block_tts_var).pack(anchor=tk.W)
-        
-        # Pulsante crea jump
-        ttk.Button(options_frame, text="➕ Crea Jump per Elemento Selezionato",
-                  command=self._create_jump_for_selected,
-                  style='Accent.TButton').pack(fill=tk.X, pady=(10, 0))
+        panel.setLayout(layout)
+        return panel
     
-    def _create_actions_panel(self, parent):
-        """Panel azioni e preview"""
-        actions_frame = ttk.Frame(parent)
-        actions_frame.pack(fill=tk.BOTH, expand=True, pady=(10, 0))
+    def create_config_panel(self):
+        panel = QWidget()
+        layout = QVBoxLayout()
         
-        # Colonna sinistra: Jump creati
-        left = ttk.LabelFrame(actions_frame, text="Jump Creati", padding="10")
-        left.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 5))
+        self.element_info = QLabel("Tipo: - | Label: - | Par: -")
+        self.element_info.setStyleSheet("padding: 5px; background: #e8e8e8;")
+        layout.addWidget(self.element_info)
         
-        # Lista jump
-        jump_columns = ('ID', 'Tipo', 'Da', 'A', 'Stato')
-        self.jumps_tree = ttk.Treeview(left, columns=jump_columns,
-                                       show='headings', height=6)
+        group_search = QGroupBox("Ricerca Riferimenti")
+        layout_search = QVBoxLayout()
         
-        for col in jump_columns:
-            self.jumps_tree.heading(col, text=col)
-            self.jumps_tree.column(col, width=80)
+        search_layout = QHBoxLayout()
+        search_layout.addWidget(QLabel("Cerca:"))
+        self.search_label_input = QLineEdit()
+        self.search_label_input.setPlaceholderText("Fig.2.5")
+        search_layout.addWidget(self.search_label_input)
         
-        scrollbar = ttk.Scrollbar(left, orient=tk.VERTICAL,
-                                 command=self.jumps_tree.yview)
-        self.jumps_tree.configure(yscrollcommand=scrollbar.set)
+        self.btn_search = QPushButton("🔍 Trova")
+        self.btn_search.clicked.connect(self.search_references)
+        search_layout.addWidget(self.btn_search)
+        layout_search.addLayout(search_layout)
         
-        self.jumps_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        self.search_results_label = QLabel("")
+        layout_search.addWidget(self.search_results_label)
         
-        # Pulsanti jump
-        jump_buttons = ttk.Frame(left)
-        jump_buttons.pack(fill=tk.X, pady=(5, 0))
+        self.references_list = QListWidget()
+        self.references_list.setMaximumHeight(150)
+        self.references_list.itemDoubleClicked.connect(self.show_reference_detail)
+        self.references_list.hide()
+        layout_search.addWidget(self.references_list)
         
-        ttk.Button(jump_buttons, text="🗑️ Elimina",
-                  command=self._delete_selected_jump).pack(side=tk.LEFT, padx=2)
-        ttk.Button(jump_buttons, text="✏️ Modifica",
-                  command=self._edit_selected_jump).pack(side=tk.LEFT, padx=2)
-        ttk.Button(jump_buttons, text="✓ Valida Tutti",
-                  command=self._validate_all_jumps).pack(side=tk.LEFT, padx=2)
+        hint_label = QLabel("💡 Doppio-click su riferimento per visualizzare dettagli")
+        hint_label.setStyleSheet("color: #666; font-size: 9pt; font-style: italic;")
+        hint_label.hide()
+        self.hint_label = hint_label
+        layout_search.addWidget(hint_label)
         
-        # Colonna destra: Azioni globali
-        right = ttk.LabelFrame(actions_frame, text="Azioni", padding="10")
-        right.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=(5, 0))
+        ref_buttons = QHBoxLayout()
+        self.btn_select_all_refs = QPushButton("✓ Seleziona Tutti")
+        self.btn_select_all_refs.clicked.connect(self.select_all_references)
+        self.btn_select_all_refs.hide()
+        ref_buttons.addWidget(self.btn_select_all_refs)
         
-        # Azioni batch
-        ttk.Label(right, text="Creazione Batch:", font=('Arial', 10, 'bold')).pack(anchor=tk.W)
+        self.btn_create_refs = QPushButton("Crea Jump Selezionati")
+        self.btn_create_refs.clicked.connect(self.create_reference_jumps)
+        self.btn_create_refs.hide()
+        ref_buttons.addWidget(self.btn_create_refs)
+        layout_search.addLayout(ref_buttons)
         
-        ttk.Button(right, text="🎯 Crea Jump per Tutti gli Elementi",
-                  command=self._create_all_jumps).pack(fill=tk.X, pady=2)
-        ttk.Button(right, text="🔍 Scansiona Riferimenti e Crea Jump",
-                  command=self._scan_and_create_references).pack(fill=tk.X, pady=2)
+        self.btn_edit_individual = QPushButton("Modifica Descrizioni")
+        self.btn_edit_individual.clicked.connect(self.edit_individual_descriptions)
+        self.btn_edit_individual.hide()
+        layout_search.addWidget(self.btn_edit_individual)
         
-        ttk.Separator(right, orient=tk.HORIZONTAL).pack(fill=tk.X, pady=10)
+        group_search.setLayout(layout_search)
+        layout.addWidget(group_search)
         
-        # Export/Import
-        ttk.Label(right, text="Gestione:", font=('Arial', 10, 'bold')).pack(anchor=tk.W)
+        group_link = QGroupBox("Configurazione Link")
+        layout_link = QVBoxLayout()
         
-        ttk.Button(right, text="📤 Esporta Configurazione Jump",
-                  command=self._export_jump_config).pack(fill=tk.X, pady=2)
-        ttk.Button(right, text="📥 Importa Configurazione",
-                  command=self._import_jump_config).pack(fill=tk.X, pady=2)
+        link_layout = QHBoxLayout()
+        link_layout.addWidget(QLabel("Testo link:"))
+        self.link_text_input = QLineEdit()
+        self.link_text_input.setPlaceholderText("📖 Descrizione Fig.2.5")
+        link_layout.addWidget(self.link_text_input)
+        layout_link.addLayout(link_layout)
         
-        ttk.Separator(right, orient=tk.HORIZONTAL).pack(fill=tk.X, pady=10)
+        layout_link.addWidget(QLabel("Descrizione completa:"))
+        self.description_text = QTextEdit()
+        self.description_text.setPlaceholderText("Descrivi dettagliatamente l'elemento...")
+        self.description_text.setMinimumHeight(150)
+        layout_link.addWidget(self.description_text)
         
-        # Finalizzazione
-        ttk.Label(right, text="Documento:", font=('Arial', 10, 'bold')).pack(anchor=tk.W)
+        self.same_desc_check = QCheckBox("Usa stessa descrizione per tutti")
+        self.same_desc_check.setChecked(True)
+        self.same_desc_check.hide()
+        layout_link.addWidget(self.same_desc_check)
         
-        ttk.Button(right, text="✓ Applica Jump al Documento",
-                  command=self._apply_jumps_to_document,
-                  style='Accent.TButton').pack(fill=tk.X, pady=2)
-        ttk.Button(right, text="💾 Salva Documento con Jump",
-                  command=self._save_document_with_jumps,
-                  style='Accent.TButton').pack(fill=tk.X, pady=2)
+        group_link.setLayout(layout_link)
+        layout.addWidget(group_link)
+        
+        buttons_layout = QHBoxLayout()
+        
+        self.btn_preview = QPushButton("Anteprima")
+        self.btn_preview.setEnabled(False)
+        buttons_layout.addWidget(self.btn_preview)
+        
+        self.btn_create = QPushButton("✓ Crea Jump")
+        self.btn_create.setStyleSheet("background: #4CAF50; color: white; font-weight: bold;")
+        self.btn_create.setEnabled(False)
+        self.btn_create.clicked.connect(self.create_jump)
+        buttons_layout.addWidget(self.btn_create)
+        
+        self.btn_apply_all = QPushButton("Applica a Tutti")
+        self.btn_apply_all.setEnabled(False)
+        buttons_layout.addWidget(self.btn_apply_all)
+        
+        layout.addLayout(buttons_layout)
+        
+        group_summary = QGroupBox("Jump Creati")
+        layout_summary = QVBoxLayout()
+        self.jumps_summary = QTextEdit()
+        self.jumps_summary.setReadOnly(True)
+        self.jumps_summary.setMaximumHeight(80)
+        layout_summary.addWidget(self.jumps_summary)
+        group_summary.setLayout(layout_summary)
+        layout.addWidget(group_summary)
+        
+        panel.setLayout(layout)
+        return panel
     
-    # ========== EVENT HANDLERS ==========
+    def showEvent(self, event):
+        super().showEvent(event)
+        self.check_sync()
     
-    def _on_type_changed(self):
-        """Cambiato tipo elemento"""
-        self._refresh_elements_list()
-    
-    def _on_element_selected(self, event):
-        """Elemento selezionato"""
-        selection = self.elements_tree.selection()
-        if not selection:
-            return
+    def check_sync(self):
+        """Controlla se ci sono modifiche e mostra banner"""
+        sync_mgr = self.main_window.sync_manager
         
-        item = self.elements_tree.item(selection[0])
-        element_id = item['values'][0]
-        
-        # Trova elemento nell'analysis
-        element_type = self.element_type_var.get()
-        elements = self.current_analysis.get(element_type, [])
-        
-        for elem in elements:
-            if elem.get('index') == element_id:
-                self.selected_element = elem
-                self._show_element_info(elem)
-                self._load_element_description(elem)
-                break
-    
-    def _show_element_info(self, element):
-        """Mostra info elemento"""
-        self.element_info_text.delete(1.0, tk.END)
-        
-        info = f"ID: {element.get('index')}\n"
-        info += f"Label: {element.get('label', 'N/A')}\n"
-        info += f"Paragrafo: {element.get('paragraph_index', 'N/A')}\n"
-        
-        # Caption (potrebbe essere None)
-        if element.get('caption'):
-            caption_text = str(element['caption'])[:50]
-            info += f"Caption: {caption_text}...\n"
-        
-        # Text representation (per equazioni)
-        if element.get('text_representation'):
-            text_repr = str(element['text_representation'])[:50]
-            info += f"Testo: {text_repr}...\n"
-        
-        # Context (se disponibile)
-        if element.get('context_before'):
-            context = str(element['context_before'])[:30]
-            info += f"Contesto: ...{context}...\n"
-        
-        self.element_info_text.insert(1.0, info)
-    
-    def _load_element_description(self, element):
-        """Carica descrizione elemento se esiste"""
-        label = element.get('label', f"Element_{element.get('index')}")
-        
-        if label in self.descriptions:
-            self.description_text.delete(1.0, tk.END)
-            self.description_text.insert(1.0, self.descriptions[label])
+        if sync_mgr.is_dirty('images') or sync_mgr.is_dirty('tables') or sync_mgr.is_dirty('equations'):
+            self.warning_banner.show()
+            self.update_indicator.setText("⚠ Aggiornamento disponibile")
+            self.update_indicator.setStyleSheet("color: orange; font-weight: bold;")
         else:
-            # Genera placeholder
-            self.description_text.delete(1.0, tk.END)
-            placeholder = f"[Inserisci qui la descrizione dettagliata per {label}]\n\n"
-            placeholder += "Suggerimenti:\n"
-            placeholder += "- Descrivi cosa mostra l'elemento\n"
-            placeholder += "- Spiega il suo significato\n"
-            placeholder += "- Collega al contesto\n"
-            self.description_text.insert(1.0, placeholder)
+            self.warning_banner.hide()
+            self.update_indicator.setText("✓ Aggiornato")
+            self.update_indicator.setStyleSheet("color: green; font-weight: bold;")
     
-    def _create_jump_for_selected(self):
-        """Crea jump per elemento selezionato"""
-        if not self.selected_element:
-            messagebox.showwarning("Attenzione", "Seleziona prima un elemento")
-            return
-        
-        # Ottieni descrizione
-        description = self.description_text.get(1.0, tk.END).strip()
-        if not description or description.startswith("[Inserisci"):
-            if not messagebox.askyesno("Conferma", 
-                "Descrizione mancante o placeholder.\nCreare jump comunque?"):
-                return
-        
-        # Salva descrizione
-        label = self.selected_element.get('label', f"Element_{self.selected_element.get('index')}")
-        self.descriptions[label] = description
-        
-        # Crea jump
-        jump = {
-            'id': self.next_jump_id,
-            'type': self.element_type_var.get()[:-1],  # Rimuovi 's' finale
-            'source_element': self.selected_element,
-            'target_label': label,
-            'description': description,
-            'link_text': self.link_text_var.get(),
-            'link_position': self.link_position_var.get(),
-            'add_return_link': self.add_return_link_var.get(),
-            'block_tts': self.block_tts_var.get(),
-            'status': 'created'
-        }
-        
-        self.jumps_created.append(jump)
-        self.next_jump_id += 1
-        
-        # Aggiorna UI
-        self._refresh_jumps_tree()
-        self._refresh_elements_list()  # Per aggiornare colonna "Ha Jump"
-        
-        messagebox.showinfo("Successo", f"Jump #{jump['id']} creato per {label}")
-    
-    def _create_all_jumps(self):
-        """Crea jump per tutti gli elementi"""
-        element_type = self.element_type_var.get()
-        elements = self.current_analysis.get(element_type, [])
-        
-        if not elements:
-            messagebox.showinfo("Info", "Nessun elemento da elaborare")
-            return
-        
-        if not messagebox.askyesno("Conferma",
-            f"Creare jump per tutti i {len(elements)} elementi?\n"
-            "Le descrizioni mancanti avranno placeholder."):
-            return
-        
-        created = 0
-        for elem in elements:
-            # Skip se ha già jump
-            label = elem.get('label', f"Element_{elem.get('index')}")
-            if any(j['target_label'] == label for j in self.jumps_created):
-                continue
+    def refresh_from_other_tabs(self):
+        if hasattr(self.main_window, 'analysis_results'):
+            self.load_elements(self.main_window.analysis_results)
             
-            # Usa descrizione esistente o placeholder
-            if label not in self.descriptions:
-                self.descriptions[label] = f"[Descrizione da completare per {label}]"
+            sync_mgr = self.main_window.sync_manager
+            sync_mgr.clear_dirty('images')
+            sync_mgr.clear_dirty('tables')
+            sync_mgr.clear_dirty('equations')
             
-            jump = {
-                'id': self.next_jump_id,
-                'type': element_type[:-1],
-                'source_element': elem,
-                'target_label': label,
-                'description': self.descriptions[label],
-                'link_text': self.link_text_var.get(),
-                'link_position': self.link_position_var.get(),
-                'add_return_link': self.add_return_link_var.get(),
-                'block_tts': self.block_tts_var.get(),
-                'status': 'created'
-            }
+            self.warning_banner.hide()
+            self.update_indicator.setText("✓ Aggiornato")
+            self.update_indicator.setStyleSheet("color: green; font-weight: bold;")
+    
+    def load_elements(self, analysis_results):
+        self.elements_data = []
+        
+        if 'images' in analysis_results:
+            for img in analysis_results['images']:
+                img['elem_type'] = 'image'
+                self.elements_data.append(img)
+        
+        if 'tables' in analysis_results:
+            for table in analysis_results['tables']:
+                table['elem_type'] = 'table'
+                self.elements_data.append(table)
+        
+        if 'equations' in analysis_results:
+            for eq in analysis_results['equations']:
+                eq['elem_type'] = 'equation'
+                self.elements_data.append(eq)
+        
+        self.update_filter_counts()
+        self.apply_filter(self.current_filter)
+    
+    def update_filter_counts(self):
+        images_count = sum(1 for e in self.elements_data if e.get('elem_type') == 'image')
+        tables_count = sum(1 for e in self.elements_data if e.get('elem_type') == 'table')
+        equations_count = sum(1 for e in self.elements_data if e.get('elem_type') == 'equation')
+        
+        self.filter_all.setText(0, f"Tutti ({len(self.elements_data)})")
+        self.filter_images.setText(0, f"▼ Immagini ({images_count})")
+        self.filter_tables.setText(0, f"▼ Tabelle ({tables_count})")
+        self.filter_equations.setText(0, f"▼ Equazioni ({equations_count})")
+        
+        self.filter_eq_other.setText(0, f"Altro ({equations_count})")
+    
+    def on_filter_changed(self, item, column):
+        """Applica filtro quando cliccato"""
+        text = item.text(0)
+        
+        if "Tutti" in text:
+            self.current_filter = 'all'
+        elif "Immagini" in text:
+            self.current_filter = 'image'
+        elif "Tabelle" in text:
+            self.current_filter = 'table'
+        elif "Equazioni" in text or "Altro" in text:
+            self.current_filter = 'equation'
+        
+        self.apply_filter(self.current_filter)
+    
+    def apply_filter(self, filter_type):
+        """Filtra elementi per tipo"""
+        self.elements_list.clear()
+        self.filtered_elements = []
+        
+        for elem in self.elements_data:
+            if filter_type == 'all' or elem.get('elem_type') == filter_type:
+                self.filtered_elements.append(elem)
+        
+        for elem in self.filtered_elements:
+            elem_type = elem.get('elem_type')
+            label = elem.get('label', 'N/A')
+            para = elem.get('paragraph_index', 'N/A')
             
-            self.jumps_created.append(jump)
-            self.next_jump_id += 1
-            created += 1
-        
-        self._refresh_jumps_tree()
-        self._refresh_elements_list()
-        
-        messagebox.showinfo("Completato", 
-            f"Creati {created} jump.\n"
-            f"Ricorda di completare le descrizioni placeholder!")
-    
-    def _scan_and_create_references(self):
-        """Scansiona riferimenti e crea jump"""
-        if not self.current_analysis:
-            messagebox.showwarning("Attenzione", "Nessuna analisi caricata")
-            return
-        
-        references = self.current_analysis.get('references', [])
-        if not references:
-            messagebox.showinfo("Info", "Nessun riferimento trovato")
-            return
-        
-        messagebox.showinfo("Info",
-            f"Trovati {len(references)} riferimenti.\n"
-            f"Creazione jump automatici in corso...")
-        
-        # Crea jump per riferimenti
-        # TODO: Implementare logica riferimenti
-        messagebox.showinfo("Info", "Funzione in sviluppo")
-    
-    def _delete_selected_jump(self):
-        """Elimina jump selezionato"""
-        selection = self.jumps_tree.selection()
-        if not selection:
-            messagebox.showwarning("Attenzione", "Seleziona un jump")
-            return
-        
-        item = self.jumps_tree.item(selection[0])
-        jump_id = item['values'][0]
-        
-        if messagebox.askyesno("Conferma", f"Eliminare jump #{jump_id}?"):
-            self.jumps_created = [j for j in self.jumps_created if j['id'] != jump_id]
-            self._refresh_jumps_tree()
-            self._refresh_elements_list()
-    
-    def _edit_selected_jump(self):
-        """Modifica jump selezionato"""
-        selection = self.jumps_tree.selection()
-        if not selection:
-            messagebox.showwarning("Attenzione", "Seleziona un jump")
-            return
-        
-        item = self.jumps_tree.item(selection[0])
-        jump_id = item['values'][0]
-        
-        # Trova jump
-        jump = next((j for j in self.jumps_created if j['id'] == jump_id), None)
-        if not jump:
-            return
-        
-        # Carica nei campi di modifica
-        self.selected_element = jump['source_element']
-        self.description_text.delete(1.0, tk.END)
-        self.description_text.insert(1.0, jump['description'])
-        self.link_text_var.set(jump['link_text'])
-        
-        messagebox.showinfo("Modifica", 
-            "Jump caricato nei campi.\n"
-            "Modifica i valori e ricrea il jump.")
-    
-    def _validate_all_jumps(self):
-        """Valida tutti i jump"""
-        if not self.jumps_created:
-            messagebox.showinfo("Info", "Nessun jump da validare")
-            return
-        
-        # TODO: Implementare validazione
-        valid = 0
-        warnings = []
-        
-        for jump in self.jumps_created:
-            # Check descrizione
-            if not jump['description'] or jump['description'].startswith("["):
-                warnings.append(f"Jump #{jump['id']}: descrizione placeholder")
+            if elem_type == 'image':
+                text = f"📷 {label} - Par.{para}"
+            elif elem_type == 'table':
+                text = f"📊 Tabella {para}"
+            elif elem_type == 'equation':
+                text = f"🧮 {str(label)[:30]}... - Par.{para}"
             else:
-                valid += 1
-        
-        message = f"Validazione completata:\n"
-        message += f"✓ {valid} jump validi\n"
-        if warnings:
-            message += f"⚠ {len(warnings)} warning\n\n"
-            message += "\n".join(warnings[:5])
-            if len(warnings) > 5:
-                message += f"\n... e altri {len(warnings)-5}"
-        
-        messagebox.showinfo("Validazione", message)
-    
-    def _load_descriptions_file(self):
-        """Carica descrizioni da file JSON"""
-        filepath = filedialog.askopenfilename(
-            title="Carica Descrizioni",
-            filetypes=[("JSON", "*.json"), ("Tutti", "*.*")]
-        )
-        
-        if filepath:
-            try:
-                with open(filepath, 'r', encoding='utf-8') as f:
-                    loaded = json.load(f)
-                
-                self.descriptions.update(loaded)
-                messagebox.showinfo("Successo", 
-                    f"Caricate {len(loaded)} descrizioni")
-                
-                # Ricarica descrizione corrente se presente
-                if self.selected_element:
-                    self._load_element_description(self.selected_element)
-                    
-            except Exception as e:
-                messagebox.showerror("Errore", f"Errore caricamento: {e}")
-    
-    def _save_descriptions_file(self):
-        """Salva descrizioni su file JSON"""
-        if not self.descriptions:
-            messagebox.showinfo("Info", "Nessuna descrizione da salvare")
-            return
-        
-        filepath = filedialog.asksaveasfilename(
-            title="Salva Descrizioni",
-            defaultextension=".json",
-            filetypes=[("JSON", "*.json"), ("Tutti", "*.*")]
-        )
-        
-        if filepath:
-            try:
-                with open(filepath, 'w', encoding='utf-8') as f:
-                    json.dump(self.descriptions, f, indent=2, ensure_ascii=False)
-                
-                messagebox.showinfo("Successo", 
-                    f"Salvate {len(self.descriptions)} descrizioni")
-            except Exception as e:
-                messagebox.showerror("Errore", f"Errore salvataggio: {e}")
-    
-    def _generate_auto_description(self):
-        """Genera descrizione automatica (placeholder intelligente)"""
-        if not self.selected_element:
-            messagebox.showwarning("Attenzione", "Seleziona un elemento")
-            return
-        
-        element = self.selected_element
-        element_type = self.element_type_var.get()[:-1]
-        
-        # Genera descrizione basata su tipo e contesto
-        description = f"Descrizione auto-generata per {element_type}:\n\n"
-        
-        label = element.get('label')
-        if label:
-            description += f"Etichetta: {label}\n"
-        
-        caption = element.get('caption')
-        if caption:
-            caption_text = str(caption)[:200]
-            description += f"Caption: {caption_text}\n\n"
-        
-        context_before = element.get('context_before')
-        if context_before:
-            context_text = str(context_before)[:100]
-            description += f"Contesto: {context_text}...\n\n"
-        
-        description += "[Completa con dettagli specifici]"
-        
-        self.description_text.delete(1.0, tk.END)
-        self.description_text.insert(1.0, description)
-        
-        messagebox.showinfo("Info", "Descrizione base generata. Completa i dettagli!")
-    
-    def _export_jump_config(self):
-        """Esporta configurazione jump"""
-        if not self.jumps_created:
-            messagebox.showinfo("Info", "Nessun jump da esportare")
-            return
-        
-        filepath = filedialog.asksaveasfilename(
-            title="Esporta Configurazione Jump",
-            defaultextension=".json",
-            filetypes=[("JSON", "*.json"), ("Tutti", "*.*")]
-        )
-        
-        if filepath:
-            try:
-                config = {
-                    'jumps': self.jumps_created,
-                    'descriptions': self.descriptions,
-                    'metadata': {
-                        'total_jumps': len(self.jumps_created),
-                        'element_types': list(set(j['type'] for j in self.jumps_created))
-                    }
-                }
-                
-                with open(filepath, 'w', encoding='utf-8') as f:
-                    json.dump(config, f, indent=2, ensure_ascii=False)
-                
-                messagebox.showinfo("Successo", "Configurazione esportata")
-            except Exception as e:
-                messagebox.showerror("Errore", f"Errore export: {e}")
-    
-    def _import_jump_config(self):
-        """Importa configurazione jump"""
-        filepath = filedialog.askopenfilename(
-            title="Importa Configurazione Jump",
-            filetypes=[("JSON", "*.json"), ("Tutti", "*.*")]
-        )
-        
-        if filepath:
-            try:
-                with open(filepath, 'r', encoding='utf-8') as f:
-                    config = json.load(f)
-                
-                if 'jumps' in config:
-                    self.jumps_created = config['jumps']
-                if 'descriptions' in config:
-                    self.descriptions = config['descriptions']
-                
-                self._refresh_jumps_tree()
-                self._refresh_elements_list()
-                
-                messagebox.showinfo("Successo", 
-                    f"Importati {len(self.jumps_created)} jump")
-            except Exception as e:
-                messagebox.showerror("Errore", f"Errore import: {e}")
-    
-    def _apply_jumps_to_document(self):
-        """Applica i jump al documento Word"""
-        if not self.jumps_created:
-            messagebox.showwarning("Attenzione", "Nessun jump da applicare")
-            return
-        
-        if not hasattr(self.app, 'analyzer') or not self.app.analyzer:
-            messagebox.showwarning("Attenzione", "Carica prima un documento")
-            return
-        
-        messagebox.showinfo("Applicazione Jump",
-            f"Applicazione di {len(self.jumps_created)} jump al documento...\n"
-            "Questa operazione può richiedere alcuni secondi.")
-        
-        # TODO: Chiamare JumpManager per applicare effettivamente i jump
-        # Per ora simuliamo
-        messagebox.showinfo("Info", "Funzione in fase di integrazione finale")
-    
-    def _save_document_with_jumps(self):
-        """Salva documento con jump applicati"""
-        filepath = filedialog.asksaveasfilename(
-            title="Salva Documento con Jump",
-            defaultextension=".docx",
-            filetypes=[("Word", "*.docx"), ("Tutti", "*.*")]
-        )
-        
-        if filepath:
-            messagebox.showinfo("Salvataggio",
-                f"Salvataggio documento con {len(self.jumps_created)} jump...\n"
-                f"Path: {filepath}")
+                text = f"{label} - Par.{para}"
             
-            # TODO: Salvare effettivamente
-            messagebox.showinfo("Info", "Funzione in fase di integrazione finale")
+            item = QListWidgetItem(text)
+            item.setData(Qt.ItemDataRole.UserRole, elem)
+            self.elements_list.addItem(item)
+        
+        self.stats_label.setText(f"{len(self.filtered_elements)} elementi")
     
-    # ========== UTILITY METHODS ==========
+    def on_element_clicked(self, item):
+        element_data = item.data(Qt.ItemDataRole.UserRole)
+        if element_data:
+            self.on_element_selected(element_data)
     
-    def load_analysis(self, analysis: Dict):
-        """Carica analisi documento"""
-        self.current_analysis = analysis
-        self.jumps_created = []
-        self.descriptions = {}
-        self.selected_element = None
+    def on_element_selected(self, element_data):
+        self.current_element = element_data.copy()
+        elem_type = element_data.get('elem_type')
         
-        # Aggiorna stats
-        stats = analysis.get('statistics', {})
-        self.stats_var.set(
-            f"📊 Immagini: {stats.get('total_images', 0)} | "
-            f"Equazioni: {stats.get('total_equations', 0)} | "
-            f"Tabelle: {stats.get('total_tables', 0)}"
-        )
+        label = element_data.get('label', 'N/A')
+        para = element_data.get('paragraph_index', 'N/A')
+        self.element_info.setText(f"Tipo: {elem_type.upper()} | Label: {label} | Par: {para}")
         
-        self._refresh_elements_list()
+        self.show_context_text(element_data)
+        
+        if elem_type == 'image':
+            self.show_image_preview(element_data)
+        elif elem_type == 'table':
+            self.show_table_preview(element_data)
+        elif elem_type == 'equation':
+            self.show_equation_preview(element_data)
+        
+        self.search_label_input.setText(str(label))
+        self.link_text_input.setText(f"📖 Descrizione {label}")
+        
+        self.btn_create.setEnabled(True)
+        self.btn_preview.setEnabled(True)
+        self.btn_apply_all.setEnabled(True)
     
-    def _refresh_elements_list(self):
-        """Aggiorna lista elementi"""
-        # Pulisci
-        for item in self.elements_tree.get_children():
-            self.elements_tree.delete(item)
-        
-        if not self.current_analysis:
-            return
-        
-        # Ottieni elementi del tipo selezionato
-        element_type = self.element_type_var.get()
-        elements = self.current_analysis.get(element_type, [])
-        
-        # IMPORTANTE: Limita numero elementi mostrati per performance
-        MAX_DISPLAY = 500
-        total_elements = len(elements)
-        display_elements = elements[:MAX_DISPLAY]
-        
-        # Avvisa se ci sono troppi elementi
-        if total_elements > MAX_DISPLAY:
-            messagebox.showinfo("Info", 
-                f"Trovati {total_elements} elementi!\n"
-                f"Mostro solo i primi {MAX_DISPLAY} per performance.\n"
-                f"Usa la ricerca o il batch processing per gestirli tutti.")
-        
-        # Popola tree
-        for elem in display_elements:
-            elem_id = elem.get('index', 0)
-            label = elem.get('label', f"Element {elem_id}")
-            
-            # Posizione
-            para_idx = elem.get('paragraph_index')
-            if para_idx is not None:
-                position = f"Para {para_idx}"
-            elif elem.get('in_table'):
-                position = f"Tab {elem.get('table_index', '?')}"
+    def show_context_text(self, element_data):
+        if 'context_before' in element_data:
+            before = element_data['context_before']
+            if isinstance(before, list):
+                self.text_before.setText('\n'.join(before))
             else:
-                position = "N/A"
-            
-            # Ha jump?
-            has_jump = "✓" if any(j['target_label'] == label for j in self.jumps_created) else ""
-            
-            self.elements_tree.insert('', tk.END, values=(
-                elem_id, label, position, has_jump
-            ))
+                self.text_before.setText(str(before))
+        else:
+            self.text_before.setText("Contesto non disponibile")
         
-        # Aggiorna stats con totale
-        if hasattr(self, 'stats_var'):
-            stats = self.current_analysis.get('statistics', {})
-            self.stats_var.set(
-                f"📊 Immagini: {stats.get('total_images', 0)} | "
-                f"Equazioni: {stats.get('total_equations', 0)} | "
-                f"Tabelle: {stats.get('total_tables', 0)} | "
-                f"Mostrando: {len(display_elements)}/{total_elements} {element_type}"
-            )
+        if 'context_after' in element_data:
+            after = element_data['context_after']
+            if isinstance(after, list):
+                self.text_after.setText('\n'.join(after))
+            else:
+                self.text_after.setText(str(after))
+        else:
+            self.text_after.setText("Contesto non disponibile")
     
-    def _refresh_jumps_tree(self):
-        """Aggiorna lista jump creati"""
-        # Pulisci
-        for item in self.jumps_tree.get_children():
-            self.jumps_tree.delete(item)
+    def show_image_preview(self, img_data):
+        try:
+            if 'image_part' in img_data and img_data['image_part']:
+                image_bytes = img_data['image_part'].blob
+                pil_image = Image.open(io.BytesIO(image_bytes))
+                
+                pil_image.thumbnail((500, 280), Image.Resampling.LANCZOS)
+                
+                img_byte_arr = io.BytesIO()
+                pil_image.save(img_byte_arr, format='PNG')
+                
+                pixmap = QPixmap()
+                pixmap.loadFromData(img_byte_arr.getvalue())
+                self.element_preview.setPixmap(pixmap)
+            else:
+                self.element_preview.setText("Preview non disponibile")
+        except Exception as e:
+            self.element_preview.setText(f"Errore\n{str(e)}")
+    
+    def show_table_preview(self, table_data):
+        text = "TABELLA\n\n"
+        if 'rows' in table_data:
+            for i, row in enumerate(table_data['rows'][:5]):
+                text += f"Riga {i+1}: {' | '.join([str(c)[:20] for c in row[:5]])}\n"
+            if len(table_data['rows']) > 5:
+                text += f"\n... altre {len(table_data['rows'])-5} righe"
+        self.element_preview.setText(text)
+        self.element_preview.setPixmap(QPixmap())
+    
+    def show_equation_preview(self, eq_data):
+        text = "EQUAZIONE\n\n"
+        text += eq_data.get('text_representation', 'N/A')
+        self.element_preview.setText(text)
+        self.element_preview.setPixmap(QPixmap())
+    
+    def search_references(self):
+        label = self.search_label_input.text().strip()
+        if not label:
+            return
         
-        # Popola
-        for jump in self.jumps_created:
-            source_label = jump['source_element'].get('label', 'N/A')
+        if hasattr(self.main_window, 'analyzer') and self.main_window.analyzer:
+            doc = self.main_window.analyzer.document
+            refs = search_references_in_document(doc, label)
             
-            self.jumps_tree.insert('', tk.END, values=(
-                jump['id'],
-                jump['type'].capitalize(),
-                source_label,
-                jump['target_label'],
-                '✓' if jump['status'] == 'created' else '⚠'
-            ))
+            self.current_references = refs
+            
+            if refs:
+                self.search_results_label.setText(f"✓ Trovati {len(refs)} riferimenti:")
+                
+                self.references_list.clear()
+                self.references_list.show()
+                self.hint_label.show()
+                
+                for ref in refs:
+                    context = f"{ref['context_before'][-30:]}{ref['variant_found']}{ref['context_after'][:30]}"
+                    item_text = f"□ Par.{ref['paragraph_index']}: ...{context}..."
+                    item = QListWidgetItem(item_text)
+                    item.setCheckState(Qt.CheckState.Unchecked)
+                    item.setData(Qt.ItemDataRole.UserRole, ref)
+                    self.references_list.addItem(item)
+                
+                self.btn_select_all_refs.show()
+                self.btn_create_refs.show()
+                self.btn_edit_individual.show()
+                self.same_desc_check.show()
+            else:
+                self.search_results_label.setText("Nessun riferimento trovato")
+                self.references_list.hide()
+                self.hint_label.hide()
+                self.btn_select_all_refs.hide()
+                self.btn_create_refs.hide()
+                self.btn_edit_individual.hide()
+                self.same_desc_check.hide()
+    
+    def show_reference_detail(self, item):
+        """Mostra dialog dettaglio riferimento"""
+        ref_data = item.data(Qt.ItemDataRole.UserRole)
+        if not ref_data:
+            return
+        
+        dialog = ReferenceDetailDialog(ref_data, self)
+        if dialog.exec() == dialog.DialogCode.Accepted:
+            if dialog.is_selected():
+                item.setCheckState(Qt.CheckState.Checked)
+    
+    def select_all_references(self):
+        for i in range(self.references_list.count()):
+            item = self.references_list.item(i)
+            item.setCheckState(Qt.CheckState.Checked)
+    
+    def create_reference_jumps(self):
+        selected = []
+        for i in range(self.references_list.count()):
+            item = self.references_list.item(i)
+            if item.checkState() == Qt.CheckState.Checked:
+                selected.append(self.current_references[i])
+        
+        if not selected:
+            QMessageBox.warning(self, "Attenzione", "Seleziona almeno un riferimento")
+            return
+        
+        description = self.description_text.toPlainText().strip()
+        if not description:
+            QMessageBox.warning(self, "Attenzione", "Inserisci una descrizione")
+            return
+        
+        QMessageBox.information(self, "Jump Creati", f"Creati {len(selected)} jump per riferimenti")
+        
+        label = self.search_label_input.text()
+        summary = self.jumps_summary.toPlainText()
+        summary += f"\n✓ {len(selected)} riferimenti a '{label}'"
+        self.jumps_summary.setText(summary)
+    
+    def edit_individual_descriptions(self):
+        QMessageBox.information(self, "Info", "Funzione in sviluppo")
+    
+    def create_jump(self):
+        if not self.current_element:
+            QMessageBox.warning(self, "Errore", "Nessun elemento selezionato")
+            return
+        
+        description = self.description_text.toPlainText().strip()
+        if not description:
+            QMessageBox.warning(self, "Errore", "Inserisci una descrizione")
+            return
+        
+        label = self.current_element.get('label', 'Elemento')
+        
+        QMessageBox.information(self, "Jump Creato", f"Jump creato per: {label}")
+        
+        summary = self.jumps_summary.toPlainText()
+        summary += f"\n✓ {label}: {description[:40]}..."
+        self.jumps_summary.setText(summary)
+        
+        self.description_text.clear()
