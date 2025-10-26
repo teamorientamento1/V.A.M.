@@ -1,5 +1,5 @@
 """
-Interfaccia Grafica Principale - UI con Tab
+Interfaccia Grafica Principale - UI con Tab AGGIORNATA
 """
 import sys
 from pathlib import Path
@@ -18,12 +18,12 @@ from modules.symbol_dictionary.symbol_manager import SymbolDictionary
 
 class AccessibleDocsUI:
     """
-    Interfaccia grafica principale del sistema
+    Interfaccia grafica principale del sistema AGGIORNATA
     
     Struttura:
     - Tab 1: Caricamento documento
     - Tab 2: Analisi risultati
-    - Tab 3: Jump Manager
+    - Tab 3: Jump Manager (NUOVO - UI COMPLETA)
     - Tab 4: Dizionario Simboli
     - Tab 5: Editor Formule
     - Tab 6: Esportazione
@@ -99,7 +99,7 @@ class AccessibleDocsUI:
         # Crea tabs
         self._create_load_tab()
         self._create_analysis_tab()
-        self._create_jump_tab()
+        self._create_jump_tab()  # NUOVA VERSIONE
         self._create_dictionary_tab()
         self._create_formula_tab()
         self._create_export_tab()
@@ -176,23 +176,18 @@ Istruzioni:
                   command=self.learn_from_analysis).pack(side=tk.LEFT, padx=5)
         ttk.Button(btn_frame, text="Esporta Report", 
                   command=self.export_analysis_report).pack(side=tk.LEFT, padx=5)
+        ttk.Button(btn_frame, text="➡️ Vai a Jump Manager", 
+                  command=self.go_to_jump_manager).pack(side=tk.LEFT, padx=5)
     
     def _create_jump_tab(self):
-        """Tab 3: Jump Manager"""
-        tab = ttk.Frame(self.notebook, padding="20")
-        self.notebook.add(tab, text="🔗 Jump Manager")
+        """Tab 3: Jump Manager - NUOVA VERSIONE COMPLETA"""
+        from ui.tabs.jump_tab import JumpManagerTab
         
-        ttk.Label(tab, text="Gestione Collegamenti Ipertestuali", 
-                 font=('Arial', 16, 'bold')).pack(pady=10)
+        # Crea tab completo con UI interna
+        self.jump_tab = JumpManagerTab(self.notebook, self)
+        self.notebook.add(self.jump_tab, text="🔗 Jump Manager")
         
-        # TODO: Implementare UI per jump manager
-        ttk.Label(tab, text="[Funzionalità in sviluppo]", 
-                 font=('Arial', 12, 'italic'), foreground='gray').pack(pady=20)
-        
-        # Placeholder buttons
-        ttk.Button(tab, text="Crea Jump per Immagini").pack(pady=5)
-        ttk.Button(tab, text="Scansiona Riferimenti").pack(pady=5)
-        ttk.Button(tab, text="Valida Collegamenti").pack(pady=5)
+        # La tab gestisce tutto internamente
     
     def _create_dictionary_tab(self):
         """Tab 4: Dizionario Simboli"""
@@ -329,9 +324,26 @@ Istruzioni:
             if self.current_analysis.get('equations'):
                 self._update_symbols_list()
             
+            # NUOVO: Carica analisi nel Jump Manager
+            if hasattr(self, 'jump_tab'):
+                self.jump_tab.load_analysis(self.current_analysis)
+                self.log_message("Analisi caricata in Jump Manager")
+            
         except Exception as e:
             messagebox.showerror("Errore", f"Errore durante l'analisi: {e}")
             self.status_var.set("Errore analisi")
+    
+    def go_to_jump_manager(self):
+        """Vai al tab Jump Manager"""
+        if not self.current_analysis:
+            messagebox.showwarning("Attenzione", 
+                "Esegui prima l'analisi del documento")
+            return
+        
+        # Switch a tab 3 (Jump Manager)
+        self.notebook.select(2)
+        messagebox.showinfo("Jump Manager",
+            "Ora puoi creare collegamenti per immagini, equazioni e tabelle!")
     
     def learn_from_analysis(self):
         """Impara dall'analisi e aggiorna KB"""
@@ -484,9 +496,11 @@ GUIDA RAPIDA
    - Aggiungi pattern analizzati al KB
    - Il KB crescerà con ogni documento
 
-3. JUMP MANAGER
-   - Crea collegamenti per immagini
-   - Gestisci riferimenti
+3. JUMP MANAGER (NUOVO!)
+   - Seleziona tipo elemento (immagine/equazione/tabella)
+   - Aggiungi descrizioni
+   - Crea jump automatici
+   - Valida e esporta configurazioni
 
 4. DIZIONARIO
    - Personalizza pronuncia simboli
@@ -502,10 +516,16 @@ GUIDA RAPIDA
         """Mostra info"""
         about_text = f"""
 Accessible Docs System
-Versione 1.0
+Versione 1.1 - Con Jump Manager Avanzato
 
 Sistema per rendere accessibili documenti
 scientifici a persone non vedenti.
+
+Novità v1.1:
+- Jump Manager con UI completa
+- Gestione immagini/equazioni/tabelle
+- Export/import configurazioni
+- Validazione collegamenti
 
 Knowledge Base: {DATABASE_PATH}
 Backup: ogni {AUTO_BACKUP_INTERVAL//60} minuti
