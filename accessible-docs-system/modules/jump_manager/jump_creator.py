@@ -115,37 +115,53 @@ class JumpManager:
     
     def add_simple_description(self, label, description, image_path=None):
         """Aggiunge una descrizione semplice"""
-        sep = self.document.add_paragraph()
-        sep.add_run("─" * 50).font.color.rgb = RGBColor(200, 200, 200)
-        
-        title = self.document.add_paragraph()
-        bookmark_name = self._sanitize_bookmark_name(f"DESC_{label}")
-        
-        title_run = title.add_run(f"📷 {label}")
-        title_run.bold = True
-        title_run.font.size = Pt(14)
-        title_run.font.color.rgb = RGBColor(0, 102, 204)
-        self._create_bookmark(title, bookmark_name)
-        
-        if image_path:
-            try:
-                img_para = self.document.add_paragraph()
-                img_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                img_para.add_run().add_picture(image_path, width=Inches(3))
-            except:
-                pass
-        
-        desc = self.document.add_paragraph()
-        desc.add_run(description).font.size = Pt(11)
-        
-        ret = self.document.add_paragraph()
-        ret.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        ret_run = ret.add_run("↑ Torna al testo")
-        ret_run.font.size = Pt(9)
-        ret_run.font.color.rgb = RGBColor(128, 128, 128)
-        ret_run.italic = True
-        
-        self.document.add_paragraph()
+        try:
+            sep = self.document.add_paragraph()
+            sep.add_run("─" * 50).font.color.rgb = RGBColor(200, 200, 200)
+            
+            title = self.document.add_paragraph()
+            bookmark_name = self._sanitize_bookmark_name(f"DESC_{label}")
+            
+            title_run = title.add_run(f"📷 {label}")
+            title_run.bold = True
+            title_run.font.size = Pt(14)
+            title_run.font.color.rgb = RGBColor(0, 102, 204)
+            self._create_bookmark(title, bookmark_name)
+            
+            if image_path:
+                try:
+                    img_para = self.document.add_paragraph()
+                    img_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                    img_para.add_run().add_picture(image_path, width=Inches(3))
+                except:
+                    pass
+            
+            desc = self.document.add_paragraph()
+            desc.add_run(description).font.size = Pt(11)
+            
+            ret = self.document.add_paragraph()
+            ret.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+            ret_run = ret.add_run("↑ Torna al testo")
+            ret_run.font.size = Pt(9)
+            ret_run.font.color.rgb = RGBColor(128, 128, 128)
+            ret_run.italic = True
+            
+            self.document.add_paragraph()
+            
+            # Salva nel registro
+            jump_info = {
+                'type': 'simple',
+                'label': label,
+                'bookmark': bookmark_name,
+                'description_length': len(description)
+            }
+            
+            self.jump_map[label] = jump_info
+            return jump_info
+            
+        except Exception as e:
+            print(f"Errore add_simple_description: {e}")
+            return None
     
     def _insert_paragraph_after(self, paragraph):
         """Inserisce un nuovo paragrafo dopo quello specificato"""

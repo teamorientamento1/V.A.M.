@@ -1,13 +1,20 @@
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QListWidget, 
                              QLabel, QPushButton, QTextEdit, QSplitter, QGroupBox,
                              QListWidgetItem, QMessageBox, QCheckBox, QLineEdit,
-                             QTreeWidget, QTreeWidgetItem, QFrame)
+                             QTreeWidget, QTreeWidgetItem, QFrame, QDialog, QDialogButtonBox,
+                             QTreeWidgetItemIterator, QFileDialog)
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QPixmap, QFont
+from PyQt6.QtGui import QPixmap, QFont, QColor, QBrush
 import io
 from PIL import Image
 from core.reference_finder import search_references_in_document
 from ui.dialogs.reference_detail_dialog import ReferenceDetailDialog
+from ui.dialogs.pattern_manager_dialog import PatternManagerDialog
+from modules.jump_manager.image_pattern_manager import ImagePatternManager
+from modules.jump_manager.reference_deduplicator import ReferenceDeduplicator
+from modules.jump_manager.label_hierarchy_analyzer import LabelHierarchyAnalyzer
+from modules.jump_manager.jump_tracker import JumpTracker
+from modules.jump_manager.jump_creator import JumpManager
 
 
 class JumpTab(QWidget):
@@ -19,7 +26,34 @@ class JumpTab(QWidget):
         self.current_element = None
         self.current_references = []
         self.current_filter = 'all'
+        self.pattern_manager = ImagePatternManager()
+        self.deduplicator = ReferenceDeduplicator(similarity_threshold=0.85)
+        self.hierarchy_analyzer = LabelHierarchyAnalyzer()
+        self.jump_tracker = JumpTracker()
+        self.jump_manager = None  # Verrà creato quando si carica un documento
+        self.edit_mode = False  # True quando si modifica jump esistente
         self.init_ui()
+
+    def _nearest_label_by_paragraph(self, element_para_index, all_references):
+        """Restituisce (etichetta, tipo) del riferimento più vicino per paragrafo.
+        all_references: lista di dict con chiavi: 'label','type','paragraph_index'.
+        In caso di parità, preferisce il riferimento precedente (sopra)."""
+        best = None
+        best_dist = None
+        for ref in all_references:
+            pi = ref.get('paragraph_index')
+            if pi is None:
+                continue
+            dist = abs(pi - element_para_index)
+            # tie-break: preferisci precedente
+            tie = best is not None and dist == best_dist and pi < element_para_index and best[2] >= element_para_index
+            if best is None or dist < best_dist or tie:
+                best = (ref.get('label'), ref.get('type'), pi)
+                best_dist = dist
+        if best is None:
+            return None, None
+        return best[0], best[1]
+
         
     def init_ui(self):
         layout = QVBoxLayout()
@@ -48,6 +82,31 @@ class JumpTab(QWidget):
         self.warning_banner.setLayout(warning_layout)
         self.warning_banner.hide()
         layout.addWidget(self.warning_banner)
+        
+        # === BANNER MODALITÀ MODIFICA ===
+        self.edit_mode_banner = QFrame()
+        self.edit_mode_banner.setStyleSheet("""
+            QFrame {
+                background-color: #fff3cd;
+                border: 2px solid #ff9800;
+                border-radius: 5px;
+                padding: 10px;
+            }
+        """)
+        edit_mode_layout = QHBoxLayout()
+        self.edit_mode_label = QLabel("⚠️ MODALITÀ MODIFICA - Stai modificando un jump esistente")
+        self.edit_mode_label.setFont(QFont('Arial', 10, QFont.Weight.Bold))
+        self.edit_mode_label.setStyleSheet("color: #e65100;")
+        edit_mode_layout.addWidget(self.edit_mode_label)
+        
+        self.btn_cancel_edit = QPushButton("❌ Annulla Modifica")
+        self.btn_cancel_edit.setStyleSheet("background: #ff5722; color: white; font-weight: bold;")
+        self.btn_cancel_edit.clicked.connect(self.cancel_edit_mode)
+        edit_mode_layout.addWidget(self.btn_cancel_edit)
+        
+        self.edit_mode_banner.setLayout(edit_mode_layout)
+        self.edit_mode_banner.hide()
+        layout.addWidget(self.edit_mode_banner)
         
         # === SPLITTER PRINCIPALE ===
         splitter = QSplitter(Qt.Orientation.Horizontal)
@@ -114,6 +173,23 @@ class JumpTab(QWidget):
         self.stats_label = QLabel("0 elementi")
         layout.addWidget(self.stats_label)
         
+        # === PULSANTE VEDI TUTTI JUMP ===
+        self.btn_view_all_jumps = QPushButton("📋 Vedi Tutti Jump Creati")
+        self.btn_view_all_jumps.setStyleSheet("""
+            QPushButton {
+                background-color: #4CAF50;
+                color: white;
+                font-weight: bold;
+                padding: 8px;
+                border-radius: 4px;
+            }
+            QPushButton:hover {
+                background-color: #45a049;
+            }
+        """)
+        self.btn_view_all_jumps.clicked.connect(self.show_all_jumps_dialog)
+        layout.addWidget(self.btn_view_all_jumps)
+        
         # Lista elementi
         self.elements_list = QListWidget()
         self.elements_list.itemClicked.connect(self.on_element_clicked)
@@ -126,7 +202,7 @@ class JumpTab(QWidget):
         panel = QWidget()
         layout = QVBoxLayout()
         
-        group_before = QGroupBox("Testo prima (5 righe)")
+        group_before = QGroupBox("Testo prima (10 righe)")
         layout_before = QVBoxLayout()
         self.text_before = QTextEdit()
         self.text_before.setReadOnly(True)
@@ -153,7 +229,7 @@ class JumpTab(QWidget):
         group_preview.setLayout(layout_preview)
         layout.addWidget(group_preview)
         
-        group_after = QGroupBox("Testo dopo (5 righe)")
+        group_after = QGroupBox("Testo dopo (10 righe)")
         layout_after = QVBoxLayout()
         self.text_after = QTextEdit()
         self.text_after.setReadOnly(True)
@@ -187,10 +263,27 @@ class JumpTab(QWidget):
         search_layout.addWidget(self.btn_search)
         layout_search.addLayout(search_layout)
         
+        # === PULSANTI GESTIONE PATTERN ===
+        pattern_buttons = QHBoxLayout()
+        
+        self.btn_add_pattern = QPushButton("➕ Aggiungi Nome")
+        self.btn_add_pattern.setToolTip("Aggiungi il nome corrente all'elenco dei nomi riconosciuti")
+        self.btn_add_pattern.setStyleSheet("background: #4CAF50; color: white;")
+        self.btn_add_pattern.clicked.connect(self.quick_add_pattern)
+        pattern_buttons.addWidget(self.btn_add_pattern)
+        
+        self.btn_manage_patterns = QPushButton("⚙️ Gestisci Nomi")
+        self.btn_manage_patterns.setToolTip("Visualizza e gestisci tutti i nomi delle immagini")
+        self.btn_manage_patterns.clicked.connect(self.open_pattern_manager)
+        pattern_buttons.addWidget(self.btn_manage_patterns)
+        
+        layout_search.addLayout(pattern_buttons)
+        
         self.search_results_label = QLabel("")
         layout_search.addWidget(self.search_results_label)
         
-        self.references_list = QListWidget()
+        self.references_list = QTreeWidget()
+        self.references_list.setHeaderLabels(["Riferimenti Trovati"])
         self.references_list.setMaximumHeight(150)
         self.references_list.itemDoubleClicked.connect(self.show_reference_detail)
         self.references_list.hide()
@@ -252,7 +345,7 @@ class JumpTab(QWidget):
         self.btn_preview.setEnabled(False)
         buttons_layout.addWidget(self.btn_preview)
         
-        self.btn_create = QPushButton("✓ Crea Jump")
+        self.btn_create = QPushButton("✨ Crea Jump")
         self.btn_create.setStyleSheet("background: #4CAF50; color: white; font-weight: bold;")
         self.btn_create.setEnabled(False)
         self.btn_create.clicked.connect(self.create_jump)
@@ -363,22 +456,43 @@ class JumpTab(QWidget):
             if filter_type == 'all' or elem.get('elem_type') == filter_type:
                 self.filtered_elements.append(elem)
         
+        # === ORDINAMENTO PER PAGINA ===
+        # Ordina elementi per page_number (se disponibile) o paragraph_index (fallback)
+        self.filtered_elements.sort(key=lambda x: x.get('page_number') or x.get('paragraph_index') or 0)
+        
         for elem in self.filtered_elements:
             elem_type = elem.get('elem_type')
             label = elem.get('label', 'N/A')
-            para = elem.get('paragraph_index', 'N/A')
+            
+            # Usa page_number se disponibile, altrimenti stima dalla paragraph_index
+            page = elem.get('page_number')
+            if page is None:
+                para = elem.get('paragraph_index')
+                if para is None or para == 'N/A':
+                    para = 0
+                page = self.estimate_page_number(para)
+            
+            # Controlla se esiste già jump per questo elemento
+            has_jump = self.jump_tracker.has_jump(label)
+            jump_indicator = " ✅" if has_jump else ""
             
             if elem_type == 'image':
-                text = f"📷 {label} - Par.{para}"
+                text = f"📷 {label} - Pag.{page}{jump_indicator}"
             elif elem_type == 'table':
-                text = f"📊 Tabella {para}"
+                text = f"📊 Tabella Pag.{page}{jump_indicator}"
             elif elem_type == 'equation':
-                text = f"🧮 {str(label)[:30]}... - Par.{para}"
+                text = f"🧮 {str(label)[:30]}... - Pag.{page}{jump_indicator}"
             else:
-                text = f"{label} - Par.{para}"
+                text = f"{label} - Pag.{page}{jump_indicator}"
             
             item = QListWidgetItem(text)
             item.setData(Qt.ItemDataRole.UserRole, elem)
+            
+            # Sfondo verde chiaro per elementi con jump
+            if has_jump:
+                item.setBackground(QBrush(QColor(200, 255, 200)))
+                item.setToolTip(f"Jump già creato per {label}")
+            
             self.elements_list.addItem(item)
         
         self.stats_label.setText(f"{len(self.filtered_elements)} elementi")
@@ -391,8 +505,26 @@ class JumpTab(QWidget):
     def on_element_selected(self, element_data):
         self.current_element = element_data.copy()
         elem_type = element_data.get('elem_type')
-        
         label = element_data.get('label', 'N/A')
+        
+        # === CONTROLLO JUMP ESISTENTE ===
+        if self.jump_tracker.has_jump(label):
+            jump_info = self.jump_tracker.get_jump_info(label)
+            
+            # Mostra dialog di conferma
+            reply = self.show_existing_jump_dialog(label, jump_info)
+            
+            if reply == QMessageBox.StandardButton.Cancel:
+                # Utente ha annullato
+                return
+            elif reply == QMessageBox.StandardButton.Yes:
+                # Utente vuole modificare
+                self.enter_edit_mode(label, jump_info)
+            # Se No, procede in modalità normale (elimina e ricrea)
+        else:
+            # Nessun jump esistente, modalità creazione normale
+            self.exit_edit_mode()
+        
         para = element_data.get('paragraph_index', 'N/A')
         self.element_info.setText(f"Tipo: {elem_type.upper()} | Label: {label} | Par: {para}")
         
@@ -475,22 +607,97 @@ class JumpTab(QWidget):
             doc = self.main_window.analyzer.document
             refs = search_references_in_document(doc, label)
             
+            # Deduplicazione automatica dei riferimenti
+            original_count = len(refs)
+            if refs:
+                refs = self.deduplicator.deduplicate_references(refs, strategy='smart')
+                duplicates_removed = original_count - len(refs)
+            else:
+                duplicates_removed = 0
+            
             self.current_references = refs
             
             if refs:
-                self.search_results_label.setText(f"✓ Trovati {len(refs)} riferimenti:")
+                # Analizza gerarchie
+                grouped = self.hierarchy_analyzer.group_references_by_hierarchy(refs)
+                
+                # Conta totale
+                total_refs = len(refs)
+                
+                # Mostra informazioni
+                if duplicates_removed > 0:
+                    result_text = f"✓ Trovati {total_refs} riferimenti unici ({duplicates_removed} duplicati rimossi)"
+                else:
+                    result_text = f"✓ Trovati {total_refs} riferimenti:"
+                
+                self.search_results_label.setText(result_text)
                 
                 self.references_list.clear()
                 self.references_list.show()
                 self.hint_label.show()
                 
-                for ref in refs:
-                    context = f"{ref['context_before'][-30:]}{ref['variant_found']}{ref['context_after'][:30]}"
-                    item_text = f"□ Par.{ref['paragraph_index']}: ...{context}..."
-                    item = QListWidgetItem(item_text)
-                    item.setCheckState(Qt.CheckState.Unchecked)
-                    item.setData(Qt.ItemDataRole.UserRole, ref)
-                    self.references_list.addItem(item)
+                # === VISUALIZZAZIONE GERARCHICA ===
+                
+                # Gruppi gerarchici (parent con children)
+                for group in grouped['hierarchical']:
+                    parent_label = group['parent']
+                    parent_refs = group['parent_refs']
+                    children = group['children']
+                    
+                    # Item parent (espandibile)
+                    parent_text = f"📂 {parent_label} [{len(parent_refs)} refs]"
+                    parent_item = QTreeWidgetItem([parent_text])
+                    parent_item.setFlags(parent_item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
+                    parent_item.setCheckState(0, Qt.CheckState.Checked)  # Pre-selezionato
+                    parent_item.setData(0, Qt.ItemDataRole.UserRole, {'type': 'parent', 'label': parent_label, 'refs': parent_refs})
+                    parent_item.setExpanded(True)
+                    
+                    # Aggiungi riferimenti del parent
+                    for ref in parent_refs:
+                        self._add_reference_child(parent_item, ref, is_parent_ref=True)
+                    
+                    # Aggiungi children (sottofigure)
+                    for child_data in children:
+                        child_label = child_data['label']
+                        child_refs = child_data['refs']
+                        
+                        child_text = f"   └─ 📷 {child_label} [{len(child_refs)} refs]"
+                        child_item = QTreeWidgetItem([child_text])
+                        child_item.setFlags(child_item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
+                        child_item.setCheckState(0, Qt.CheckState.Unchecked)  # NON pre-selezionato
+                        child_item.setData(0, Qt.ItemDataRole.UserRole, {'type': 'child', 'label': child_label, 'refs': child_refs})
+                        
+                        # Aggiungi riferimenti del child
+                        for ref in child_refs:
+                            self._add_reference_child(child_item, ref, is_parent_ref=False)
+                        
+                        parent_item.addChild(child_item)
+                    
+                    self.references_list.addTopLevelItem(parent_item)
+                
+                # Elementi standalone (senza gerarchia)
+                for item_data in grouped['standalone']:
+                    label_text = item_data['label']
+                    refs_list = item_data['refs']
+                    
+                    if len(refs_list) == 1:
+                        # Singolo riferimento, mostra direttamente
+                        ref = refs_list[0]
+                        item = self._create_reference_item(ref, label_text)
+                        self.references_list.addTopLevelItem(item)
+                    else:
+                        # Multipli riferimenti, crea gruppo
+                        group_text = f"📄 {label_text} [{len(refs_list)} refs]"
+                        group_item = QTreeWidgetItem([group_text])
+                        group_item.setFlags(group_item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
+                        group_item.setCheckState(0, Qt.CheckState.Checked)
+                        group_item.setData(0, Qt.ItemDataRole.UserRole, {'type': 'standalone', 'label': label_text, 'refs': refs_list})
+                        group_item.setExpanded(True)
+                        
+                        for ref in refs_list:
+                            self._add_reference_child(group_item, ref, is_parent_ref=True)
+                        
+                        self.references_list.addTopLevelItem(group_item)
                 
                 self.btn_select_all_refs.show()
                 self.btn_create_refs.show()
@@ -505,28 +712,84 @@ class JumpTab(QWidget):
                 self.btn_edit_individual.hide()
                 self.same_desc_check.hide()
     
+    def _create_reference_item(self, ref, label):
+        """Crea item per singolo riferimento"""
+        para_index = ref.get('paragraph_index', 0)
+        if para_index is None:
+            para_index = 0
+        page = self.estimate_page_number(para_index)
+        context = f"{ref.get('context_before', '')[-30:]}{ref.get('variant_found', '')}{ref.get('context_after', '')[:30]}"
+        item_text = f"▫ Pag.{page}: ...{context}..."
+        
+        item = QTreeWidgetItem([item_text])
+        item.setFlags(item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
+        item.setCheckState(0, Qt.CheckState.Checked)
+        item.setData(0, Qt.ItemDataRole.UserRole, ref)
+        
+        return item
+    
+    def _add_reference_child(self, parent_item, ref, is_parent_ref=True):
+        """Aggiunge riferimento come child di un parent item"""
+        para_index = ref.get('paragraph_index', 0)
+        if para_index is None:
+            para_index = 0
+        page = self.estimate_page_number(para_index)
+        context = f"{ref.get('context_before', '')[-30:]}{ref.get('variant_found', '')}{ref.get('context_after', '')[:30]}"
+        
+        ref_text = f"      Pag.{page}: ...{context}..."
+        ref_item = QTreeWidgetItem([ref_text])
+        ref_item.setData(0, Qt.ItemDataRole.UserRole, ref)
+        ref_item.setFlags(ref_item.flags() & ~Qt.ItemFlag.ItemIsUserCheckable)  # Non checkable
+        
+        parent_item.addChild(ref_item)
+    
     def show_reference_detail(self, item):
         """Mostra dialog dettaglio riferimento"""
-        ref_data = item.data(Qt.ItemDataRole.UserRole)
-        if not ref_data:
+        ref_data = item.data(0, Qt.ItemDataRole.UserRole)
+        if not ref_data or not isinstance(ref_data, dict):
+            return
+        
+        # Se è un gruppo, non aprire dialog
+        if 'refs' in ref_data:
             return
         
         dialog = ReferenceDetailDialog(ref_data, self)
         if dialog.exec() == dialog.DialogCode.Accepted:
-            if dialog.is_selected():
-                item.setCheckState(Qt.CheckState.Checked)
+            if dialog.is_selected() and item.flags() & Qt.ItemFlag.ItemIsUserCheckable:
+                item.setCheckState(0, Qt.CheckState.Checked)
     
     def select_all_references(self):
-        for i in range(self.references_list.count()):
-            item = self.references_list.item(i)
-            item.setCheckState(Qt.CheckState.Checked)
+        """Seleziona tutti i riferimenti nell'albero"""
+        iterator = QTreeWidgetItemIterator(self.references_list, QTreeWidgetItemIterator.IteratorFlag.HasChildren | QTreeWidgetItemIterator.IteratorFlag.NoChildren)
+        while iterator.value():
+            item = iterator.value()
+            if item.flags() & Qt.ItemFlag.ItemIsUserCheckable:
+                item.setCheckState(0, Qt.CheckState.Checked)
+            iterator += 1
     
     def create_reference_jumps(self):
+        """Crea jump per i riferimenti selezionati nell'albero"""
+        # Raccogli tutti i riferimenti selezionati
         selected = []
-        for i in range(self.references_list.count()):
-            item = self.references_list.item(i)
-            if item.checkState() == Qt.CheckState.Checked:
-                selected.append(self.current_references[i])
+        
+        iterator = QTreeWidgetItemIterator(
+            self.references_list, 
+            QTreeWidgetItemIterator.IteratorFlag.Checked
+        )
+        
+        while iterator.value():
+            item = iterator.value()
+            # Prendi i dati dal parent se è un gruppo
+            data = item.data(0, Qt.ItemDataRole.UserRole)
+            
+            if isinstance(data, dict) and 'refs' in data:
+                # È un gruppo (parent o standalone)
+                selected.extend(data['refs'])
+            elif isinstance(data, dict) and 'paragraph_index' in data:
+                # È un singolo riferimento
+                selected.append(data)
+            
+            iterator += 1
         
         if not selected:
             QMessageBox.warning(self, "Attenzione", "Seleziona almeno un riferimento")
@@ -537,17 +800,41 @@ class JumpTab(QWidget):
             QMessageBox.warning(self, "Attenzione", "Inserisci una descrizione")
             return
         
-        QMessageBox.information(self, "Jump Creati", f"Creati {len(selected)} jump per riferimenti")
+        label = self.search_label_input.text().strip()
+        if not label:
+            label = self.current_element.get('label', 'Elemento') if self.current_element else 'Elemento'
         
-        label = self.search_label_input.text()
+        # === SALVA NEL TRACKER ===
+        elem_type = self.current_element.get('elem_type', 'image') if self.current_element else 'image'
+        
+        if self.edit_mode:
+            # Aggiorna jump esistente
+            self.jump_tracker.update_jump(label, description, len(selected))
+            msg = f"✏️ Jump aggiornato per '{label}' ({len(selected)} riferimenti)"
+        else:
+            # Crea nuovo jump
+            self.jump_tracker.add_jump(label, description, len(selected), elem_type)
+            msg = f"✅ Creati {len(selected)} jump per '{label}'"
+        
+        QMessageBox.information(self, "Jump Creati", msg)
+        
+        # Aggiorna summary
         summary = self.jumps_summary.toPlainText()
-        summary += f"\n✓ {len(selected)} riferimenti a '{label}'"
+        summary += f"\n{msg}"
         self.jumps_summary.setText(summary)
+        
+        # Esci da modalità edit se attiva
+        if self.edit_mode:
+            self.exit_edit_mode()
+        
+        # Aggiorna lista elementi per mostrare ✅
+        self.apply_filter(self.current_filter)
     
     def edit_individual_descriptions(self):
         QMessageBox.information(self, "Info", "Funzione in sviluppo")
     
     def create_jump(self):
+        """Crea un jump nel documento Word per l'elemento selezionato"""
         if not self.current_element:
             QMessageBox.warning(self, "Errore", "Nessun elemento selezionato")
             return
@@ -557,12 +844,446 @@ class JumpTab(QWidget):
             QMessageBox.warning(self, "Errore", "Inserisci una descrizione")
             return
         
+        # Verifica che jump_manager sia inizializzato
+        if not self.jump_manager:
+            if hasattr(self.main_window, 'analyzer') and getattr(self.main_window.analyzer, 'document', None):
+                self.jump_manager = JumpManager(self.main_window.analyzer.document)
+            else:
+                QMessageBox.critical(
+                    self, 
+                    "Errore", 
+                    "JumpManager non inizializzato.\n\n"
+                    "Assicurati di aver caricato un documento nella scheda 'Carica' prima di creare jump."
+                )
+                return
+        
+        # Verifica che ci sia accesso al documento
+        if not hasattr(self.main_window, 'analyzer') or not self.main_window.analyzer:
+            QMessageBox.critical(
+                self, 
+                "Errore", 
+                "Documento non disponibile.\n\n"
+                "Ricarica il documento nella scheda 'Carica'."
+            )
+            return
+        
         label = self.current_element.get('label', 'Elemento')
+        elem_type = self.current_element.get('elem_type')
+        link_text = self.link_text_input.text().strip() or f"📖 Descrizione {label}"
         
-        QMessageBox.information(self, "Jump Creato", f"Jump creato per: {label}")
+        try:
+            # Crea il jump nel documento Word
+            if elem_type == 'image':
+                # Per le immagini, usa create_image_jump_with_preview
+                # Determina etichetta per vicinanza pura
+                all_refs = self.current_references if hasattr(self, 'current_references') else []
+                element = self.current_element
+                nearest_label, nearest_type = self._nearest_label_by_paragraph(element['paragraph_index'], all_refs)
+                if nearest_label:
+                    label = nearest_label
+                    elem_type = nearest_type or element.get('type', 'image')
+
+                jump_info = self.jump_manager.create_image_jump_with_preview(
+                    image_data=self.current_element,
+                    description=description,
+                    return_text="↩ Torna al testo"
+                )
+            else:
+                # Per altri tipi, usa il metodo generico
+                jump_info = self.jump_manager.add_simple_description(
+                    label=label,
+                    description=description
+                )
+            
+            if jump_info:
+                # Registra nel JumpTracker
+                self.jump_tracker.add_jump(
+                    element_label=label,
+                    description=description,
+                    references_count=0,  # Aggiornato successivamente se ci sono riferimenti
+                    element_type=elem_type
+                )
+                
+                # Chiedi dove salvare il documento
+                doc_path = self.main_window.analyzer.doc_path
+                save_path, _ = QFileDialog.getSaveFileName(
+                    self,
+                    "Salva documento con jump",
+                    doc_path.replace('.docx', '_with_jumps.docx'),
+                    "Word Documents (*.docx)"
+                )
+                
+                if save_path:
+                    # Salva il documento
+                    self.main_window.analyzer.document.save(save_path)
+                    
+                    QMessageBox.information(
+                        self, 
+                        "Jump Creato!", 
+                        f"✅ Jump creato con successo per: {label}\n\n"
+                        f"📄 Documento salvato in:\n{save_path}\n\n"
+                        f"💡 Apri il documento Word per vedere il jump in azione!"
+                    )
+                    
+                    # Aggiorna il summary
+                    summary = self.jumps_summary.toPlainText()
+                    summary += f"\n✓ {label}: {description[:40]}..."
+                    self.jumps_summary.setText(summary)
+                    
+                    # Pulisci i campi
+                    self.description_text.clear()
+                    
+                    # Esci da modalità edit se attiva
+                    if self.edit_mode:
+                        self.exit_edit_mode()
+                    
+                    # Aggiorna la lista per mostrare il ✅
+                    self.apply_filter(self.current_filter)
+                else:
+                    # Utente ha annullato il salvataggio
+                    QMessageBox.warning(
+                        self,
+                        "Salvataggio Annullato",
+                        "Il jump è stato creato nel documento in memoria ma non è stato salvato.\n\n"
+                        "Riprova a creare il jump e scegli dove salvare il file."
+                    )
+            else:
+                QMessageBox.warning(
+                    self,
+                    "Errore",
+                    f"Impossibile creare il jump per {label}.\n\n"
+                    "Verifica che l'elemento sia ancora presente nel documento."
+                )
+                
+        except Exception as e:
+            QMessageBox.critical(
+                self,
+                "Errore durante la creazione del jump",
+                f"Si è verificato un errore:\n\n{str(e)}\n\n"
+                "Verifica che il documento sia ancora aperto e accessibile."
+            )
+            import traceback
+            traceback.print_exc()
+    
+    def quick_add_pattern(self):
+        """Aggiunge velocemente il nome corrente all'elenco dei pattern"""
+        label = self.search_label_input.text().strip()
         
-        summary = self.jumps_summary.toPlainText()
-        summary += f"\n✓ {label}: {description[:40]}..."
-        self.jumps_summary.setText(summary)
+        if not label:
+            QMessageBox.warning(
+                self, 
+                "Campo Vuoto", 
+                "Inserisci prima un nome nel campo 'Cerca' (es: Esempio, Didascalia, Screenshot)"
+            )
+            return
         
-        self.description_text.clear()
+        # Rimuovi numeri e spazi per ottenere il nome base
+        import re
+        base_name = re.sub(r'[0-9\.\s]+
+                    parent, '', label).strip()
+        
+        if not base_name:
+            QMessageBox.warning(
+                self,
+                "Nome non Valido",
+                "Il nome deve contenere almeno una lettera (es: Esempio, Didascalia)"
+            )
+            return
+        
+        # Chiedi conferma
+        reply = QMessageBox.question(
+            self,
+            "Aggiungi Nome",
+            f"Vuoi aggiungere '{base_name}' all'elenco dei nomi riconosciuti?\n\n"
+            f"Dopo l'aggiunta, il sistema riconoscerà automaticamente:\n"
+            f"  • {base_name} 1\n"
+            f"  • {base_name}. 2\n"
+            f"  • {base_name} 3a\n"
+            f"  • etc.",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        
+        if reply == QMessageBox.StandardButton.No:
+            return
+        
+        # Crea pattern regex base
+        pattern_name = base_name.lower().replace(' ', '_')
+        regex = rf'{base_name}\.?\s*(\d+\.?\d*[a-z]?)'
+        
+        # Aggiungi il pattern
+        success = self.pattern_manager.add_pattern(
+            pattern_name=pattern_name,
+            regex_pattern=regex,
+            priority=70,  # Priorità media
+            description=f"Aggiunto velocemente dalla GUI - riconosce {base_name} numerati"
+        )
+        
+        if success:
+            QMessageBox.information(
+                self,
+                "Successo!",
+                f"✅ Nome '{base_name}' aggiunto con successo!\n\n"
+                f"D'ora in poi il sistema riconoscerà automaticamente questo nome nelle immagini."
+            )
+        else:
+            # Già esistente, chiedi se vuole aprire la gestione
+            reply = QMessageBox.question(
+                self,
+                "Nome Già Esistente",
+                f"Il nome '{base_name}' esiste già nell'elenco.\n\n"
+                f"Vuoi aprire la finestra di gestione per modificarlo?",
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+            )
+            
+            if reply == QMessageBox.StandardButton.Yes:
+                self.open_pattern_manager()
+    
+    def estimate_page_number(self, paragraph_index) -> int:
+        """
+        DEPRECATO: Questa funzione è ora usata solo come fallback quando page_number non è disponibile.
+        
+        Stima il numero di pagina basandosi sull'indice del paragrafo.
+        Assume circa 40 paragrafi per pagina (media per documenti Word standard).
+        Questa è una stima molto approssimativa e dovrebbe essere sostituita 
+        con il campo page_number estratto direttamente dal documento.
+        
+        Args:
+            paragraph_index: Indice del paragrafo nel documento (può essere int, None, o 'N/A')
+            
+        Returns:
+            Numero di pagina stimato (partendo da 1), o 1 se l'indice non è valido
+        """
+        # Gestisci casi None, 'N/A', o valori non validi
+        if paragraph_index is None or paragraph_index == 'N/A':
+            return 1
+        
+        try:
+            para_idx = int(paragraph_index)
+            paragraphs_per_page = 40  # Media per documenti standard
+            page = (para_idx // paragraphs_per_page) + 1
+            return page
+        except (ValueError, TypeError):
+            # Se non è convertibile a int, restituisci pagina 1
+            return 1
+    
+    def open_pattern_manager(self):
+        """Apre la finestra di gestione completa dei pattern"""
+        dialog = PatternManagerDialog(self)
+        dialog.exec()
+    
+    def show_existing_jump_dialog(self, label, jump_info):
+        """
+        Mostra dialog quando l'utente clicca su elemento con jump già creato
+        
+        Returns:
+            QMessageBox.StandardButton (Yes per modificare, No per eliminare e ricreare, Cancel per annullare)
+        """
+        msg = QMessageBox(self)
+        msg.setIcon(QMessageBox.Icon.Warning)
+        msg.setWindowTitle("⚠️ Jump Già Esistente")
+        
+        description_preview = jump_info.get('description_preview', 'N/A')
+        refs_count = jump_info.get('references_count', 0)
+        created_at = jump_info.get('created_at', 'N/A')
+        
+        text = f"""<b>{label}</b> ha già un jump creato:<br><br>
+<b>Descrizione attuale:</b><br>
+<i>"{description_preview}"</i><br><br>
+<b>Riferimenti creati:</b> {refs_count}<br>
+<b>Creato il:</b> {created_at[:10] if created_at != 'N/A' else 'N/A'}<br><br>
+<b>Cosa vuoi fare?</b>
+"""
+        
+        msg.setText(text)
+        msg.setStandardButtons(
+            QMessageBox.StandardButton.Yes | 
+            QMessageBox.StandardButton.No | 
+            QMessageBox.StandardButton.Cancel
+        )
+        
+        msg.button(QMessageBox.StandardButton.Yes).setText("✏️ Modifica Jump Esistente")
+        msg.button(QMessageBox.StandardButton.No).setText("🔄 Elimina e Ricrea")
+        msg.button(QMessageBox.StandardButton.Cancel).setText("❌ Annulla")
+        
+        msg.setDefaultButton(QMessageBox.StandardButton.Yes)
+        
+        return msg.exec()
+    
+    def enter_edit_mode(self, label, jump_info):
+        """Entra in modalità modifica per un jump esistente"""
+        self.edit_mode = True
+        self.edit_mode_banner.show()
+        
+        # Carica descrizione esistente
+        description = jump_info.get('description', '')
+        self.description_text.setPlainText(description)
+        
+        # Cambia testo pulsante
+        self.btn_create.setText("💾 Salva Modifiche")
+        self.btn_create.setStyleSheet("background: #ff9800; color: white; font-weight: bold;")
+    
+    def exit_edit_mode(self):
+        """Esce dalla modalità modifica"""
+        self.edit_mode = False
+        self.edit_mode_banner.hide()
+        
+        # Ripristina pulsante normale
+        self.btn_create.setText("✨ Crea Jump")
+        self.btn_create.setStyleSheet("")
+    
+    def cancel_edit_mode(self):
+        """Annulla la modalità modifica"""
+        reply = QMessageBox.question(
+            self,
+            "Annulla Modifica",
+            "Sei sicuro di voler annullare le modifiche?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        
+        if reply == QMessageBox.StandardButton.Yes:
+            self.exit_edit_mode()
+            self.description_text.clear()
+            self.current_element = None
+    
+    def show_all_jumps_dialog(self):
+        """Mostra dialog con tutti i jump creati"""
+        all_jumps = self.jump_tracker.get_all_jumps()
+        
+        if not all_jumps:
+            QMessageBox.information(
+                self,
+                "Nessun Jump Creato",
+                "Non ci sono ancora jump creati per questo documento."
+            )
+            return
+        
+        dialog = AllJumpsDialog(all_jumps, self.jump_tracker, self)
+        dialog.exec()
+        
+        # Aggiorna lista elementi dopo eventuale eliminazione
+        self.apply_filter(self.current_filter)
+    
+    def load_document(self, document_path):
+        """Carica il tracking per un nuovo documento"""
+        self.jump_tracker.set_document(document_path)
+        
+        # Inizializza JumpManager con il documento dell'analyzer
+        if hasattr(self.main_window, 'analyzer') and self.main_window.analyzer:
+            if hasattr(self.main_window.analyzer, 'document') and self.main_window.analyzer.document:
+                self.jump_manager = JumpManager(self.main_window.analyzer.document)
+                print(f"✓ JumpManager inizializzato per {document_path}")
+            else:
+                print("⚠ Documento non disponibile in analyzer")
+        else:
+            print("⚠ Analyzer non disponibile")
+        
+        self.apply_filter(self.current_filter)
+
+
+class AllJumpsDialog(QDialog):
+    """Dialog per visualizzare tutti i jump creati"""
+    
+    def __init__(self, jumps, tracker, parent=None):
+        super().__init__(parent)
+        self.jumps = jumps
+        self.jump_tracker = tracker
+        self.setWindowTitle("📋 Tutti i Jump Creati")
+        self.setMinimumSize(700, 500)
+        self.init_ui()
+    
+    def init_ui(self):
+        layout = QVBoxLayout()
+        
+        # Titolo
+        title = QLabel(f"📋 Jump Creati: {len(self.jumps)}")
+        title.setFont(QFont('Arial', 14, QFont.Weight.Bold))
+        layout.addWidget(title)
+        
+        # Statistiche
+        stats = self.jump_tracker.get_statistics()
+        stats_text = f"Totale riferimenti: {stats['total_references']} | Media: {stats['avg_references_per_jump']} refs/jump"
+        stats_label = QLabel(stats_text)
+        stats_label.setStyleSheet("color: #666; font-style: italic;")
+        layout.addWidget(stats_label)
+        
+        # Lista jump
+        self.jump_list = QTreeWidget()
+        self.jump_list.setHeaderLabels(["Label", "Tipo", "Riferimenti", "Data Creazione"])
+        self.jump_list.setColumnWidth(0, 200)
+        self.jump_list.setColumnWidth(1, 100)
+        self.jump_list.setColumnWidth(2, 100)
+        
+        for jump in self.jumps:
+            label = jump.get('label', 'N/A')
+            elem_type = jump.get('element_type', 'N/A')
+            refs_count = jump.get('references_count', 0)
+            created_at = jump.get('created_at', 'N/A')[:10]
+            
+            item = QTreeWidgetItem([label, elem_type, str(refs_count), created_at])
+            item.setData(0, Qt.ItemDataRole.UserRole, jump)
+            
+            # Aggiungi anteprima descrizione come child
+            desc_preview = jump.get('description_preview', '')
+            if desc_preview:
+                desc_item = QTreeWidgetItem([f"📝 {desc_preview}"])
+                desc_item.setForeground(0, QBrush(QColor(100, 100, 100)))
+                item.addChild(desc_item)
+            
+            self.jump_list.addTopLevelItem(item)
+        
+        layout.addWidget(self.jump_list)
+        
+        # Pulsanti
+        buttons_layout = QHBoxLayout()
+        
+        self.btn_delete = QPushButton("🗑️ Elimina Selezionato")
+        self.btn_delete.clicked.connect(self.delete_selected)
+        self.btn_delete.setStyleSheet("background: #f44336; color: white;")
+        buttons_layout.addWidget(self.btn_delete)
+        
+        buttons_layout.addStretch()
+        
+        self.btn_close = QPushButton("✅ Chiudi")
+        self.btn_close.clicked.connect(self.accept)
+        buttons_layout.addWidget(self.btn_close)
+        
+        layout.addLayout(buttons_layout)
+        
+        self.setLayout(layout)
+    
+    def delete_selected(self):
+        """Elimina il jump selezionato"""
+        current = self.jump_list.currentItem()
+        if not current:
+            QMessageBox.warning(self, "Nessuna Selezione", "Seleziona un jump da eliminare.")
+            return
+        
+        # Se è un child (descrizione), prendi il parent
+        if current.parent():
+            current = current.parent()
+        
+        jump_data = current.data(0, Qt.ItemDataRole.UserRole)
+        if not jump_data:
+            return
+        
+        label = jump_data.get('label', '')
+        
+        reply = QMessageBox.question(
+            self,
+            "Conferma Eliminazione",
+            f"Sei sicuro di voler eliminare il jump per '{label}'?\n\nQuesta azione non può essere annullata.",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        
+        if reply == QMessageBox.StandardButton.Yes:
+            if self.jump_tracker.delete_jump(label):
+                # Rimuovi dalla lista
+                index = self.jump_list.indexOfTopLevelItem(current)
+                self.jump_list.takeTopLevelItem(index)
+                
+                # Aggiorna contatore
+                remaining = self.jump_list.topLevelItemCount()
+                self.findChild(QLabel).setText(f"📋 Jump Creati: {remaining}")
+                
+                QMessageBox.information(self, "Successo", f"Jump per '{label}' eliminato con successo.")
+                    parent

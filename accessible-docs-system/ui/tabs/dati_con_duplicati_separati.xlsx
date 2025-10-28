@@ -426,47 +426,13 @@ class ImagesTab(QWidget):
         self.images_data = self.document_manager.get_all_images_with_positions()
         self.apply_filters()
     
-    def load_images(self, images_data):
-        """
-        Carica immagini da una lista già estratta (es. quando si carica un progetto).
-        
-        Args:
-            images_data: Lista di dizionari con informazioni sulle immagini
-        """
-        if not images_data:
-            self.images_data = []
-            self.apply_filters()
-            print("⚠ Nessuna immagine da caricare")
-            return
-        
-        self.images_data = images_data
-        self.apply_filters()
-        print(f"✓ Caricate {len(images_data)} immagini dal progetto")
-    
     def apply_filters(self):
         """Applica filtri e aggiorna lista"""
         self.images_list.clear()
         
         for img_data in self.images_data:
-            # Crea etichetta intelligente
-            label_parts = []
-            
-            # 1. Usa label se disponibile (es. "Fig. 2.1")
-            if img_data.get('label') and img_data['label'] != f"IMG_{len(self.images_data)}":
-                label_parts.append(img_data['label'])
-            
-            # 2. Mostra numero paragrafo (sempre preciso)
-            para_idx = img_data.get('paragraph_index', 0)
-            if para_idx is not None:
-                # Stima pagina (approssimativa: ~30 paragrafi per pagina)
-                # ma mostra anche paragrafo che è sempre preciso
-                page_estimate = (para_idx // 30) + 1
-                label_parts.append(f"Par.{para_idx} (~Pag.{page_estimate})")
-            
-            # Combina label
-            display_label = " - ".join(label_parts) if label_parts else "Immagine"
-            
-            item = QListWidgetItem(f"📷 {display_label}")
+            # TODO: Implementa filtro alt text quando disponibile
+            item = QListWidgetItem(f"📷 Par.{img_data['paragraph_index']}")
             item.setData(Qt.ItemDataRole.UserRole, img_data)
             self.images_list.addItem(item)
         
@@ -478,45 +444,8 @@ class ImagesTab(QWidget):
         if not img_data:
             return
         
-        # Gestisce TUTTI i formati possibili:
-        # 1. PIL Image diretto (da documento con conversione)
-        # 2. Bytes da progetto salvato
-        # 3. image_part da Word (estrazione diretta)
-        
-        if 'image' in img_data and img_data['image'] is not None:
-            # Formato 1: Immagine già in formato PIL
-            self.current_image = img_data['image']
-            
-        elif 'image_data' in img_data:
-            # Formato 2: Immagine da dati binari (caricata da progetto)
-            try:
-                image_bytes = img_data['image_data']
-                self.current_image = Image.open(io.BytesIO(image_bytes))
-            except Exception as e:
-                QMessageBox.warning(self, "Errore", f"Impossibile caricare l'immagine:\n{str(e)}")
-                return
-                
-        elif 'image_part' in img_data and img_data['image_part'] is not None:
-            # Formato 3: Riferimento Word (estrazione documento)
-            try:
-                image_bytes = img_data['image_part'].blob
-                self.current_image = Image.open(io.BytesIO(image_bytes))
-            except Exception as e:
-                QMessageBox.warning(self, "Errore", f"Impossibile estrarre l'immagine dal documento:\n{str(e)}")
-                return
-        else:
-            QMessageBox.warning(self, "Errore", "Dati immagine non validi")
-            return
-        
-        # Gestisce metadati
-        if 'metadata' in img_data:
-            self.current_metadata = img_data['metadata']
-        else:
-            # Crea metadati di base dai dati disponibili
-            self.current_metadata = {
-                'paragraph_index': img_data.get('paragraph_index', 0),
-                'format': img_data.get('format', 'Unknown')
-            }
+        self.current_image = img_data['image']
+        self.current_metadata = img_data['metadata']
         
         # Carica immagine nel canvas
         self.canvas.load_image(self.current_image)
@@ -530,13 +459,11 @@ class ImagesTab(QWidget):
         # Aggiorna info
         info = f"Dimensioni: {self.current_image.width}x{self.current_image.height}px | " \
                f"Formato: {self.current_metadata.get('format', 'N/A')} | " \
-               f"Paragrafo: {self.current_metadata.get('paragraph_index', 'N/A')}"
+               f"Paragrafo: {self.current_metadata['paragraph_index']}"
         self.image_info_label.setText(info)
         
         # Carica contesto
-        para_idx = self.current_metadata.get('paragraph_index')
-        if para_idx is not None:
-            self.load_context_text(para_idx)
+        self.load_context_text(self.current_metadata['paragraph_index'])
     
     def load_context_text(self, paragraph_index: int):
         """Carica testo prima e dopo l'immagine"""
