@@ -5,9 +5,12 @@ Project Manager - Gestisce salvataggio e caricamento progetti
 import zipfile
 import json
 import shutil
+import base64
+import io
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, Optional
+from PIL import Image
 
 
 class ProjectManager:
@@ -147,11 +150,43 @@ class ProjectManager:
         
         for key, value in analysis_results.items():
             if key == 'images':
-                # Rimuovi image_part che non è serializzabile
-                serialized[key] = [
-                    {k: v for k, v in img.items() if k != 'image_part'}
-                    for img in value
-                ]
+                # Converti immagini PIL in bytes per salvataggio
+                serialized_images = []
+                for img in value:
+                    img_dict = {}
+                    
+                    # Copia tutti i metadati (tranne image_part che non è serializzabile)
+                    for k, v in img.items():
+                        if k not in ['image_part', 'image']:
+                            img_dict[k] = v
+                    
+                    # Converti immagine PIL in bytes se presente
+                    if 'image' in img and img['image'] is not None:
+                        try:
+                            # Converti PIL Image in bytes
+                            pil_image = img['image']
+                            img_buffer = io.BytesIO()
+                            
+                            # Salva come PNG (formato lossless)
+                            pil_image.save(img_buffer, format='PNG')
+                            img_bytes = img_buffer.getvalue()
+                            
+                            # Converti in base64 per JSON
+                            img_dict['image_data'] = base64.b64encode(img_bytes).decode('utf-8')
+                            
+                            # Salva anche formato e dimensioni
+                            img_dict['width'] = pil_image.width
+                            img_dict['height'] = pil_image.height
+                            img_dict['format'] = 'PNG'
+                            
+                        except Exception as e:
+                            print(f"⚠ Errore conversione immagine: {e}")
+                            # Se fallisce, almeno salva i metadati
+                            pass
+                    
+                    serialized_images.append(img_dict)
+                
+                serialized[key] = serialized_images
             else:
                 serialized[key] = value
         
@@ -159,9 +194,33 @@ class ProjectManager:
     
     def _deserialize_analysis(self, serialized: Dict) -> Dict:
         """Deserializza risultati analisi"""
-        # Per ora ritorna così com'è
-        # image_part verrà ri-estratto dal documento
-        return serialized
+        deserialized = {}
+        
+        for key, value in serialized.items():
+            if key == 'images':
+                # Decodifica bytes immagini da base64
+                deserialized_images = []
+                for img_dict in value:
+                    # Se ha image_data in base64, decodificalo
+                    if 'image_data' in img_dict:
+                        try:
+                            # Decodifica da base64 a bytes
+                            img_bytes = base64.b64decode(img_dict['image_data'])
+                            
+                            # Sostituisci la stringa base64 con i bytes puri
+                            img_dict = img_dict.copy()
+                            img_dict['image_data'] = img_bytes
+                            
+                        except Exception as e:
+                            print(f"⚠ Errore decodifica immagine: {e}")
+                    
+                    deserialized_images.append(img_dict)
+                
+                deserialized[key] = deserialized_images
+            else:
+                deserialized[key] = value
+        
+        return deserialized
     
     def _compute_statistics(self, analysis_results: Dict, jumps_created: list) -> Dict:
         """Calcola statistiche progetto"""

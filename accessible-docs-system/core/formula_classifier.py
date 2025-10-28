@@ -1,6 +1,6 @@
 """
 Formula Classifier
-Classifica automaticamente formule LaTeX in categorie basandosi su pattern e simboli
+Classifica automaticamente formule LaTeX E testo matematico Unicode in categorie
 """
 
 import re
@@ -20,32 +20,101 @@ class ClassificationResult:
 
 
 class FormulaClassifier:
-    """Classifica formule LaTeX automaticamente"""
+    """Classifica formule LaTeX e testo matematico Unicode automaticamente"""
     
-    # Pattern per simboli matematici comuni
+    # Pattern per simboli matematici comuni (LaTeX E Unicode)
     SYMBOLS = {
-        'integral': [r'\\int', r'\\iint', r'\\iiint', r'\\oint'],
-        'derivative': [r'\\frac\{d', r'\\partial', r"'", r'\\dot', r'\\ddot'],
-        'limit': [r'\\lim', r'\\limsup', r'\\liminf'],
-        'sum': [r'\\sum', r'\\prod'],
-        'matrix': [r'\\begin\{matrix\}', r'\\begin\{pmatrix\}', r'\\begin\{bmatrix\}'],
-        'vector': [r'\\vec', r'\\mathbf', r'\\overrightarrow'],
-        'trig': [r'\\sin', r'\\cos', r'\\tan', r'\\cot', r'\\sec', r'\\csc'],
-        'exp_log': [r'\\exp', r'\\log', r'\\ln', r'e\^'],
-        'greek': [r'\\alpha', r'\\beta', r'\\gamma', r'\\delta', r'\\theta', r'\\lambda', r'\\mu', r'\\sigma', r'\\phi', r'\\psi', r'\\omega'],
-        'inequality': [r'<', r'>', r'\\leq', r'\\geq', r'\\ll', r'\\gg', r'\\neq'],
+        'integral': [
+            r'\\int', r'\\iint', r'\\iiint', r'\\oint',
+            r'∫', r'∬', r'∭', r'∮'  # Unicode
+        ],
+        'derivative': [
+            r'\\frac\{d', r'\\partial', r"'", r'\\dot', r'\\ddot',
+            r'∂', r'∇', r'Δ'  # Unicode
+        ],
+        'limit': [
+            r'\\lim', r'\\limsup', r'\\liminf',
+            r'lim', r'→'  # Unicode (arrow per limiti)
+        ],
+        'sum': [
+            r'\\sum', r'\\prod',
+            r'∑', r'∏', r'Σ'  # Unicode
+        ],
+        'matrix': [
+            r'\\begin\{matrix\}', r'\\begin\{pmatrix\}', r'\\begin\{bmatrix\}',
+            r'\(.*,.*\)', r'\[.*,.*\]',  # Parentesi con virgole
+            r'matrice', r'matrix',  # Parole chiave
+            r'⋮', r'⋯', r'⋱'  # Simboli matrici Unicode
+        ],
+        'vector': [
+            r'\\vec', r'\\mathbf', r'\\overrightarrow',
+            r'vettore', r'vector', r'→', r'⃗'  # Unicode
+        ],
+        'trig': [
+            r'\\sin', r'\\cos', r'\\tan', r'\\cot', r'\\sec', r'\\csc',
+            r'\bsin\b', r'\bcos\b', r'\btan\b', r'\bcot\b', r'\bsec\b', r'\bcsc\b'  # Testo
+        ],
+        'exp_log': [
+            r'\\exp', r'\\log', r'\\ln', r'e\^',
+            r'\bexp\b', r'\blog\b', r'\bln\b', r'\be\^'  # Testo
+        ],
+        'greek': [
+            r'\\alpha', r'\\beta', r'\\gamma', r'\\delta', r'\\theta', r'\\lambda', 
+            r'\\mu', r'\\sigma', r'\\phi', r'\\psi', r'\\omega',
+            r'α', r'β', r'γ', r'δ', r'ε', r'ζ', r'η', r'θ', r'ι', r'κ', r'λ', 
+            r'μ', r'ν', r'ξ', r'ο', r'π', r'ρ', r'σ', r'τ', r'υ', r'φ', r'χ', 
+            r'ψ', r'ω', r'Ω', r'Δ', r'Γ', r'Λ', r'Σ', r'Φ', r'Ψ'  # Unicode
+        ],
+        'inequality': [
+            r'<', r'>', r'\\leq', r'\\geq', r'\\ll', r'\\gg', r'\\neq',
+            r'≤', r'≥', r'≠', r'≪', r'≫'  # Unicode
+        ],
         'equation': [r'='],
-        'probability': [r'\\mathbb\{P\}', r'\\mathbb\{E\}', r'\\text\{Var\}', r'\\text\{Cov\}'],
-        'special_functions': [r'\\Gamma', r'\\Beta', r'\\zeta', r'\\erf'],
-        'bessel': [r'J_', r'Y_', r'I_', r'K_', r'\\text\{Bessel\}'],
-        'geometry': [r'\\triangle', r'\\angle', r'\\parallel', r'\\perp'],
-        'set_theory': [r'\\in', r'\\notin', r'\\subset', r'\\cup', r'\\cap', r'\\emptyset'],
-        'logic': [r'\\land', r'\\lor', r'\\neg', r'\\implies', r'\\iff', r'\\forall', r'\\exists'],
-        'number_theory': [r'\\gcd', r'\\lcm', r'\\mod', r'\\equiv', r'\\nmid', r'\\mid'],
-        'physics': [r'\\hbar', r'\\nabla', r'\\Delta', r'\\partial_t', r'\\partial_x']
+        'probability': [
+            r'\\mathbb\{P\}', r'\\mathbb\{E\}', r'\\text\{Var\}', r'\\text\{Cov\}',
+            r'\bP\(', r'\bE\[', r'\bVar\b', r'\bCov\b'  # Testo
+        ],
+        'special_functions': [
+            r'\\Gamma', r'\\Beta', r'\\zeta', r'\\erf',
+            r'Γ', r'γ', r'ζ', r'erf'  # Unicode
+        ],
+        'bessel': [
+            r'J_', r'Y_', r'I_', r'K_', r'\\text\{Bessel\}',
+            r'Bessel'  # Testo
+        ],
+        'geometry': [
+            r'\\triangle', r'\\angle', r'\\parallel', r'\\perp',
+            r'△', r'∠', r'∥', r'⊥', r'°'  # Unicode
+        ],
+        'set_theory': [
+            r'\\in', r'\\notin', r'\\subset', r'\\cup', r'\\cap', r'\\emptyset',
+            r'∈', r'∉', r'⊂', r'⊆', r'∪', r'∩', r'∅', r'⊃', r'⊇'  # Unicode
+        ],
+        'logic': [
+            r'\\land', r'\\lor', r'\\neg', r'\\implies', r'\\iff', r'\\forall', r'\\exists',
+            r'∧', r'∨', r'¬', r'⇒', r'⟹', r'⇔', r'∀', r'∃'  # Unicode
+        ],
+        'number_theory': [
+            r'\\gcd', r'\\lcm', r'\\mod', r'\\equiv', r'\\nmid', r'\\mid',
+            r'\bgcd\b', r'\blcm\b', r'\bmod\b', r'≡', r'∤', r'∣'  # Unicode/testo
+        ],
+        'physics': [
+            r'\\hbar', r'\\nabla', r'\\Delta', r'\\partial_t', r'\\partial_x',
+            r'ℏ', r'∇', r'Δ', r'∂'  # Unicode
+        ],
+        'optimization': [
+            r'\\min', r'\\max', r'\\arg\\min', r'\\arg\\max',
+            r'\bmin\b', r'\bmax\b', r'argmin', r'argmax'  # Testo
+        ],
+        'superscript': [
+            r'\^', r'⊤', r'²', r'³', r'⁴', r'⁵', r'⁶', r'⁷', r'⁸', r'⁹', r'⁰'  # Unicode superscript
+        ],
+        'subscript': [
+            r'_', r'₀', r'₁', r'₂', r'₃', r'₄', r'₅', r'₆', r'₇', r'₈', r'₉'  # Unicode subscript
+        ]
     }
     
-    # Regole classificazione
+    # Regole classificazione (stesso schema di prima)
     RULES = [
         # Analisi/Calcolo
         {
@@ -101,7 +170,7 @@ class FormulaClassifier:
         {
             'category': 'algebra',
             'subcategory': 'polynomial',
-            'patterns': ['equation'],
+            'patterns': ['equation', 'superscript'],
             'negative_patterns': ['derivative', 'integral'],
             'weight': 5,
             'tags': ['polinomio'],
@@ -114,6 +183,15 @@ class FormulaClassifier:
             'weight': 7,
             'tags': ['disequazione'],
             'difficulty_base': 2
+        },
+        {
+            'category': 'algebra',
+            'subcategory': 'system',
+            'patterns': ['equation'],
+            'count_threshold': 3,  # Almeno 3 uguaglianze = sistema
+            'weight': 6,
+            'tags': ['sistema di equazioni'],
+            'difficulty_base': 3
         },
         
         # Geometria
@@ -148,6 +226,16 @@ class FormulaClassifier:
             'weight': 7,
             'tags': ['geometria differenziale'],
             'difficulty_base': 4
+        },
+        
+        # Ottimizzazione
+        {
+            'category': 'optimization',
+            'subcategory': 'linear_programming',
+            'patterns': ['optimization', 'inequality'],
+            'weight': 8,
+            'tags': ['programmazione lineare', 'ottimizzazione'],
+            'difficulty_base': 3
         },
         
         # Statistica
@@ -241,6 +329,14 @@ class FormulaClassifier:
         },
         {
             'category': 'other',
+            'subcategory': 'set_theory',
+            'patterns': ['set_theory'],
+            'weight': 9,
+            'tags': ['teoria degli insiemi'],
+            'difficulty_base': 2
+        },
+        {
+            'category': 'other',
             'subcategory': 'misc',
             'patterns': [],
             'weight': 1,
@@ -250,18 +346,14 @@ class FormulaClassifier:
     ]
     
     def __init__(self):
-        """Inizializza classificatore"""
-        self._compile_patterns()
-    
-    def _compile_patterns(self):
-        """Pre-compila pattern regex per performance"""
+        """Compila pattern regex"""
         self.compiled_symbols = {}
         for symbol_type, patterns in self.SYMBOLS.items():
             self.compiled_symbols[symbol_type] = [
-                re.compile(pattern) for pattern in patterns
+                re.compile(pattern, re.IGNORECASE) for pattern in patterns
             ]
     
-    def _detect_symbols(self, latex: str) -> Dict[str, int]:
+    def _detect_symbols(self, text: str) -> Dict[str, int]:
         """
         Rileva simboli presenti nella formula
         
@@ -273,49 +365,36 @@ class FormulaClassifier:
         for symbol_type, patterns in self.compiled_symbols.items():
             count = 0
             for pattern in patterns:
-                count += len(pattern.findall(latex))
+                matches = pattern.findall(text)
+                count += len(matches)
             if count > 0:
                 symbol_counts[symbol_type] = count
         
         return symbol_counts
     
-    def _compute_complexity(self, latex: str, symbols: Dict[str, int]) -> int:
+    def _compute_complexity(self, text: str, symbols: Dict[str, int]) -> int:
         """
         Calcola complessità formula (difficoltà 1-5)
         
         Fattori:
-        - Lunghezza LaTeX
+        - Lunghezza testo
         - Numero e tipo di simboli
-        - Nesting di operatori
         - Presenza simboli avanzati
         """
         difficulty = 1
         
         # Lunghezza
-        if len(latex) > 100:
+        if len(text) > 100:
             difficulty += 1
-        if len(latex) > 200:
+        if len(text) > 200:
             difficulty += 1
         
         # Operatori complessi
-        complex_symbols = {'integral', 'derivative', 'limit', 'special_functions', 'bessel'}
+        complex_symbols = {'integral', 'derivative', 'limit', 'special_functions', 'bessel', 'matrix'}
         complex_count = sum(symbols.get(s, 0) for s in complex_symbols)
         if complex_count > 0:
             difficulty += 1
         if complex_count > 2:
-            difficulty += 1
-        
-        # Nesting (conta parentesi graffe)
-        brace_depth = 0
-        max_depth = 0
-        for char in latex:
-            if char == '{':
-                brace_depth += 1
-                max_depth = max(max_depth, brace_depth)
-            elif char == '}':
-                brace_depth -= 1
-        
-        if max_depth > 5:
             difficulty += 1
         
         # Simboli greci (indicano formule più avanzate)
@@ -324,18 +403,18 @@ class FormulaClassifier:
         
         return min(5, difficulty)
     
-    def classify(self, latex: str) -> ClassificationResult:
+    def classify(self, text: str) -> ClassificationResult:
         """
-        Classifica formula LaTeX
+        Classifica formula (LaTeX o testo Unicode)
         
         Args:
-            latex: Codice LaTeX della formula
+            text: Testo matematico (LaTeX o Unicode)
             
         Returns:
             Risultato classificazione con categoria, sottocategoria, confidenza
         """
         # Rileva simboli
-        symbols = self._detect_symbols(latex)
+        symbols = self._detect_symbols(text)
         
         # Applica regole
         scores = []
@@ -349,6 +428,15 @@ class FormulaClassifier:
                 matches = sum(1 for p in required_patterns if symbols.get(p, 0) > 0)
                 if matches == 0:
                     continue  # Nessun pattern richiesto trovato
+                
+                # Check count threshold se presente
+                count_threshold = rule.get('count_threshold', 0)
+                if count_threshold > 0:
+                    # Controlla se il conteggio supera la soglia
+                    total_count = sum(symbols.get(p, 0) for p in required_patterns)
+                    if total_count < count_threshold:
+                        continue
+                
                 score = (matches / len(required_patterns)) * rule['weight']
             else:
                 score = rule['weight']  # Regola default
@@ -374,7 +462,7 @@ class FormulaClassifier:
             confidence = min(1.0, scores[0][0] / 10)
         
         # Calcola difficoltà
-        difficulty = self._compute_complexity(latex, symbols)
+        difficulty = self._compute_complexity(text, symbols)
         difficulty = max(difficulty, best_rule['difficulty_base'])
         
         # Genera tags suggeriti
@@ -408,7 +496,7 @@ class FormulaClassifier:
         """Classifica lista di formule"""
         return [self.classify(f) for f in formulas]
     
-    def suggest_improvements(self, latex: str, classification: ClassificationResult) -> List[str]:
+    def suggest_improvements(self, text: str, classification: ClassificationResult) -> List[str]:
         """
         Suggerisce miglioramenti per classificazione formula
         
@@ -423,12 +511,12 @@ class FormulaClassifier:
         if classification.category == 'other':
             suggestions.append("Formula classificata come 'Altro'. Potrebbe beneficiare di tag o descrizione più specifici.")
         
-        symbols = self._detect_symbols(latex)
+        symbols = self._detect_symbols(text)
         
         if not symbols:
-            suggestions.append("Nessun simbolo matematico riconosciuto. Verifica il LaTeX.")
+            suggestions.append("Nessun simbolo matematico riconosciuto. Verifica il testo.")
         
-        if len(latex) < 10:
+        if len(text) < 10:
             suggestions.append("Formula molto corta. Potrebbe mancare di contesto.")
         
         if classification.difficulty >= 4 and len(suggestions) == 0:
@@ -437,13 +525,13 @@ class FormulaClassifier:
         return suggestions if suggestions else ["Classificazione sembra buona!"]
 
 
-def classify_and_add_to_db(latex: str, db, name: str = None, 
+def classify_and_add_to_db(text: str, db, name: str = None, 
                            description: str = None) -> Optional[int]:
     """
     Classifica formula e la aggiunge al database
     
     Args:
-        latex: Codice LaTeX
+        text: Testo matematico (LaTeX o Unicode)
         db: Istanza FormulaDatabase
         name: Nome opzionale formula
         description: Descrizione opzionale
@@ -452,10 +540,10 @@ def classify_and_add_to_db(latex: str, db, name: str = None,
         ID formula inserita
     """
     classifier = FormulaClassifier()
-    result = classifier.classify(latex)
+    result = classifier.classify(text)
     
     formula_id = db.add_formula(
-        latex=latex,
+        latex=text,  # Salva come "latex" anche se è Unicode
         name=name,
         description=description,
         category=result.category,
@@ -469,34 +557,30 @@ def classify_and_add_to_db(latex: str, db, name: str = None,
 
 
 if __name__ == "__main__":
-    # Test classificatore
+    # Test classificatore con testo Unicode
     classifier = FormulaClassifier()
     
     test_formulas = [
+        # LaTeX
         r"\int_a^b f(x)\,dx = F(b) - F(a)",
         r"\frac{d}{dx}\sin(x) = \cos(x)",
-        r"e^{i\pi} + 1 = 0",
-        r"\sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6}",
-        r"\nabla \times \mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t}",
-        r"ax^2 + bx + c = 0",
-        r"\mathbb{P}(A \cap B) = \mathbb{P}(A) \cdot \mathbb{P}(B|A)",
-        r"\begin{pmatrix} a & b \\ c & d \end{pmatrix}",
-        r"J_\nu(x) = \sum_{m=0}^{\infty} \frac{(-1)^m}{m!\Gamma(m+\nu+1)}\left(\frac{x}{2}\right)^{2m+\nu}"
+        # Unicode (come estratto da Word)
+        r"f:Rn→R",
+        r"Ω=x∈Rn:g(x)≤0, h(x)=0",
+        r"maxc⊤xx∈P=x∈Rn:Ax≤b",
+        r"(1,1),(1,3),(4,1)",
+        r"AB−1",
+        r"λx1+(1−λ)x2",
     ]
     
     print("CLASSIFICAZIONE FORMULE TEST\n")
     print("=" * 80)
     
-    for latex in test_formulas:
-        result = classifier.classify(latex)
-        print(f"\nFormula: {latex[:60]}...")
+    for text in test_formulas:
+        result = classifier.classify(text)
+        print(f"\nFormula: {text[:60]}...")
         print(f"Categoria: {result.category} / {result.subcategory}")
         print(f"Confidenza: {result.confidence:.2f}")
         print(f"Difficoltà: {result.difficulty}/5")
         print(f"Tags: {', '.join(result.suggested_tags)}")
-        print(f"Reasoning: {result.reasoning}")
-        
-        suggestions = classifier.suggest_improvements(latex, result)
-        if suggestions:
-            print(f"Suggerimenti: {suggestions[0]}")
         print("-" * 80)
